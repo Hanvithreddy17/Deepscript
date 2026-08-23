@@ -1,0 +1,93 @@
+# Python & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment & Credentials
+.env
+.env.*
+!.env.example
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# IDEs & Code Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs & Debug Output
+*.log
+logs/
+*.log.*
+
+# ML Model Checkpoints & Saved Weights
+*.pt
+*.pth
+*.bin
+*.h5
+*.hdf5
+*.onnx
+*.safetensors
+*.ckpt
+checkpoints/
+saved_models/
+
+# Training & Experiment Outputs
+runs/
+wandb/
+mlruns/
+outputs/
+experiments/
+results/
+
+# Large / Raw Datasets & Archives
+dataset/raw/
+dataset/processed/
+dataset/data/
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+*.csv
+*.parquet
