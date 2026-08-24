@@ -2,26 +2,44 @@
 
 ## Directory Purpose
 
-This directory will contain Python modules and utilities responsible for image loading, cleaning, standardization, transformation, and dataset augmentation pipelines prior to model input.
-
-> **Status Notice:** Preprocessing scripts have not yet been implemented. This document outlines the planned design and specifications for the image pipeline.
+This directory contains modular Python components responsible for dataset loading, character image cleaning, standardization, transformation pipelines, and reproducible train/val/test partitioning for the DeepScript project.
 
 ---
 
-## Planned Preprocessing Pipeline
+## Implemented Modules
 
-The image preprocessing workflow will consist of the following standard stages:
+### 1. `preprocessing.dataset` (`AncientScriptDataset`)
+- **Dynamic Class Discovery:** Scans class subdirectories, excludes empty directories, and assigns integer labels `0` to `C-1` in deterministic alphabetical order.
+- **Color Mode Standardization:** Converts all incoming image modes (`RGBA`, `Grayscale`, `Palette`, etc.) to 3-channel RGB.
+- **Corrupted File Detection:** Validates image integrity and handles unreadable images gracefully.
+- **Metadata Inspection:** Supports sample inspection (`get_sample_info`), class mapping introspection (`get_class_to_idx`, `get_idx_to_class`), and distribution queries (`get_class_distribution`).
 
-1. **Image Loading:** Secure loading of inscription images from disk or memory buffers using OpenCV and Pillow.
-2. **RGB Conversion:** Standardization of multi-channel formats (Grayscale, RGBA, BGR) to uniform 3-channel RGB.
-3. **Resizing:** Scaling images to uniform spatial dimensions compatible with Vision Transformer (ViT) input requirements (e.g., $224 \times 224$ or $384 \times 384$ pixels).
-4. **Normalization:** Applying mean and standard deviation normalization aligned with ImageNet or ViT pretraining standards.
-5. **Noise Reduction (Optional):** Selective filtering or denoising to mitigate background stone texture where appropriate.
-6. **Contrast Enhancement:** Adaptive contrast handling (e.g., CLAHE) for inscriptions on faded or weathered media.
-7. **Training Augmentation:** Application of photometric and spatial augmentations (e.g., subtle rotations, slight brightness/contrast variations) to enhance model generalization.
+### 2. `preprocessing.transforms`
+- **`get_train_transforms(image_size=(224, 224))`:**
+  - Resize to `(224, 224)` via bicubic interpolation.
+  - Historical-safe mild augmentations: subtle rotations ($\pm 8^\circ$), slight affine translation/scaling ($\pm 4\%$, $0.95\times - 1.05\times$), mild brightness/contrast jitter ($10\%$).
+  - Normalization using standard ImageNet mean (`[0.485, 0.456, 0.406]`) and std (`[0.229, 0.224, 0.225]`).
+- **`get_eval_transforms(image_size=(224, 224))`:**
+  - Deterministic resize and ImageNet normalization for validation, testing, and inference.
+- **`denormalize_tensor(tensor)`:**
+  - Inverts ImageNet normalization for visualization and inspection.
+
+### 3. `preprocessing.splits`
+- **`create_stratified_splits(...)`:**
+  - Partitions the dataset into Train ($70\%$), Validation ($15\%$), and Test ($15\%$) sets.
+  - Stratified per-class distribution with a fixed random seed (`42`).
+  - Attaches training augmentations to the train split and deterministic transforms to validation/test splits.
+- **`verify_split_disjointness(...)`:**
+  - Formally asserts zero image overlap (zero data leakage) between splits.
+- **`create_dataloaders(...)`:**
+  - Constructs standard PyTorch `DataLoader` instances with configurable batch sizes and worker counts.
 
 ---
 
-## Historical Integrity Guidelines
+## Verification
 
-> **Crucial Rule:** Data augmentations applied during training **must not distort historically meaningful script characteristics**. Severe morphological distortions, aggressive skewing, or destructive filtering that alters stroke geometry or structural glyph features could lead to false feature learning and must be strictly avoided.
+To run the complete automated test and verification suite:
+
+```bash
+python verify_preprocessing.py
+```
