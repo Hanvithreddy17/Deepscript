@@ -107,6 +107,18 @@ class DeepScriptModel(nn.Module):
         self.register_buffer("cached_prototypes", None)
         self.register_buffer("cached_classes", None)
 
+    def freeze_backbone(self) -> None:
+        """Freezes all ViT backbone parameters."""
+        self.backbone.freeze()
+
+    def unfreeze_backbone(self) -> None:
+        """Unfreezes all ViT backbone parameters for full fine-tuning."""
+        self.backbone.unfreeze()
+
+    def unfreeze_last_n_blocks(self, n: int = 2) -> None:
+        """Unfreezes the last N transformer encoder blocks while keeping early layers frozen."""
+        self.backbone.unfreeze_last_n_blocks(n)
+
     def extract_features(self, x: torch.Tensor, project: bool = True) -> torch.Tensor:
         """
         Extracts feature embeddings from input images.

@@ -46,13 +46,13 @@ class ViTFeatureExtractor(nn.Module):
         self,
         backbone_name: str = "vit_b_16",
         pretrained: bool = True,
-        freeze_backbone: bool = False,
+        freeze_backbone: bool = True,
     ):
         """
         Args:
             backbone_name: Name of the vision architecture to instantiate.
             pretrained: Whether to load ImageNet-1k pretrained weights.
-            freeze_backbone: Whether to freeze backbone parameters (requires_grad=False).
+            freeze_backbone: Whether to freeze backbone parameters (requires_grad=False). Default True.
         """
         super().__init__()
         self.backbone_name = backbone_name.lower()
@@ -74,6 +74,11 @@ class ViTFeatureExtractor(nn.Module):
     def feature_dim(self) -> int:
         """Returns the output feature embedding dimension of the backbone."""
         return self._feature_dim
+
+    @property
+    def is_frozen(self) -> bool:
+        """Returns True if all backbone parameters have requires_grad=False."""
+        return all(not p.requires_grad for p in self.backbone.parameters())
 
     def _initialize_backbone(self, name: str, pretrained: bool) -> nn.Module:
         """Instantiates the underlying torchvision vision backbone without classification head."""

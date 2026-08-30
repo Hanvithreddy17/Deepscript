@@ -63,11 +63,20 @@ The methodology follows a modular pipeline designed for high feature extraction 
 - **Development Environment:** VS Code / Antigravity
 - **Version Control:** Git / GitHub
 
-## Current Project Status
+## Current ML Progress
 
-**Status:** Project initialization / Week 1
+### COMPLETED:
+- Dataset pipeline (class detection, stratified splitting, dynamic discovery)
+- Image preprocessing (standardization, bicubic resizing to 224x224, ImageNet normalization)
+- Pretrained ViT-B/16 loading (ImageNet weights via torchvision)
+- Feature extraction (frozen backbone extracting 768-d embeddings)
 
-> No models, datasets, classifiers, API endpoints, or frontend interfaces are currently implemented. The project is presently establishing baseline repository architecture, dependency requirements, and technical documentation.
+### NOT YET IMPLEMENTED:
+- Transfer learning / fine-tuning
+- Few-Shot classification
+- Prototypical Networks
+- Final classification
+- Evaluation
 
 ## Planned Development Phases
 
