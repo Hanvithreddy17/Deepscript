@@ -1,16 +1,16 @@
 """
 DeepScript — Verification and Test Suite for Dataset & Preprocessing
 ====================================================================
-This script executes a rigorous end-to-end verification of:
-1. Dataset loading & dynamic class discovery
-2. Numerical label mapping and integrity
-3. Image loading, format conversion (RGBA -> RGB), and corrupted file checks
-4. Image preprocessing pipeline: Resize -> RGB -> ImageNet normalization -> Safe augmentation
-5. Processed tensor validation: shape [3, 224, 224], dtype float32, finite values (no NaN/Inf)
-6. Stratified train/val/test partitioning with fixed random seed
-7. Formal data leakage test (split disjointness)
-8. PyTorch DataLoader mini-batch extraction
-9. Visual comparison generation (original vs preprocessed)
+This script executes a rigorous end-to-end verification of dataset integrity,
+preprocessing pipelines, and data partitioning:
+1. Dataset loading & dynamic 62-class discovery.
+2. Numerical label mapping bijectivity and invertibility check.
+3. Image loading, format conversion (RGBA/Grayscale -> RGB), and corruption checks.
+4. Image preprocessing pipeline: Resize (224x224 Bicubic) -> ImageNet normalization -> Safe augmentation.
+5. Processed tensor validation: shape [3, 224, 224], dtype float32, finite values (no NaN/Inf).
+6. Stratified train/val/test partitioning (70/15/15) with fixed random seed (42).
+7. Formal data leakage test verifying pairwise split disjointness.
+8. PyTorch DataLoader mini-batch extraction and batch tensor shape verification.
 """
 
 import os
@@ -45,6 +45,15 @@ from preprocessing import (
 
 
 def run_full_verification(dataset_root: str = "dataset/dataset") -> bool:
+    """
+    Executes the 6-step dataset and preprocessing verification test suite.
+
+    Args:
+        dataset_root: Path to the dataset directory containing class subfolders.
+
+    Returns:
+        bool: True if all 11 verification criteria pass.
+    """
     print("=" * 70)
     print(" DEEPSCRIPT: DATASET & PREPROCESSING VERIFICATION SUITE")
     print("=" * 70)
@@ -53,7 +62,9 @@ def run_full_verification(dataset_root: str = "dataset/dataset") -> bool:
     ds_path = Path(dataset_root)
 
     # -------------------------------------------------------------
-    # 1. Dataset Loading & Class Discovery
+    # Step 1: Dataset Loading & Class Discovery
+    # Verifies scanning of dataset root directory, discovery of exactly
+    # 62 script classes, and total count of valid, non-corrupted images.
     # -------------------------------------------------------------
     print("\n[Step 1/6] Initializing Dataset and Discovering Classes...")
     if not ds_path.exists():
@@ -74,7 +85,9 @@ def run_full_verification(dataset_root: str = "dataset/dataset") -> bool:
     checklist["Images are readable"] = len(raw_dataset.corrupted_files) == 0
 
     # -------------------------------------------------------------
-    # 2. Label Mapping & Indexing Check
+    # Step 2: Label Mapping & Indexing Check
+    # Verifies that alphabetical class ordering produces a strictly
+    # bijective and invertible mapping: class_name <-> integer label.
     # -------------------------------------------------------------
     print("\n[Step 2/6] Verifying Label Mapping and Reversibility...")
     class_to_idx = raw_dataset.get_class_to_idx()
@@ -93,13 +106,15 @@ def run_full_verification(dataset_root: str = "dataset/dataset") -> bool:
     checklist["Labels are correct"] = label_check_passed
 
     # -------------------------------------------------------------
-    # 3. Image Preprocessing Pipeline Verification
+    # Step 3: Image Preprocessing Pipeline Verification
+    # Tests loading real inscription images and applying deterministic
+    # evaluation transforms as well as augmented training transforms.
+    # Checks tensor dimensions [3, 224, 224] and verifies no NaN / Inf values.
     # -------------------------------------------------------------
     print("\n[Step 3/6] Testing Image Preprocessing Pipeline...")
     train_tf = get_train_transforms(image_size=(224, 224))
     eval_tf = get_eval_transforms(image_size=(224, 224))
 
-    # Test loading a real image and applying preprocessing
     sample_indices = [0, total_samples // 4, total_samples // 2, total_samples - 1]
     preprocessing_passed = True
     shape_passed = True
@@ -132,7 +147,9 @@ def run_full_verification(dataset_root: str = "dataset/dataset") -> bool:
     checklist["No NaN/Inf values"] = finite_passed
 
     # -------------------------------------------------------------
-    # 4. Stratified Train / Val / Test Partitioning
+    # Step 4: Stratified Train / Val / Test Partitioning
+    # Creates stratified 70/15/15 data splits with seed 42,
+    # ensuring class proportions are preserved across all 3 subsets.
     # -------------------------------------------------------------
     print("\n[Step 4/6] Creating Stratified Train / Validation / Test Splits (Seed=42)...")
     train_ds, val_ds, test_ds = create_stratified_splits(
@@ -156,7 +173,9 @@ def run_full_verification(dataset_root: str = "dataset/dataset") -> bool:
     checklist["Test split works"] = len(test_ds) > 0
 
     # -------------------------------------------------------------
-    # 5. Data Leakage Verification
+    # Step 5: Data Leakage Verification
+    # Formally checks set intersection across train, val, and test subsets
+    # to guarantee zero data leakage.
     # -------------------------------------------------------------
     print("\n[Step 5/6] Formally Verifying Disjointness (Zero Data Leakage)...")
     try:
@@ -170,7 +189,9 @@ def run_full_verification(dataset_root: str = "dataset/dataset") -> bool:
         checklist["No data leakage"] = False
 
     # -------------------------------------------------------------
-    # 6. PyTorch DataLoader Batch Test
+    # Step 6: PyTorch DataLoader Batch Test
+    # Verifies batch construction and mini-batch loading across all 3
+    # DataLoader instances with batch_size=32.
     # -------------------------------------------------------------
     print("\n[Step 6/6] Testing PyTorch DataLoaders...")
     batch_size = 32
@@ -188,7 +209,7 @@ def run_full_verification(dataset_root: str = "dataset/dataset") -> bool:
     print(f"  • Train Batch Label Range  : Min={train_batch_lbl.min().item()}, Max={train_batch_lbl.max().item()}")
 
     # -------------------------------------------------------------
-    # Summary Table
+    # Verification Summary Report
     # -------------------------------------------------------------
     print("\n" + "=" * 70)
     print(" VERIFICATION SUMMARY REPORT")

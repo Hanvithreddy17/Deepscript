@@ -11,3 +11,4 @@ matplotlib
 fastapi
 uvicorn
 python-multipart
+PyYAML

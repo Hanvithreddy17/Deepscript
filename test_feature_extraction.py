@@ -3,11 +3,17 @@ DeepScript — Feature Extraction Test
 ===================================
 Pipeline Test: Preprocessed Image -> Pretrained ViT-B/16 -> Feature Embedding
 
-Flow:
-1. Load real ancient script image from the existing dataset.
-2. Apply the deterministic preprocessing pipeline (Resize -> RGB -> ImageNet Norm).
-3. Pass the tensor [1, 3, 224, 224] through pretrained ViT-B/16 (backbone frozen).
-4. Extract the feature embedding and verify finite values.
+What this script verifies:
+1. End-to-end integration between `AncientScriptDataset`, `get_eval_transforms`,
+   and `ViTFeatureExtractor`.
+2. Image preprocessing: loading a real ancient inscription image from disk,
+   standardizing to RGB, resizing to 224x224 via bicubic interpolation,
+   and applying standard ImageNet channel-wise normalization.
+3. Batch tensor preparation: constructing a 4D tensor `[1, 3, 224, 224]`.
+4. ViT-B/16 feature extraction: passing the tensor through the pretrained
+   Vision Transformer backbone with frozen weights.
+5. Embedding shape and integrity: verifying output shape is strictly `[1, 768]`,
+   all values are finite (no NaN / Inf), and backbone parameters are frozen.
 """
 
 import sys
@@ -24,14 +30,23 @@ from models import ViTFeatureExtractor
 
 
 def run_feature_extraction_test(dataset_root: str = "dataset/dataset") -> bool:
+    """
+    Executes the feature extraction verification test on a real sample from disk.
+
+    Args:
+        dataset_root: Directory containing script class subfolders.
+
+    Returns:
+        bool: True if all shape, value, and freezing assertions pass.
+    """
     ds_path = Path(dataset_root)
     if not ds_path.exists():
         raise FileNotFoundError(f"Dataset root directory not found at: {ds_path.resolve()}")
 
-    # 1. Connect to existing preprocessing pipeline
+    # 1. Connect to existing deterministic preprocessing pipeline
     eval_transform = get_eval_transforms(image_size=(224, 224))
 
-    # 2. Load one real image from the existing dataset
+    # 2. Load real image from the existing dataset
     dataset = AncientScriptDataset(root_dir=ds_path, transform=eval_transform)
     if len(dataset) == 0:
         raise ValueError("Dataset is empty; no images found.")
@@ -52,7 +67,7 @@ def run_feature_extraction_test(dataset_root: str = "dataset/dataset") -> bool:
     )
     model.eval()
 
-    # 4. Extract feature embedding
+    # 4. Extract feature embedding without tracking gradients
     with torch.no_grad():
         embedding = model(input_tensor)
 

@@ -1,14 +1,14 @@
 """
 DeepScript — Verification and Test Suite for Model Architecture
 ================================================================
-Executes a rigorous end-to-end verification of:
+Executes a rigorous end-to-end verification of model components:
 1. ViTFeatureExtractor backbone initialization & feature extraction shape [B, 768]
-2. EmbeddingProjector dimension reduction & L2 unit-sphere normalization
-3. CosineSimilarityHead, LinearClassificationHead, and PrototypicalHead functionality
-4. Prototypical Network centroid computation & episodic loss calculation
-5. Full DeepScriptModel forward pass and prediction API (logits, confidences, top-k)
+2. EmbeddingProjector dimension reduction & L2 unit-sphere normalization [B, 256]
+3. CosineSimilarityHead and LinearClassificationHead logit generation [B, 62]
+4. PrototypicalHead class centroid calculation & episodic few-shot distance loss
+5. Full DeepScriptModel unified forward pass and predict() API (classes, confidences, top-k)
 6. Real inscription dataset batch inference via AncientScriptDataset
-7. Parameter freezing & gradient backpropagation verification
+7. Parameter freezing & selective gradient backpropagation with AdamW
 """
 
 import os
@@ -45,6 +45,12 @@ from preprocessing import (
 
 
 def run_model_verification() -> bool:
+    """
+    Executes the 7-step model architecture and gradient verification test suite.
+
+    Returns:
+        bool: True if all 7 model architecture verification criteria pass.
+    """
     print("=" * 70)
     print(" DEEPSCRIPT: MODEL ARCHITECTURE & FEATURE EXTRACTOR VERIFICATION")
     print("=" * 70)
@@ -55,7 +61,9 @@ def run_model_verification() -> bool:
     print(f"  • PyTorch Version    : {torch.__version__}")
 
     # -------------------------------------------------------------
-    # 1. ViT Backbone & Feature Extraction
+    # Step 1: ViT Backbone & Feature Extraction
+    # Verifies that raw image tensor [B, 3, 224, 224] is transformed
+    # by ViT-B/16 into a 768-dimensional visual feature tensor [B, 768].
     # -------------------------------------------------------------
     print("\n[Step 1/7] Testing ViT Backbone Feature Extraction...")
     backbone = ViTFeatureExtractor(backbone_name="vit_b_16", pretrained=False)
@@ -75,7 +83,9 @@ def run_model_verification() -> bool:
     checklist["Backbone features [B, 768]"] = b_shape_ok and b_finite_ok
 
     # -------------------------------------------------------------
-    # 2. Embedding Projector & L2 Normalization
+    # Step 2: Embedding Projector & L2 Normalization
+    # Verifies that MLP projector maps 768-d features to 256-d metric
+    # embeddings and normalizes all vectors to unit L2 norm (||z||_2 = 1.0).
     # -------------------------------------------------------------
     print("\n[Step 2/7] Testing Embedding Projector & L2 Normalization...")
     projector = EmbeddingProjector(
@@ -100,7 +110,9 @@ def run_model_verification() -> bool:
     checklist["Projector L2 normalized [B, 256]"] = p_shape_ok and is_normalized
 
     # -------------------------------------------------------------
-    # 3. Cosine and Linear Classification Heads
+    # Step 3: Cosine and Linear Classification Heads
+    # Verifies that classification heads map 256-d embeddings to
+    # 62 class logits with correct scaling and matrix dimensions.
     # -------------------------------------------------------------
     print("\n[Step 3/7] Testing Classification Heads (Cosine & Linear)...")
     cosine_head = CosineSimilarityHead(in_features=256, num_classes=62, initial_scale=16.0)
@@ -119,7 +131,9 @@ def run_model_verification() -> bool:
     checklist["Linear Head [B, 62]"] = lin_ok
 
     # -------------------------------------------------------------
-    # 4. Prototypical Few-Shot Metric Head
+    # Step 4: Prototypical Few-Shot Metric Head
+    # Verifies support set prototype (class centroid) computation and
+    # Euclidean distance metric episodic loss calculation.
     # -------------------------------------------------------------
     print("\n[Step 4/7] Testing Prototypical Few-Shot Centroid & Distance Loss...")
     proto_head = PrototypicalHead(metric="euclidean", temperature=1.0)
@@ -147,7 +161,9 @@ def run_model_verification() -> bool:
     checklist["Prototypical metric computation"] = proto_ok
 
     # -------------------------------------------------------------
-    # 5. Full Integrated DeepScriptModel & Inference API
+    # Step 5: Full Integrated DeepScriptModel & Inference API
+    # Verifies unified model forward pass and high-level predict() API
+    # providing class indices, confidences, top-k candidates, and embeddings.
     # -------------------------------------------------------------
     print("\n[Step 5/7] Testing Unified DeepScriptModel & Inference API...")
     model = get_deepscript_model(
@@ -176,7 +192,9 @@ def run_model_verification() -> bool:
     checklist["Unified model forward & predict API"] = model_fwd_ok and pred_api_ok
 
     # -------------------------------------------------------------
-    # 6. Real Inscription Dataset Batch Integration
+    # Step 6: Real Inscription Dataset Batch Integration
+    # Verifies forward pass and prediction API over real inscription
+    # image mini-batches loaded from disk via AncientScriptDataset.
     # -------------------------------------------------------------
     print("\n[Step 6/7] Running Forward Pass on Real Inscription Data...")
     ds_path = Path("dataset/dataset")
@@ -201,7 +219,9 @@ def run_model_verification() -> bool:
         checklist["Real dataset batch inference"] = True
 
     # -------------------------------------------------------------
-    # 7. Backbone Freezing & Gradient Flow Verification
+    # Step 7: Backbone Freezing & Gradient Flow Verification
+    # Verifies that when ViT backbone is frozen, backbone parameter
+    # gradients are strictly None while projector/head gradients are active.
     # -------------------------------------------------------------
     print("\n[Step 7/7] Testing Backbone Freezing & Gradient Flow...")
     trainable_model = get_deepscript_model(
@@ -219,7 +239,7 @@ def run_model_verification() -> bool:
     print(f"  • Trainable Parameters      : {summary['trainable_parameters']:,} (Projector + Head)")
     print(f"  • Frozen Parameters         : {summary['frozen_parameters']:,} (ViT Backbone)")
 
-    # Execute dummy optimization step to verify backprop
+    # Execute dummy optimization step to verify backpropagation
     optimizer = torch.optim.AdamW(
         [p for p in trainable_model.parameters() if p.requires_grad], lr=1e-3
     )
@@ -243,7 +263,7 @@ def run_model_verification() -> bool:
     checklist["Backbone freezing & gradient flow"] = grad_ok
 
     # -------------------------------------------------------------
-    # Verification Summary
+    # Verification Summary Report
     # -------------------------------------------------------------
     print("\n" + "=" * 70)
     print(" MODEL ARCHITECTURE VERIFICATION REPORT")
