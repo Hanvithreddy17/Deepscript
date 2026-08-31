@@ -77,7 +77,6 @@ wandb/
 mlruns/
 outputs/
 experiments/
-results/
 
 # Large / Raw Datasets & Archives
 dataset/raw/
