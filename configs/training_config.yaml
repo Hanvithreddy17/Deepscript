@@ -1,0 +1,93 @@
+# DeepScript: Vision Transformer (ViT-B/16) Training Configuration
+# Configuration corresponding to the verified preliminary smoke-test execution run.
+
+experiment:
+  name: "vit_b16_transfer_learning_smoke_test"
+  description: "Preliminary 2-stage transfer learning smoke test on 62 ancient script classes"
+  random_seed: 42
+
+dataset:
+  root_dir: "dataset/dataset"
+  num_classes: 62
+  splits:
+    train_ratio: 0.70
+    val_ratio: 0.15
+    test_ratio: 0.15
+    stratified: true
+    random_seed: 42
+
+preprocessing:
+  image_size: [224, 224]
+  interpolation: "bicubic"
+  channels: 3
+  normalization:
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+  augmentation:
+    enabled: true
+    rotation_degrees: 10
+    translate_fraction: 0.04
+    scale_range: [0.95, 1.05]
+    color_jitter:
+      brightness: 0.1
+      contrast: 0.1
+
+model:
+  backbone_name: "vit_b_16"
+  pretrained: true
+  feature_dim: 768
+  embedding_dim: 256
+  projector:
+    type: "mlp"
+    hidden_dim: 512
+    dropout: 0.1
+    l2_normalize: true
+  head:
+    type: "cosine"
+    num_classes: 62
+    initial_scale: 16.0
+
+training:
+  batch_size: 32
+  num_workers: 0
+  criterion: "CrossEntropyLoss"
+  optimizer: "AdamW"
+  scheduler: "CosineAnnealingLR"
+  gradient_clip_norm: 1.0
+
+  # Stage 1: Head Warmup (Backbone Frozen)
+  stage_1_warmup:
+    epochs: 2
+    head_lr: 0.001
+    backbone_lr: 0.0
+    weight_decay: 0.0001
+    freeze_backbone: true
+    max_train_batches: 3
+    max_val_batches: 2
+
+  # Stage 2: Fine-Tuning (Unfreeze Last N Transformer Blocks)
+  stage_2_finetune:
+    epochs: 2
+    unfreeze_blocks: 2
+    head_lr: 0.0002
+    backbone_lr: 0.00002
+    weight_decay: 0.0001
+    max_train_batches: 3
+    max_val_batches: 2
+
+checkpoint:
+  checkpoint_dir: "checkpoints"
+  best_checkpoint_name: "best_vit_model.pth"
+  latest_checkpoint_name: "latest_vit_model.pth"
+
+evaluation:
+  batch_size: 32
+  top_k: 3
+  metrics:
+    - "top1_accuracy"
+    - "top3_accuracy"
+    - "macro_precision"
+    - "macro_recall"
+    - "macro_f1"
+    - "weighted_f1"
+    - "cross_entropy_loss"
