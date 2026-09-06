@@ -1,12 +1,34 @@
-# Experimental Results & Evaluation Reports
+# DeepScript: Results & Experiment Artifacts Directory
 
-This directory archives verified experimental outputs, training progression logs, and held-out test evaluation reports for DeepScript.
+This directory contains the training metrics, held-out test evaluation outputs, confusion matrices, and experiment artifacts for the DeepScript project.
 
 ---
 
-## Files
+## Directory Structure
 
-- **[`training_results.md`](training_results.md):** Detailed stage-by-stage metrics, parameter counts, loss curves, and validation accuracy for the two-stage transfer learning smoke test.
-- **[`test_results.md`](test_results.md):** Full evaluation report on the 1,020 isolated test samples, including top-1/top-3 accuracy, macro/weighted precision, recall, and F1 scores.
+```
+results/
+├── training/
+│   ├── training_history.csv       # Epoch-by-epoch loss, accuracy, and learning rate telemetry
+│   ├── training_metadata.json      # Experiment hyperparameters, sample counts, and duration
+│   └── training_curves.png         # Multi-panel visualization of loss, accuracy, and LR schedules
+├── evaluation/
+│   ├── metrics.json                # Summary test metrics (Top-1, Top-3, Loss, Macro/Weighted F1)
+│   ├── classification_report.csv   # Per-class precision, recall, f1-score, and support counts
+│   └── confusion_matrix.png        # High-resolution 62-class normalized confusion matrix heatmap
+├── training_results.md             # Detailed breakdown of training stages and convergence
+├── test_results.md                 # Detailed breakdown of held-out test set evaluation
+└── README.md                       # This directory index
+```
 
-> **Important Note:** All documented metrics reflect **ACTUAL observed results** from preliminary smoke-test execution runs.
+---
+
+## Key Performance Summary (Full Model Run)
+
+| Metric | Full Training Result | Smoke-Test Baseline | Random Baseline |
+| :--- | :---: | :---: | :---: |
+| **Top-1 Test Accuracy** | **89.71%** | 14.41% | 1.61% |
+| **Top-3 Test Accuracy** | **98.33%** | 28.53% | 4.84% |
+| **Cross-Entropy Test Loss** | **0.2944** | 3.9030 | 4.1271 |
+| **Macro F1-Score** | **89.61%** | 7.81% | — |
+| **Weighted F1-Score** | **89.69%** | 8.20% | — |
