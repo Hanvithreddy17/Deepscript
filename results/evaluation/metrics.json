@@ -1,0 +1,12 @@
+{
+  "checkpoint_evaluated": "checkpoints\\best_vit_model.pth",
+  "total_test_samples": 1020,
+  "num_classes": 62,
+  "test_loss": 0.2944,
+  "top1_accuracy": 0.8971,
+  "top3_accuracy": 0.9833,
+  "macro_precision": 0.9046,
+  "macro_recall": 0.896,
+  "macro_f1": 0.8961,
+  "weighted_f1": 0.8969
+}
