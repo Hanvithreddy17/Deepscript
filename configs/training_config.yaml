@@ -1,10 +1,11 @@
 # DeepScript: Vision Transformer (ViT-B/16) Training Configuration
-# Configuration corresponding to the verified preliminary smoke-test execution run.
+# Production configuration for 2-stage transfer learning on 62 ancient Indian script classes.
 
 experiment:
-  name: "vit_b16_transfer_learning_smoke_test"
-  description: "Preliminary 2-stage transfer learning smoke test on 62 ancient script classes"
+  name: "vit_b16_transfer_learning_full_run"
+  description: "Full 2-stage transfer learning and fine-tuning on 62 ancient script classes"
   random_seed: 42
+  device: "auto"  # "auto", "cuda", or "cpu"
 
 dataset:
   root_dir: "dataset/dataset"
@@ -55,30 +56,35 @@ training:
   scheduler: "CosineAnnealingLR"
   gradient_clip_norm: 1.0
 
-  # Stage 1: Head Warmup (Backbone Frozen)
+  # Stage 1: Head Warmup (ViT Backbone Frozen)
   stage_1_warmup:
-    epochs: 2
+    epochs: 3
     head_lr: 0.001
     backbone_lr: 0.0
     weight_decay: 0.0001
     freeze_backbone: true
-    max_train_batches: 3
-    max_val_batches: 2
+    max_train_batches: null
+    max_val_batches: null
 
   # Stage 2: Fine-Tuning (Unfreeze Last N Transformer Blocks)
   stage_2_finetune:
-    epochs: 2
+    epochs: 3
     unfreeze_blocks: 2
     head_lr: 0.0002
     backbone_lr: 0.00002
     weight_decay: 0.0001
-    max_train_batches: 3
-    max_val_batches: 2
+    max_train_batches: null
+    max_val_batches: null
 
 checkpoint:
   checkpoint_dir: "checkpoints"
   best_checkpoint_name: "best_vit_model.pth"
   latest_checkpoint_name: "latest_vit_model.pth"
+
+output:
+  results_dir: "results"
+  training_output_dir: "results/training"
+  evaluation_output_dir: "results/evaluation"
 
 evaluation:
   batch_size: 32

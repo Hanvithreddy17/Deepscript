@@ -9,11 +9,14 @@ Key capabilities:
 2. Robust metric tracking (Train/Val Loss, Top-1/Top-3 Accuracy).
 3. Checkpoint management saving best models strictly based on validation performance.
 4. Clean separation of concern: Test set is NEVER touched during training or selection.
+5. Automatic history logging and CSV export.
 """
 
 from typing import Dict, Any, Optional, List, Tuple
 from pathlib import Path
 import time
+import csv
+import json
 import logging
 import torch
 import torch.nn as nn
@@ -47,6 +50,7 @@ class Trainer:
         max_train_batches: Optional[int] = None,
         max_val_batches: Optional[int] = None,
         print_freq: int = 25,
+        stage_name: str = "Training",
     ):
         """
         Args:
@@ -64,6 +68,7 @@ class Trainer:
             max_train_batches: Optional cap on batches per epoch for rapid verification.
             max_val_batches: Optional cap on val batches.
             print_freq: Frequency of intra-epoch batch progress logs.
+            stage_name: Descriptive name for current training stage.
         """
         self.device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model = model.to(self.device)
@@ -84,19 +89,23 @@ class Trainer:
         self.max_train_batches = max_train_batches
         self.max_val_batches = max_val_batches
         self.print_freq = print_freq
+        self.stage_name = stage_name
 
         self.best_val_acc: float = 0.0
         self.best_val_loss: float = float("inf")
         self.best_epoch: int = 0
 
-        self.history: Dict[str, List[float]] = {
+        self.history: Dict[str, List[Any]] = {
             "epoch": [],
+            "stage": [],
             "train_loss": [],
             "train_acc": [],
             "val_loss": [],
             "val_acc": [],
             "val_top3_acc": [],
-            "learning_rate": [],
+            "lr_head": [],
+            "lr_backbone": [],
+            "epoch_time_sec": [],
         }
 
     def train_epoch(self, epoch: int) -> Tuple[float, float]:
@@ -114,7 +123,6 @@ class Trainer:
         correct = 0
         total = 0
 
-        start_time = time.time()
         num_batches = len(self.train_loader)
         if self.max_train_batches:
             num_batches = min(num_batches, self.max_train_batches)
@@ -150,7 +158,7 @@ class Trainer:
                 batch_acc = correct / total if total > 0 else 0.0
                 batch_loss = running_loss / total if total > 0 else 0.0
                 print(
-                    f"    Batch [{batch_idx+1:03d}/{num_batches:03d}] | "
+                    f"    [{self.stage_name}] Batch [{batch_idx+1:03d}/{num_batches:03d}] | "
                     f"Loss: {batch_loss:.4f} | Acc: {batch_acc * 100:.2f}%",
                     flush=True,
                 )
@@ -224,6 +232,7 @@ class Trainer:
         """
         checkpoint_data = {
             "epoch": epoch,
+            "stage": self.stage_name,
             "model_state_dict": self.model.state_dict(),
             "optimizer_state_dict": self.optimizer.state_dict(),
             "scheduler_state_dict": self.scheduler.state_dict() if self.scheduler else None,
@@ -249,24 +258,25 @@ class Trainer:
     def fit(
         self,
         num_epochs: int,
-        log_interval: int = 1,
-    ) -> Dict[str, List[float]]:
+        epoch_offset: int = 0,
+    ) -> Dict[str, List[Any]]:
         """
         Executes the full training and validation loop for `num_epochs`.
 
         Args:
-            num_epochs: Total number of epochs to train.
-            log_interval: Interval in epochs for detailed printing.
+            num_epochs: Number of epochs to train in this phase.
+            epoch_offset: Starting epoch index offset.
 
         Returns:
             Dictionary containing historical metrics across all epochs.
         """
         print("=" * 75, flush=True)
-        print(f" DEEPSCRIPT: STARTING TRAINING ({num_epochs} Epochs)", flush=True)
+        print(f" DEEPSCRIPT: STARTING {self.stage_name.upper()} ({num_epochs} Epochs)", flush=True)
         print(f" Device: {self.device} | Checkpoint Directory: {self.checkpoint_dir}", flush=True)
         print("=" * 75, flush=True)
 
-        for epoch in range(1, num_epochs + 1):
+        for i in range(1, num_epochs + 1):
+            epoch = epoch_offset + i
             epoch_start = time.time()
 
             # Train one epoch
@@ -275,22 +285,35 @@ class Trainer:
             # Validate
             val_loss, val_top1, val_top3 = self.validate_epoch(epoch)
 
+            # Get learning rates
+            lr_backbone = 0.0
+            lr_head = 0.0
+            for group in self.optimizer.param_groups:
+                if group.get("name") == "backbone":
+                    lr_backbone = group["lr"]
+                else:
+                    lr_head = group["lr"]
+
             # Learning rate scheduler step
-            current_lr = self.optimizer.param_groups[0]["lr"]
             if self.scheduler is not None:
                 if isinstance(self.scheduler, torch.optim.lr_scheduler.ReduceLROnPlateau):
                     self.scheduler.step(val_loss)
                 else:
                     self.scheduler.step()
 
+            epoch_time = time.time() - epoch_start
+
             # Track history
             self.history["epoch"].append(epoch)
-            self.history["train_loss"].append(train_loss)
-            self.history["train_acc"].append(train_acc)
-            self.history["val_loss"].append(val_loss)
-            self.history["val_acc"].append(val_top1)
-            self.history["val_top3_acc"].append(val_top3)
-            self.history["learning_rate"].append(current_lr)
+            self.history["stage"].append(self.stage_name)
+            self.history["train_loss"].append(round(train_loss, 4))
+            self.history["train_acc"].append(round(train_acc, 4))
+            self.history["val_loss"].append(round(val_loss, 4))
+            self.history["val_acc"].append(round(val_top1, 4))
+            self.history["val_top3_acc"].append(round(val_top3, 4))
+            self.history["lr_head"].append(lr_head)
+            self.history["lr_backbone"].append(lr_backbone)
+            self.history["epoch_time_sec"].append(round(epoch_time, 2))
 
             # Check if this is the best epoch on validation
             is_best = val_top1 > self.best_val_acc
@@ -302,21 +325,47 @@ class Trainer:
             # Save checkpoints
             self.save_checkpoint(epoch, val_loss, val_top1, is_best=is_best)
 
-            epoch_time = time.time() - epoch_start
             best_flag = "★ BEST" if is_best else ""
 
             print(
-                f"Epoch [{epoch:02d}/{num_epochs:02d}] ({epoch_time:.1f}s) | "
+                f"Epoch [{epoch:02d}] ({epoch_time:.1f}s) | "
                 f"Train Loss: {train_loss:.4f} | Train Acc: {train_acc * 100:.2f}% | "
                 f"Val Loss: {val_loss:.4f} | Val Acc: {val_top1 * 100:.2f}% (Top-3: {val_top3 * 100:.2f}%) | "
-                f"LR: {current_lr:.1e} {best_flag}",
+                f"Head LR: {lr_head:.1e} {best_flag}",
                 flush=True,
             )
 
         print("=" * 75, flush=True)
-        print(f" PHASE COMPLETE!", flush=True)
+        print(f" {self.stage_name.upper()} COMPLETE!", flush=True)
         print(f"  • Best Validation Accuracy: {self.best_val_acc * 100:.2f}% (Epoch {self.best_epoch})", flush=True)
         print(f"  • Best Model Saved At     : {self.checkpoint_path}", flush=True)
         print("=" * 75, flush=True)
 
         return self.history
+
+    def export_history_csv(self, output_path: str | Path) -> None:
+        """Exports the recorded training history to a CSV file."""
+        out_file = Path(output_path)
+        out_file.parent.mkdir(parents=True, exist_ok=True)
+
+        fieldnames = [
+            "epoch",
+            "stage",
+            "train_loss",
+            "train_acc",
+            "val_loss",
+            "val_acc",
+            "val_top3_acc",
+            "lr_head",
+            "lr_backbone",
+            "epoch_time_sec",
+        ]
+
+        with open(out_file, "w", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            writer.writerow(fieldnames)
+            num_rows = len(self.history["epoch"])
+            for i in range(num_rows):
+                row = [self.history[k][i] for k in fieldnames]
+                writer.writerow(row)
+        print(f"  >>> Training history exported to: {out_file}", flush=True)
