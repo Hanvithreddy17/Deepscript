@@ -19,14 +19,17 @@ import json
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Any, Optional, Tuple
+from typing import Dict, Any, Optional, Tuple, Union
 
 import numpy as np
 import yaml
+import logging
 import torch
 import torch.nn as nn
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
+
+logger = logging.getLogger("deepscript.training.train")
 
 # Reconfigure stdout for UTF-8 compatibility
 sys.stdout.reconfigure(encoding='utf-8')
@@ -60,13 +63,16 @@ def set_seed(seed: int = 42) -> None:
     os.environ["PYTHONHASHSEED"] = str(seed)
 
 
-def load_yaml_config(config_path: str | Path) -> Dict[str, Any]:
+def load_yaml_config(config_path: Optional[Union[str, Path]]) -> Dict[str, Any]:
     """Loads YAML experiment configuration file if it exists."""
+    if not config_path:
+        return {}
     cfg_file = Path(config_path)
-    if cfg_file.exists():
-        with open(cfg_file, "r", encoding="utf-8") as f:
-            return yaml.safe_load(f) or {}
-    return {}
+    if not cfg_file.exists():
+        logger.warning(f"Configuration file not found at: {cfg_file.resolve()}")
+        return {}
+    with open(cfg_file, "r", encoding="utf-8") as f:
+        return yaml.safe_load(f) or {}
 
 
 def build_optimizer_and_scheduler(
@@ -142,10 +148,18 @@ def train_deepscript(
     # 0. Reproducibility & Device Initialization
     set_seed(random_seed)
 
+    ds_path = Path(dataset_root)
+    if not ds_path.exists():
+        raise FileNotFoundError(f"Dataset root directory does not exist: {ds_path.resolve()}")
+
     if device_name == "auto":
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     else:
-        device = torch.device(device_name)
+        try:
+            device = torch.device(device_name)
+        except Exception as e:
+            logger.warning(f"Invalid device '{device_name}' ({e}), falling back to auto.")
+            device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     training_start_time = time.time()
     start_timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -167,7 +181,7 @@ def train_deepscript(
 
     # 1. Load Dataset and Create Stratified Splits
     print("\n[Step 1/4] Initializing Dataset and Stratified DataLoaders...", flush=True)
-    raw_dataset = AncientScriptDataset(root_dir=dataset_root, transform=None)
+    raw_dataset = AncientScriptDataset(root_dir=ds_path, transform=None)
     classes = raw_dataset.get_classes()
     class_to_idx = raw_dataset.get_class_to_idx()
     num_classes = len(classes)

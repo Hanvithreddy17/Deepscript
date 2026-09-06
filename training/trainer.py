@@ -12,7 +12,7 @@ Key capabilities:
 5. Automatic history logging and CSV export.
 """
 
-from typing import Dict, Any, Optional, List, Tuple
+from typing import Dict, Any, Optional, List, Tuple, Union
 from pathlib import Path
 import time
 import csv
@@ -43,7 +43,7 @@ class Trainer:
         optimizer: Optional[torch.optim.Optimizer] = None,
         scheduler: Optional[Any] = None,
         device: Optional[torch.device] = None,
-        checkpoint_dir: str | Path = "checkpoints",
+        checkpoint_dir: Union[str, Path] = "checkpoints",
         checkpoint_name: str = "best_vit_model.pth",
         classes: Optional[List[str]] = None,
         class_to_idx: Optional[Dict[str, int]] = None,
@@ -234,7 +234,7 @@ class Trainer:
             "epoch": epoch,
             "stage": self.stage_name,
             "model_state_dict": self.model.state_dict(),
-            "optimizer_state_dict": self.optimizer.state_dict(),
+            "optimizer_state_dict": self.optimizer.state_dict() if self.optimizer is not None else None,
             "scheduler_state_dict": self.scheduler.state_dict() if self.scheduler else None,
             "val_loss": val_loss,
             "val_acc": val_acc,
@@ -288,11 +288,12 @@ class Trainer:
             # Get learning rates
             lr_backbone = 0.0
             lr_head = 0.0
-            for group in self.optimizer.param_groups:
-                if group.get("name") == "backbone":
-                    lr_backbone = group["lr"]
-                else:
-                    lr_head = group["lr"]
+            if self.optimizer is not None:
+                for group in self.optimizer.param_groups:
+                    if group.get("name") == "backbone":
+                        lr_backbone = group["lr"]
+                    else:
+                        lr_head = group["lr"]
 
             # Learning rate scheduler step
             if self.scheduler is not None:

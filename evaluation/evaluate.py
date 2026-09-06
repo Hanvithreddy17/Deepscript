@@ -19,7 +19,7 @@ import argparse
 import json
 import csv
 from pathlib import Path
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional, List, Union
 
 import numpy as np
 import matplotlib
@@ -53,7 +53,7 @@ from preprocessing import (
 from models import get_deepscript_model
 
 
-def plot_training_curves(history_csv: str | Path, output_png: str | Path) -> None:
+def plot_training_curves(history_csv: Union[str, Path], output_png: Union[str, Path]) -> None:
     """Generates multi-panel training and validation curve visualization."""
     csv_path = Path(history_csv)
     if not csv_path.exists():
@@ -80,6 +80,10 @@ def plot_training_curves(history_csv: str | Path, output_png: str | Path) -> Non
             val_acc.append(float(row["val_acc"]) * 100)
             val_top3_acc.append(float(row["val_top3_acc"]) * 100)
             lr_head.append(float(row["lr_head"]))
+
+    if not epochs:
+        print("Warning: No epochs found in history CSV, skipping curve plot.")
+        return
 
     fig, axes = plt.subplots(1, 3, figsize=(18, 5), dpi=300)
     plt.subplots_adjust(wspace=0.28)
@@ -126,7 +130,7 @@ def plot_confusion_matrix_heatmap(
     y_true: List[int],
     y_pred: List[int],
     class_names: List[str],
-    output_png: str | Path,
+    output_png: Union[str, Path],
 ) -> None:
     """Generates a high-resolution normalized confusion matrix heatmap."""
     cm = confusion_matrix(y_true, y_pred)
@@ -138,11 +142,12 @@ def plot_confusion_matrix_heatmap(
     cbar = fig.colorbar(cax, fraction=0.046, pad=0.04)
     cbar.ax.set_ylabel('Normalized Recall', rotation=-90, va="bottom", fontsize=10)
 
-    num_classes = len(class_names)
+    num_classes = cm.shape[0]
+    display_names = class_names if len(class_names) == num_classes else [f"class_{i}" for i in range(num_classes)]
     ax.set_xticks(np.arange(num_classes))
     ax.set_yticks(np.arange(num_classes))
-    ax.set_xticklabels(class_names, rotation=90, fontsize=6)
-    ax.set_yticklabels(class_names, fontsize=6)
+    ax.set_xticklabels(display_names, rotation=90, fontsize=6)
+    ax.set_yticklabels(display_names, fontsize=6)
 
     ax.set_title('DeepScript: 62-Class Normalized Confusion Matrix (Test Set)', fontsize=14, fontweight='bold', pad=15)
     ax.set_xlabel('Predicted Script Class', fontsize=11, labelpad=10)
@@ -156,11 +161,11 @@ def plot_confusion_matrix_heatmap(
 
 
 def evaluate_checkpoint(
-    checkpoint_path: str | Path = "checkpoints/best_vit_model.pth",
+    checkpoint_path: Union[str, Path] = "checkpoints/best_vit_model.pth",
     dataset_root: str = "dataset/dataset",
     batch_size: int = 32,
     random_seed: int = 42,
-    results_dir: str | Path = "results",
+    results_dir: Union[str, Path] = "results",
     device: Optional[torch.device] = None,
 ) -> Dict[str, Any]:
     """
@@ -186,14 +191,24 @@ def evaluate_checkpoint(
 
     # 1. Load Checkpoint State
     checkpoint = torch.load(ckpt_file, map_location=exec_device)
-    classes = checkpoint.get("classes", [])
-    class_to_idx = checkpoint.get("class_to_idx", {})
-    epoch = checkpoint.get("epoch", "N/A")
-    val_acc = checkpoint.get("val_acc", 0.0)
+    if isinstance(checkpoint, dict) and "model_state_dict" in checkpoint:
+        state_dict = checkpoint["model_state_dict"]
+        classes = checkpoint.get("classes", [])
+        class_to_idx = checkpoint.get("class_to_idx", {})
+        epoch = checkpoint.get("epoch", "N/A")
+        val_acc = checkpoint.get("val_acc", 0.0)
+    elif isinstance(checkpoint, dict):
+        state_dict = checkpoint
+        classes = []
+        class_to_idx = {}
+        epoch = "N/A"
+        val_acc = 0.0
+    else:
+        raise ValueError(f"Unrecognized checkpoint format in {ckpt_file}")
 
     print(f"\n[Step 1/4] Checkpoint Metadata:", flush=True)
     print(f"  • Trained Epochs     : {epoch}", flush=True)
-    print(f"  • Validation Accuracy: {val_acc * 100:.2f}%", flush=True)
+    print(f"  • Validation Accuracy: {val_acc * 100:.2f}%" if isinstance(val_acc, (int, float)) else f"  • Validation Accuracy: {val_acc}", flush=True)
     print(f"  • Total Classes      : {len(classes)}", flush=True)
 
     # 2. Reconstruct Isolated Test Set
@@ -227,7 +242,7 @@ def evaluate_checkpoint(
         pretrained=False,
     )
 
-    model.load_state_dict(checkpoint["model_state_dict"])
+    model.load_state_dict(state_dict)
     model.to(exec_device)
     model.eval()
 
