@@ -53,6 +53,10 @@ def create_stratified_splits(
     Returns:
         Tuple of (train_dataset, val_dataset, test_dataset)
     """
+    if train_ratio < 0 or val_ratio < 0 or test_ratio < 0:
+        raise ValueError(
+            f"Split ratios must be non-negative (got train={train_ratio}, val={val_ratio}, test={test_ratio})"
+        )
     total_ratio = train_ratio + val_ratio + test_ratio
     if abs(total_ratio - 1.0) > 1e-5:
         raise ValueError(f"Ratios must sum to 1.0 (got {train_ratio} + {val_ratio} + {test_ratio} = {total_ratio})")
@@ -247,6 +251,9 @@ def create_dataloaders(
     Returns:
         Tuple of (train_loader, val_loader, test_loader).
     """
+    if batch_size <= 0:
+        raise ValueError(f"batch_size must be a positive integer, got {batch_size}")
+
     train_loader = DataLoader(
         train_dataset,
         batch_size=batch_size,

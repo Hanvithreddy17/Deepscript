@@ -124,13 +124,15 @@ class DeepScriptModel(nn.Module):
         Extracts feature embeddings from input images.
 
         Args:
-            x: Input image tensor [B, 3, 224, 224].
+            x: Input image tensor [3, 224, 224] or batch [B, 3, 224, 224].
             project: If True, returns projected [B, embedding_dim] embeddings.
                      If False, returns raw backbone [B, 768] feature vectors.
 
         Returns:
             Feature tensor of shape [B, D].
         """
+        if x.dim() == 3:
+            x = x.unsqueeze(0)
         raw_feats = self.backbone(x)
         if project:
             return self.projector(raw_feats)

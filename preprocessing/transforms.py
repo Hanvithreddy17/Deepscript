@@ -141,12 +141,16 @@ def denormalize_tensor(
     """
     t = tensor.clone()
     if t.ndim == 3:
+        if t.shape[0] != 3:
+            raise ValueError(f"Expected 3 channels at dimension 0 for [C, H, W] tensor, got shape {tensor.shape}")
         for c in range(3):
             t[c] = t[c] * std[c] + mean[c]
     elif t.ndim == 4:
+        if t.shape[1] != 3:
+            raise ValueError(f"Expected 3 channels at dimension 1 for [B, C, H, W] tensor, got shape {tensor.shape}")
         for c in range(3):
             t[:, c] = t[:, c] * std[c] + mean[c]
     else:
-        raise ValueError(f"Expected 3D or 4D tensor, got shape {tensor.shape}")
+        raise ValueError(f"Expected 3D [C, H, W] or 4D [B, C, H, W] tensor, got shape {tensor.shape}")
     
     return torch.clamp(t, 0.0, 1.0)

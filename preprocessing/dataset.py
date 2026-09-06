@@ -12,7 +12,7 @@ Key features:
 5. Modular Transform Integration: Works seamlessly with torchvision transforms and DataLoader.
 """
 
-from typing import List, Tuple, Dict, Optional, Callable, Any
+from typing import List, Tuple, Dict, Optional, Callable, Any, Union
 from pathlib import Path
 import logging
 from PIL import Image
@@ -47,7 +47,7 @@ class AncientScriptDataset(Dataset):
 
     def __init__(
         self,
-        root_dir: Optional[str | Path] = None,
+        root_dir: Optional[Union[str, Path]] = None,
         transform: Optional[Callable] = None,
         target_transform: Optional[Callable] = None,
         samples: Optional[List[Tuple[Path, str, int]]] = None,
@@ -90,6 +90,8 @@ class AncientScriptDataset(Dataset):
             self.root_dir = Path(root_dir)
             if not self.root_dir.exists():
                 raise FileNotFoundError(f"Dataset root directory does not exist: {self.root_dir}")
+            if not self.root_dir.is_dir():
+                raise NotADirectoryError(f"Dataset root is not a directory: {self.root_dir}")
 
             self.classes, self.class_to_idx, self.idx_to_class, self.samples, self.corrupted_files = (
                 self._discover_dataset()
@@ -137,13 +139,18 @@ class AncientScriptDataset(Dataset):
             for img_path in class_files[cls_name]:
                 samples.append((img_path, cls_name, idx))
 
+        if len(samples) == 0:
+            logger.warning(
+                f"No valid image files found in {self.root_dir} matching extensions {self.supported_extensions}"
+            )
+
         return classes, class_to_idx, idx_to_class, samples, corrupted
 
     def __len__(self) -> int:
         """Returns the total number of samples in the dataset."""
         return len(self.samples)
 
-    def __getitem__(self, index: int) -> Tuple[torch.Tensor | Image.Image, int]:
+    def __getitem__(self, index: int) -> Tuple[Union[torch.Tensor, Image.Image], int]:
         """
         Retrieves the preprocessed image tensor and numerical label for a given index.
 
