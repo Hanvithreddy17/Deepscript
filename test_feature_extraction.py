@@ -20,6 +20,9 @@ import sys
 from pathlib import Path
 import torch
 
+# Reconfigure stdout for UTF-8 compatibility
+sys.stdout.reconfigure(encoding='utf-8')
+
 # Ensure project root is in sys.path
 PROJECT_ROOT = Path(__file__).resolve().parent
 if str(PROJECT_ROOT) not in sys.path:

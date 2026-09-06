@@ -79,7 +79,7 @@ To ensure rigorous scientific evaluation and prevent data leakage:
 
 ### Domain-Tailored Augmentation
 Training transforms apply safe, non-destructive augmentations preserving stroke topology:
-- **Random Affine Transformations:** Slight rotation ($\pm 10^\circ$), translation ($\pm 4\%$), and scale variation ($0.95 - 1.05\times$).
+- **Random Affine Transformations:** Subtle rotation ($\pm 8^\circ$), translation ($\pm 4\%$), and scale variation ($0.95 - 1.05\times$).
 - **Color Jitter:** Subtle brightness and contrast variations ($\pm 10\%$) simulating variable lighting and surface shadows.
 
 ---
@@ -93,8 +93,8 @@ Training transforms apply safe, non-destructive augmentations preserving stroke 
 - **Pretrained Weights:** ImageNet-1K pretrained weights for transferable visual feature extraction.
 
 ### Metric Embedding Projector
-- **Architecture:** Two-layer MLP with intermediate non-linearity:
-  $$\text{Linear}(768 \to 512) \to \text{ReLU} \to \text{Dropout}(0.1) \to \text{Linear}(512 \to 256)$$
+- **Architecture:** Two-layer MLP with LayerNorm and intermediate GELU non-linearity:
+  $$\text{LayerNorm}(768) \to \text{Linear}(768 \to 512) \to \text{GELU} \to \text{Dropout}(0.1) \to \text{Linear}(512 \to 256)$$
 - **L2 Normalization:** Output embeddings are projected onto a 256-dimensional unit hypersphere ($\|\mathbf{z}\|_2 = 1.0$).
 
 ### Classification Heads
@@ -243,8 +243,8 @@ Deepscript/
 │   ├── splits.py                 # Stratified split & leakage verification functions
 │   └── visualize.py              # Visual comparison utilities
 ├── models/                       # Model definitions and architectures
-│   ├── backbone.py               # ViTFeatureExtractor backbone wrapper
-│   ├── classifier.py             # EmbeddingProjector and classification heads
+│   ├── backbone.py               # ViTFeatureExtractor and EmbeddingProjector
+│   ├── classifier.py             # Prototypical, Cosine, and Linear heads
 │   └── deepscript_model.py       # Unified DeepScriptModel interface
 ├── training/                     # Training routines and trainer classes
 │   ├── train.py                  # Training CLI entrypoint

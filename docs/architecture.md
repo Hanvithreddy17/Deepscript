@@ -40,8 +40,8 @@ This document details the deep learning vision architecture, feature extraction 
   - Layers 10–11 are unfrozen in Stage 2 fine-tuning to adapt high-level attention maps to inscription stroke geometries.
 
 ### 2.2 Metric Embedding Projector
-- **Structure:** Two-layer Multi-Layer Perceptron (MLP) with non-linear activation and regularization:
-  $$\mathbf{h} = \text{Dropout}(\text{ReLU}(\mathbf{W}_1 \mathbf{f} + \mathbf{b}_1), p = 0.1)$$
+- **Structure:** Two-layer Multi-Layer Perceptron (MLP) with LayerNorm, GELU activation, and dropout:
+  $$\mathbf{h} = \text{Dropout}(\text{GELU}(\mathbf{W}_1 \text{LayerNorm}(\mathbf{f}) + \mathbf{b}_1), p = 0.1)$$
   $$\mathbf{z}_{\text{raw}} = \mathbf{W}_2 \mathbf{h} + \mathbf{b}_2$$
   $$\mathbf{z} = \frac{\mathbf{z}_{\text{raw}}}{\|\mathbf{z}_{\text{raw}}\|_2}$$
 - **Layer Dimensions:** $\mathbf{W}_1 \in \mathbb{R}^{512 \times 768}$, $\mathbf{W}_2 \in \mathbb{R}^{256 \times 512}$.
