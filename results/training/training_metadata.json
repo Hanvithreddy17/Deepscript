@@ -1,0 +1,33 @@
+{
+  "experiment_name": "vit_b16_transfer_learning_full_run",
+  "timestamp_start": "2026-09-06 18:26:38",
+  "total_duration_sec": 8891.47,
+  "device": "cpu",
+  "random_seed": 42,
+  "num_classes": 62,
+  "samples": {
+    "train": 4751,
+    "val": 1021,
+    "test": 1020
+  },
+  "model": {
+    "backbone": "vit_b_16",
+    "feature_dim": 768,
+    "embedding_dim": 256,
+    "head": "cosine",
+    "unfreeze_blocks": 2
+  },
+  "hyperparameters": {
+    "batch_size": 32,
+    "warmup_epochs": 2,
+    "finetune_epochs": 2,
+    "head_lr": 0.001,
+    "backbone_lr": 2e-05,
+    "weight_decay": 0.0001
+  },
+  "best_results": {
+    "best_epoch": 4,
+    "best_val_accuracy": 0.9226248775710089,
+    "best_checkpoint": "checkpoints\\best_vit_model.pth"
+  }
+}

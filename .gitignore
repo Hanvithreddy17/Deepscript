@@ -71,7 +71,7 @@ logs/
 checkpoints/
 saved_models/
 
-# Training & Experiment Outputs
+# Training & Experiment Outputs (Allow structured results/)
 runs/
 wandb/
 mlruns/
@@ -88,8 +88,12 @@ dataset/data/
 *.tgz
 *.7z
 *.rar
-*.csv
 *.parquet
+
+# Generic data CSVs ignored, but allow results CSVs
+*.csv
+!results/**/*.csv
+!results/*.csv
 
 # Node & Frontend
 node_modules/
