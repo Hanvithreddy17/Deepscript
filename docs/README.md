@@ -1,20 +1,31 @@
 # Project Documentation Directory
 
-## Directory Purpose
-
-This directory serves as the centralized repository for project architecture documents, technical specifications, research logs, API contracts, and deployment guides.
-
-> **Status Notice:** Initial project setup phase. Formal documentation files will be compiled and added throughout the project lifecycle.
+This directory contains the formal architectural specifications, training guidelines, benchmark evaluations, and experiment logs for the DeepScript project.
 
 ---
 
-## Planned Documentation Artifacts
+## Documentation Index
 
-1. **System Architecture:** Detailed technical diagrams and descriptions of the ViT and Few-Shot classification pipeline.
-2. **Dataset Decisions:** Records of selected ancient Indian script classes, sourcing rationale, dataset licenses, and split protocols.
-3. **Model Decisions:** Design rationales for Vision Transformer backbone selections, embedding dimension choices, and loss function selection.
-4. **Experiment Logs:** Structured tracking of hyperparameter trials, backbones tested, and comparative metric results.
-5. **Research Notes:** Literature reviews, epigraphic background studies, and domain analysis regarding target scripts.
-6. **API Documentation:** Comprehensive OpenAPI/Swagger specifications and payload contracts for the FastAPI backend.
-7. **Deployment Notes:** Environment setup instructions, containerization (Docker) guidelines, and hosting prerequisites.
-8. **Final Project Documentation:** Complete technical report summarizing methodology, experimental outcomes, limitations, and user manuals.
+1. [System Architecture Guide](architecture.md)
+   - Deep learning vision architecture overview
+   - Vision Transformer (ViT-B/16) backbone and patch extraction
+   - Metric Embedding Projector ($768 \to 512 \to 256$) with unit L2 hypersphere normalization
+   - Classification heads: Cosine Similarity, Linear, and Prototypical Centroid heads
+   - Parameter breakdown and layer freezing strategy
+
+2. [Training & Transfer Learning Guide](training.md)
+   - Two-stage transfer learning procedure (Stage 1 Warmup + Stage 2 Fine-Tuning)
+   - Hyperparameter configurations and differential learning rate optimization
+   - Observed convergence history and loss progression
+   - Step-by-step training reproduction guide
+
+3. [Test Evaluation & Benchmark Guide](evaluation.md)
+   - Zero data leakage validation protocol
+   - Held-out test set evaluation benchmarks on 1,020 isolated samples
+   - Metric formulas (Top-1, Top-3, Macro/Weighted Precision, Recall, F1)
+   - Classification report and confusion matrix interpretation
+
+4. [Experiment Log & Version History](experiment_log.md)
+   - Chronological log of model iterations and experiment runs
+   - Detailed comparison between preliminary smoke tests and full multi-epoch training
+   - Next milestone roadmap (Few-Shot Prototypical learning)
