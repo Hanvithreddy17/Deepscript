@@ -4,7 +4,8 @@ import { History, HelpCircle } from 'lucide-react';
 export function Navbar({
   onOpenHistory,
   onOpenInfoModal,
-  historyCount = 0
+  historyCount = 0,
+  isLiveApi = false,
 }) {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-white/[0.08] bg-zinc-950/80 backdrop-blur-md">
@@ -27,6 +28,15 @@ export function Navbar({
 
         {/* Action Controls */}
         <div className="flex items-center gap-2">
+          {/* Live Status Badge */}
+          <div className={`hidden sm:flex items-center gap-1.5 px-2 py-1 rounded-full text-[11px] font-medium border ${
+            isLiveApi 
+              ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
+              : 'bg-zinc-900 text-zinc-400 border-white/5'
+          }`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${isLiveApi ? 'bg-emerald-400 animate-pulse' : 'bg-zinc-500'}`} />
+            <span>{isLiveApi ? 'ViT Model Live' : 'Simulation Mode'}</span>
+          </div>
           
           {/* History */}
           <button

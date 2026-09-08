@@ -21,21 +21,43 @@ export function PredictionResult({
               Identified Indian Script
             </span>
             <span className="text-[11px] font-mono text-zinc-500">
-              {source === 'live' ? 'FastAPI Model' : 'Few-Shot ViT Engine'}
+              {source === 'live' ? 'FastAPI ViT Engine' : 'Prototype Simulation'}
             </span>
+            {details?.category && (
+              <span className="text-[11px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">
+                {details.category}
+              </span>
+            )}
           </div>
 
           <h2 className="font-display text-2xl sm:text-3xl font-bold text-zinc-100">
             {script}
           </h2>
 
-          {details?.period && (
-            <p className="text-xs text-zinc-400 flex items-center gap-2 mt-1">
-              <Clock className="w-3.5 h-3.5 text-zinc-500" />
-              <span>{details.period}</span>
-              <span className="text-zinc-600">•</span>
-              <MapPin className="w-3.5 h-3.5 text-zinc-500" />
-              <span className="truncate">{details.region}</span>
+          {(details?.period || details?.phonetic) && (
+            <p className="text-xs text-zinc-400 flex flex-wrap items-center gap-2 mt-1">
+              {details.phonetic && (
+                <span className="font-mono text-zinc-300 bg-zinc-900 px-1.5 py-0.5 rounded border border-white/5">
+                  {details.phonetic}
+                </span>
+              )}
+              {details.period && (
+                <>
+                  <span className="flex items-center gap-1 text-zinc-400">
+                    <Clock className="w-3.5 h-3.5 text-zinc-500" />
+                    {details.period}
+                  </span>
+                  {details.region && (
+                    <>
+                      <span className="text-zinc-600">•</span>
+                      <span className="flex items-center gap-1 text-zinc-400 truncate">
+                        <MapPin className="w-3.5 h-3.5 text-zinc-500" />
+                        {details.region}
+                      </span>
+                    </>
+                  )}
+                </>
+              )}
             </p>
           )}
         </div>

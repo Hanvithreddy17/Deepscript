@@ -117,6 +117,7 @@ export default function App() {
         onOpenHistory={() => setIsHistoryOpen(true)}
         onOpenInfoModal={() => setIsInfoModalOpen(true)}
         historyCount={history.length}
+        isLiveApi={isLiveApi}
       />
 
       {/* Main Container */}
