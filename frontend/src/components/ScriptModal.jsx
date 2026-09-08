@@ -57,6 +57,42 @@ export function ScriptModal({ scriptData, isOpen, onClose }) {
           </div>
         </div>
 
+        {/* Phonetic & Classification Details (if character dossier) */}
+        {(script.category || script.phonetic || script.scriptFamily) && (
+          <div className="p-3.5 rounded-xl bg-zinc-900/40 border border-white/5 text-xs space-y-1.5">
+            {script.category && (
+              <p>
+                <strong className="text-zinc-300">Epigraphic Category:</strong>{' '}
+                <span className="text-cyan-400 font-medium">{script.category}</span>
+              </p>
+            )}
+            {script.phonetic && (
+              <p>
+                <strong className="text-zinc-300">Phonetic Value:</strong>{' '}
+                <span className="font-mono text-amber-300">{script.phonetic}</span>
+              </p>
+            )}
+            {script.scriptFamily && (
+              <p>
+                <strong className="text-zinc-300">Script Family:</strong>{' '}
+                <span className="text-zinc-300">{script.scriptFamily}</span>
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Visual Clues */}
+        {script.visualClues && (
+          <div>
+            <h4 className="text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-2">
+              Visual Recognition Clues
+            </h4>
+            <p className="text-xs text-zinc-300 bg-zinc-950/60 p-3 rounded-xl border border-white/5">
+              {script.visualClues}
+            </p>
+          </div>
+        )}
+
         {/* Historical Context */}
         {script.historicalContext && (
           <div>

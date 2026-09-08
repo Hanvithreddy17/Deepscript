@@ -47,7 +47,12 @@ export function HistoryDrawer({
                 </div>
               ) : (
                 history.map((item) => {
-                  const confPct = Math.round(item.result.confidence * 100);
+                  const confPct = Math.round((item?.result?.confidence ?? 0) * 100);
+                  const scriptTitle = item?.result?.script || 'Unknown Script';
+                  const imageName = item?.image?.name || 'Specimen';
+                  const imageUrl = item?.image?.url || '';
+                  const timestamp = item?.timestamp || '';
+
                   return (
                     <div
                       key={item.id}
@@ -59,29 +64,37 @@ export function HistoryDrawer({
                     >
                       {/* Image Thumbnail */}
                       <div className="w-12 h-12 rounded-lg overflow-hidden bg-zinc-950 shrink-0 border border-white/5">
-                        <img
-                          src={item.image.url}
-                          alt="Thumbnail"
-                          className="w-full h-full object-cover"
-                        />
+                        {imageUrl ? (
+                          <img
+                            src={imageUrl}
+                            alt="Thumbnail"
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-zinc-600 text-xs font-mono">
+                            IMG
+                          </div>
+                        )}
                       </div>
 
                       {/* Details */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
                           <h4 className="text-xs font-semibold text-zinc-200 truncate">
-                            {item.result.script}
+                            {scriptTitle}
                           </h4>
                           <span className="text-[10px] font-mono text-emerald-400">
                             {confPct}%
                           </span>
                         </div>
                         <p className="text-[11px] text-zinc-500 truncate mt-0.5">
-                          {item.image.name || 'Specimen'}
+                          {imageName}
                         </p>
-                        <p className="text-[10px] text-zinc-600 font-mono mt-0.5">
-                          {item.timestamp}
-                        </p>
+                        {timestamp && (
+                          <p className="text-[10px] text-zinc-600 font-mono mt-0.5">
+                            {timestamp}
+                          </p>
+                        )}
                       </div>
                     </div>
                   );
