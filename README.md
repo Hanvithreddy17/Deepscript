@@ -176,12 +176,13 @@ Evaluation was conducted on the completely isolated test split ($N = 1,020$ samp
 - [x] **Held-Out Test Evaluation Benchmark** (89.71% Top-1, 98.33% Top-3, 89.61% Macro F1).
 - [x] Experiment artifacts generated (training curves plot, confusion matrix heatmap, metrics JSON, report CSV).
 - [x] Comprehensive test suites (`verify_preprocessing.py`, `verify_models.py`, `test_feature_extraction.py`).
-- [x] Frontend prototype for script visualization.
+- [x] **FastAPI Backend Service:** Production REST API endpoints (`/predict`, `/health`, `/classes`) serving real-time model inference.
+- [x] **End-to-End Live Integration:** Seamless Vite proxy and React frontend connected to live PyTorch Vision Transformer inference.
+- [x] **62-Class Epigraphic & Phonetic Dossier:** Rich character mapping connecting model predictions to paleographic context.
 
 ### PENDING NEXT MILESTONES
 - [ ] **Few-Shot Learning Training:** Episodic N-way K-shot training using Prototypical Networks against the trained ViT baseline.
-- [ ] **FastAPI Backend Service:** Production REST API endpoints (`/predict`, `/health`) serving model inference.
-- [ ] **End-to-End Live Integration:** Direct connection between frontend UI and backend inference service.
+- [ ] **Docker Containerization:** Multi-stage Docker packaging for cloud deployment.
 
 ---
 
