@@ -13,13 +13,14 @@ The DeepScript frontend is built with **React**, **Vite**, and **Tailwind CSS**,
 - **Curated Epigraphic Specimen Showcase:** Built-in interactive specimens for Ashokan Brahmi, Tamil-Brahmi, Kharosthi, Grantha, Gupta Script, and Kadamba inscriptions for 1-click testing.
 - **High-Resolution Inscription Uploader:** Drag-and-drop file uploader with epigraphic contrast enhancement modes (*High Contrast*, *Estampage Inversion*).
 - **Interactive Script Classification View:**
-  - Identified script name and historical period.
-  - Confidence percentage gauge.
-  - Top-4 candidate script probability breakdown.
-  - Latency and feature extraction metrics.
-- **Deep Epigraphic Knowledge Profiles:** Dedicated paleographic dossiers detailing script origins, geographic regions, genealogical lineage trees, and notable archaeological sites.
-- **Session History Drawer:** Re-inspect and compare previous scans during a session.
-- **Dual Live & Simulated API Modes:** Seamlessly toggles between local simulated ViT feature extraction and live FastAPI inference at `POST /predict`.
+  - Identified script / character name, phonetic classification, and historical period.
+  - Real-time confidence percentage gauge.
+  - Top-5 candidate script probability distribution.
+  - Execution latency and compute device metrics.
+- **Deep Epigraphic & Phonetic Dossiers:** Dedicated 62-class character and script modal dossiers detailing character phonetics, transliterations, visual recognition clues, lineages, and exemplar sites.
+- **Session History Drawer:** Re-inspect and compare previous scans with defensive null safety.
+- **Live ViT Model Connection Badge:** Automatic `/health` checking with real-time status pill (*ViT Model Live* vs *Simulation Mode*).
+- **Seamless Vite Proxy:** Automatic reverse proxy routing `/predict`, `/health`, and `/classes` to `http://localhost:8000`.
 
 ---
 
