@@ -81,3 +81,13 @@ python training/train.py \
 - **Latest Checkpoint:** `checkpoints/latest_vit_model.pth`
 - **Training Telemetry CSV:** `results/training/training_history.csv`
 - **Training Metadata JSON:** `checkpoints/training_metadata.json`
+
+---
+
+## 5. Model Deployment & Serving
+Once training is complete, the saved checkpoint can be served directly using the FastAPI backend:
+```bash
+python -m backend.main
+```
+Or launched via `run_backend.bat`. The server automatically binds to `http://localhost:8000` with the `/predict` endpoint ready for real-time inference.
+
