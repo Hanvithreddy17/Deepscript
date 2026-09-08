@@ -74,3 +74,33 @@ $$P(y = k \mid \mathbf{x}_q) = \frac{\exp(-d(\mathbf{z}_q, \mathbf{c}_k) / \tau)
 | **Embedding Projector (MLP)** | 525,120 | 525,120 | 525,120 |
 | **Cosine Head (62 Classes)** | 279,745 | 279,745 | 279,745 |
 | **Total System** | **86,603,521** | **804,865** | **14,982,145** |
+
+---
+
+## 4. Inference Backend & Serving Architecture
+
+```
+[ Inscription Image (File / Base64 Data URL) ]
+                      │
+                      ▼
+[ FastAPI POST /predict Endpoint ]
+                      │
+                      ▼
+[ Validation & Normalization Pipeline: PIL RGB → Resize(224×224) → ImageNet Norm ]
+                      │
+                      ▼
+[ Pre-warmed DeepScriptModel(ViT-B/16 + CosineHead) Forward Pass ]
+                      │
+                      ▼
+[ Softmax Normalization + Top-k Ranking (k=5) ]
+                      │
+                      ▼
+[ JSON Output: Predicted Script, Confidence %, Top-5 Distribution, Latency (ms) ]
+```
+
+- **Async Lifespan Management:** Initializes `best_vit_model.pth` once at server boot, assigns to optimal device (`CUDA` or multi-threaded CPU), and runs an initial dummy forward pass to eliminate first-request latency spikes.
+- **REST Contract:**
+  - `POST /predict`: Upload image file (`multipart/form-data`) $\to$ script class, confidence, candidates.
+  - `GET /health`: Server health, device name, and model checkpoint metadata.
+  - `GET /classes`: Full alphabetical array of all 62 supported script classes.
+

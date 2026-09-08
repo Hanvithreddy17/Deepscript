@@ -4,7 +4,22 @@ This log tracks model experiments, configuration changes, and performance evolut
 
 ---
 
-## Experiment 2: Full Multi-Epoch Supervised Transfer Learning (Current Milestone)
+## Experiment 3: Production FastAPI Inference Backend & Live Integration (Current Milestone)
+- **Date:** September 8, 2026
+- **Status:** **Completed & Verified**
+- **Architecture:** `FastAPI` + `Uvicorn` serving `ViT-B/16` (`checkpoints/best_vit_model.pth`)
+- **Key Features:**
+  - Automated engine lifespan management with warm-up dummy pass.
+  - Image validation and on-the-fly bicubic resizing $(224 \times 224)$ + ImageNet normalization.
+  - RESTful endpoints: `POST /predict`, `GET /health`, `GET /classes`.
+  - Sub-second inference latency on multi-threaded CPU ($\approx 40-70\text{ms}$ forward pass).
+  - 62-class phonetic and epigraphic dictionary integration in frontend.
+  - Live proxy and visual connection indicator in React UI.
+- **Verification:** Automated backend integration test suite (`backend/test_backend.py`) fully passed.
+
+---
+
+## Experiment 2: Full Multi-Epoch Supervised Transfer Learning
 - **Date:** September 6, 2026
 - **Status:** **Completed & Verified**
 - **Backbone:** Pretrained `ViT-B/16` (ImageNet-1K)
