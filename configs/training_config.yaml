@@ -58,7 +58,7 @@ training:
 
   # Stage 1: Head Warmup (ViT Backbone Frozen)
   stage_1_warmup:
-    epochs: 3
+    epochs: 2
     head_lr: 0.001
     backbone_lr: 0.0
     weight_decay: 0.0001
@@ -68,7 +68,7 @@ training:
 
   # Stage 2: Fine-Tuning (Unfreeze Last N Transformer Blocks)
   stage_2_finetune:
-    epochs: 3
+    epochs: 2
     unfreeze_blocks: 2
     head_lr: 0.0002
     backbone_lr: 0.00002
