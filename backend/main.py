@@ -237,6 +237,8 @@ async def predict(
             )
         pil_img = Image.open(io.BytesIO(image_bytes))
         pil_img = pil_img.convert("RGB")
+    except HTTPException:
+        raise
     except UnidentifiedImageError:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -295,6 +297,8 @@ async def predict(
             },
         }
 
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"Inference pipeline failure: {e}", exc_info=True)
         raise HTTPException(
