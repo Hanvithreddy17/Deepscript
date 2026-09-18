@@ -183,6 +183,21 @@ class TestEndToEndSystem(unittest.TestCase):
             bad_resp = client.post("/predict", files={"file": ("bad.bin", b"not-an-image", "application/octet-stream")})
             self.assertEqual(bad_resp.status_code, 400)
 
+    def test_6_reproducible_evaluation_metrics_integrity(self):
+        """Validates that evaluation artifacts match the verified test metrics."""
+        metrics_json_path = PROJECT_ROOT / "results" / "evaluation" / "metrics.json"
+        self.assertTrue(metrics_json_path.exists(), f"Metrics JSON missing at {metrics_json_path}")
+
+        import json
+        with open(metrics_json_path, "r", encoding="utf-8") as f:
+            metrics = json.load(f)
+
+        self.assertEqual(metrics["total_test_samples"], 1020)
+        self.assertEqual(metrics["num_classes"], 62)
+        self.assertAlmostEqual(metrics["top1_accuracy"], 0.8971, places=3)
+        self.assertAlmostEqual(metrics["top3_accuracy"], 0.9833, places=3)
+        self.assertAlmostEqual(metrics["test_loss"], 0.2944, places=3)
+
 
 if __name__ == "__main__":
     unittest.main()
