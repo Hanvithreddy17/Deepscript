@@ -36,9 +36,42 @@ export async function checkBackendStatus() {
 }
 
 /**
- * Converts a Data URL or base64 string to a binary Blob.
+ * Renders an image (including SVGs and Data URLs) onto a 2D Canvas and exports as a PNG Blob.
+ */
+function renderImageToPngBlob(imageSrc, width = 224, height = 224) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        // Dark background for stone inscriptions
+        ctx.fillStyle = '#141418';
+        ctx.fillRect(0, 0, width, height);
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob((blob) => {
+          if (blob) resolve(blob);
+          else reject(new Error('Failed to create PNG blob from canvas.'));
+        }, 'image/png');
+      } catch (err) {
+        reject(err);
+      }
+    };
+    img.onerror = () => reject(new Error('Failed to load image into DOM element.'));
+    img.src = imageSrc;
+  });
+}
+
+/**
+ * Converts a Data URL or base64 string to a binary Blob (auto-rasterizing SVGs to PNG).
  */
 async function dataUrlToBlob(dataUrl) {
+  if (dataUrl.includes('image/svg+xml') || dataUrl.startsWith('data:image/svg')) {
+    return await renderImageToPngBlob(dataUrl, 224, 224);
+  }
   const res = await fetch(dataUrl);
   return await res.blob();
 }
@@ -63,7 +96,16 @@ export async function predictScript(imagePayload, metadata = {}) {
 
   let blob = null;
   if (imagePayload instanceof File || imagePayload instanceof Blob) {
-    blob = imagePayload;
+    if (imagePayload.type === 'image/svg+xml' || (imagePayload.name && imagePayload.name.endsWith('.svg'))) {
+      const url = URL.createObjectURL(imagePayload);
+      try {
+        blob = await renderImageToPngBlob(url, 224, 224);
+      } finally {
+        URL.revokeObjectURL(url);
+      }
+    } else {
+      blob = imagePayload;
+    }
   } else if (typeof imagePayload === 'string' && imagePayload.startsWith('data:')) {
     try {
       blob = await dataUrlToBlob(imagePayload);
@@ -84,7 +126,7 @@ export async function predictScript(imagePayload, metadata = {}) {
   }
 
   const formData = new FormData();
-  formData.append('file', blob, metadata.name || 'inscription_sample.png');
+  formData.append('file', blob, metadata.name ? metadata.name.replace(/\.svg$/i, '.png') : 'inscription_sample.png');
 
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 15000);
@@ -106,7 +148,9 @@ export async function predictScript(imagePayload, metadata = {}) {
           errorDetail = errorJson.detail;
         }
       } catch {
-        // use default errorDetail
+        if (response.status === 500 || response.status === 502 || response.status === 504) {
+          errorDetail = 'Backend inference server is offline or unreachable at http://localhost:8000. Please start the backend service using "python -m backend.main" or run_backend.bat.';
+        }
       }
       throw new Error(errorDetail);
     }
