@@ -26,6 +26,8 @@ This document records the **ACTUAL observed evaluation metrics** when evaluating
 | **Macro Precision** | **90.46%** | 8.58% | — |
 | **Macro Recall** | **89.60%** | 13.72% | — |
 | **Macro F1-Score** | **89.61%** | 7.81% | — |
+| **Weighted Precision** | **90.45%** | 8.24% | — |
+| **Weighted Recall** | **89.71%** | 14.41% | — |
 | **Weighted F1-Score** | **89.69%** | 8.20% | — |
 
 ---
@@ -41,4 +43,5 @@ This document records the **ACTUAL observed evaluation metrics** when evaluating
    - Full per-class precision, recall, and F1 breakdown: `results/evaluation/classification_report.csv`
    - Normalized 62-class confusion matrix: `results/evaluation/confusion_matrix.png`
    - Loss, accuracy, and learning rate curves: `results/training/training_curves.png`
-   - Machine-readable summary: `results/evaluation/metrics.json`
+   - Machine-readable summary: `results/evaluation/metrics.json` and `results/evaluation/metrics.csv`
+
