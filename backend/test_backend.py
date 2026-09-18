@@ -76,6 +76,22 @@ def test_backend_lifespan_and_endpoints():
         else:
             print("Warning: No dataset images found for inference test.")
 
+        # 5. Test Error Handling: Empty File Upload
+        empty_resp = client.post("/predict?top_k=5", files={"file": ("empty.png", b"", "image/png")})
+        assert empty_resp.status_code == 400, f"Expected 400 for empty file, got: {empty_resp.status_code}"
+        assert "empty" in empty_resp.json()["detail"].lower()
+        print("Empty file upload test passed (HTTP 400).")
+
+        # 6. Test Error Handling: Corrupt / Non-Image File Upload
+        corrupt_resp = client.post("/predict?top_k=5", files={"file": ("corrupt.txt", b"not an image data string", "text/plain")})
+        assert corrupt_resp.status_code == 400, f"Expected 400 for corrupt file, got: {corrupt_resp.status_code}"
+        print("Corrupt file upload test passed (HTTP 400).")
+
+        # 7. Test Parameter Bounds: Invalid top_k
+        invalid_k_resp = client.post("/predict?top_k=0", files={"file": ("dummy.png", b"GIF89a...", "image/png")})
+        assert invalid_k_resp.status_code == 422, f"Expected 422 for top_k=0, got: {invalid_k_resp.status_code}"
+        print("Invalid top_k validation test passed (HTTP 422).")
+
 
 if __name__ == "__main__":
     print("Running DeepScript Backend Test Suite...")
