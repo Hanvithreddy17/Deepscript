@@ -21,7 +21,8 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, File, UploadFile, HTTPException, Query, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from PIL import Image, UnidentifiedImageError
+from PIL import Image, ImageOps, UnidentifiedImageError
+import numpy as np
 import torch
 import torch.nn.functional as F
 
@@ -205,6 +206,26 @@ async def get_classes():
     }
 
 
+def standardize_epigraphic_polarity(img: Image.Image) -> Image.Image:
+    """
+    Standardizes image contrast polarity for epigraphic inscriptions.
+    The DeepScript Vision Transformer is trained on dark character strokes on light backgrounds.
+    If an input image is on a dark background (e.g. dark stone tablet, blackboard, or night photo),
+    this auto-detects border luminance and inverts it to match the training distribution.
+    """
+    try:
+        gray = img.convert("L")
+        arr = np.array(gray)
+        if arr.size > 0:
+            border_pixels = np.concatenate([arr[0, :], arr[-1, :], arr[:, 0], arr[:, -1]])
+            border_mean = float(np.mean(border_pixels))
+            if border_mean < 120:
+                return ImageOps.invert(img.convert("RGB"))
+    except Exception:
+        pass
+    return img
+
+
 @app.post("/predict", summary="Identify Script from Inscription Image")
 async def predict(
     file: UploadFile = File(..., description="Inscription image file (PNG, JPG, BMP, WebP, etc.)"),
@@ -237,6 +258,8 @@ async def predict(
             )
         pil_img = Image.open(io.BytesIO(image_bytes))
         pil_img = pil_img.convert("RGB")
+        # Standardize contrast polarity (invert dark stone backgrounds to standard light-background dark-stroke)
+        pil_img = standardize_epigraphic_polarity(pil_img)
     except HTTPException:
         raise
     except UnidentifiedImageError:
