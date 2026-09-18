@@ -25,6 +25,7 @@ export default function App() {
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   
   const [isLiveApi, setIsLiveApi] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     async function initCheck() {
@@ -52,24 +53,28 @@ export default function App() {
       medium: sample.medium
     });
     setPredictionResult(null);
+    setErrorMessage(null);
   };
 
   const handleImageUpload = (imageData) => {
     setActiveSampleId(null);
     setSelectedImage(imageData);
     setPredictionResult(null);
+    setErrorMessage(null);
   };
 
   const handleClearImage = () => {
     setSelectedImage(null);
     setActiveSampleId(null);
     setPredictionResult(null);
+    setErrorMessage(null);
   };
 
   const handleAnalyze = async () => {
     if (!selectedImage) return;
 
     setIsAnalyzing(true);
+    setErrorMessage(null);
     try {
       const payload = selectedImage.file || selectedImage.url;
       const metadata = {
@@ -79,6 +84,7 @@ export default function App() {
 
       const result = await predictScript(payload, metadata);
       setPredictionResult(result);
+      setIsLiveApi(true);
 
       const historyItem = {
         id: `scan-${Date.now()}`,
@@ -93,7 +99,7 @@ export default function App() {
 
     } catch (err) {
       console.error('Analysis failed:', err);
-      alert('An error occurred while identifying the script.');
+      setErrorMessage(err.message || 'An error occurred while communicating with the inference engine.');
     } finally {
       setIsAnalyzing(false);
     }
@@ -103,6 +109,7 @@ export default function App() {
     setSelectedImage(item.image);
     setPredictionResult(item.result);
     setActiveSampleId(null);
+    setErrorMessage(null);
   };
 
   const handleClearHistory = () => {
@@ -124,6 +131,26 @@ export default function App() {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 w-full space-y-6 flex-1">
         
         <Hero />
+
+        {/* Error Banner */}
+        {errorMessage && (
+          <div className="bg-red-950/70 border border-red-800/80 rounded-xl p-4 text-red-200 flex items-start justify-between shadow-lg">
+            <div className="flex items-start space-x-3">
+              <ShieldAlert className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
+              <div>
+                <h4 className="font-semibold text-red-300 text-sm">Inference Service Notice</h4>
+                <p className="text-xs text-red-200/90 mt-0.5">{errorMessage}</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setErrorMessage(null)}
+              className="text-red-400 hover:text-red-200 p-1"
+              aria-label="Dismiss error"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        )}
 
         {/* Sample Indian Inscriptions */}
         <section>
