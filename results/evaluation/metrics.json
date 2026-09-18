@@ -8,5 +8,7 @@
   "macro_precision": 0.9046,
   "macro_recall": 0.896,
   "macro_f1": 0.8961,
+  "weighted_precision": 0.9045,
+  "weighted_recall": 0.8971,
   "weighted_f1": 0.8969
 }

@@ -312,6 +312,8 @@ def evaluate_checkpoint(
         "macro_precision": round(report_dict["macro avg"]["precision"], 4),
         "macro_recall": round(report_dict["macro avg"]["recall"], 4),
         "macro_f1": round(report_dict["macro avg"]["f1-score"], 4),
+        "weighted_precision": round(report_dict["weighted avg"]["precision"], 4),
+        "weighted_recall": round(report_dict["weighted avg"]["recall"], 4),
         "weighted_f1": round(report_dict["weighted avg"]["f1-score"], 4),
     }
 
@@ -319,6 +321,14 @@ def evaluate_checkpoint(
     with open(metrics_json_path, "w", encoding="utf-8") as f:
         json.dump(metrics_summary, f, indent=2)
     print(f"  >>> Summary metrics JSON saved to: {metrics_json_path}", flush=True)
+
+    metrics_csv_path = eval_out_dir / "metrics.csv"
+    with open(metrics_csv_path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(["metric", "value"])
+        for m_key, m_val in metrics_summary.items():
+            writer.writerow([m_key, m_val])
+    print(f"  >>> Summary metrics CSV saved to: {metrics_csv_path}", flush=True)
 
     # 7. Generate Plots
     cm_png_path = eval_out_dir / "confusion_matrix.png"
@@ -333,14 +343,16 @@ def evaluate_checkpoint(
     print("\n" + "=" * 75, flush=True)
     print(" FINAL TEST EVALUATION RESULTS", flush=True)
     print("=" * 75, flush=True)
-    print(f"  • Evaluated Samples   : {total_samples}", flush=True)
-    print(f"  • Test Loss           : {avg_test_loss:.4f}", flush=True)
-    print(f"  • Top-1 Test Accuracy : {test_top1_acc * 100:.2f}%", flush=True)
-    print(f"  • Top-3 Test Accuracy : {test_top3_acc * 100:.2f}%", flush=True)
-    print(f"  • Macro Precision     : {report_dict['macro avg']['precision'] * 100:.2f}%", flush=True)
-    print(f"  • Macro Recall        : {report_dict['macro avg']['recall'] * 100:.2f}%", flush=True)
-    print(f"  • Macro F1-Score      : {report_dict['macro avg']['f1-score'] * 100:.2f}%", flush=True)
-    print(f"  • Weighted F1-Score   : {report_dict['weighted avg']['f1-score'] * 100:.2f}%", flush=True)
+    print(f"  • Evaluated Samples     : {total_samples}", flush=True)
+    print(f"  • Test Loss             : {avg_test_loss:.4f}", flush=True)
+    print(f"  • Top-1 Test Accuracy   : {test_top1_acc * 100:.2f}%", flush=True)
+    print(f"  • Top-3 Test Accuracy   : {test_top3_acc * 100:.2f}%", flush=True)
+    print(f"  • Macro Precision       : {report_dict['macro avg']['precision'] * 100:.2f}%", flush=True)
+    print(f"  • Macro Recall          : {report_dict['macro avg']['recall'] * 100:.2f}%", flush=True)
+    print(f"  • Macro F1-Score        : {report_dict['macro avg']['f1-score'] * 100:.2f}%", flush=True)
+    print(f"  • Weighted Precision    : {report_dict['weighted avg']['precision'] * 100:.2f}%", flush=True)
+    print(f"  • Weighted Recall       : {report_dict['weighted avg']['recall'] * 100:.2f}%", flush=True)
+    print(f"  • Weighted F1-Score     : {report_dict['weighted avg']['f1-score'] * 100:.2f}%", flush=True)
     print("=" * 75, flush=True)
 
     return metrics_summary
