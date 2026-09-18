@@ -123,6 +123,11 @@ class FewShotEpisodeSampler:
             query_indices.extend(cls_query)
             query_labels.extend([cls_label] * len(cls_query))
 
+        # Explicit safety assertion guaranteeing strict zero leakage between support and query
+        overlap = set(support_indices).intersection(set(query_indices))
+        if overlap:
+            raise RuntimeError(f"Episodic data leakage detected: Support and Query sets overlap by {len(overlap)} samples!")
+
         return support_indices, support_labels, query_indices, query_labels
 
 
