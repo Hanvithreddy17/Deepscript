@@ -123,7 +123,7 @@ export function UploadZone({
             Click to upload or drag and drop inscription image
           </p>
           <p className="text-[11px] text-zinc-500 text-center">
-            PNG, JPG, or WebP up to 15MB
+            PNG, JPG, or WebP (Single cropped character/glyph recommended)
           </p>
         </div>
       ) : (

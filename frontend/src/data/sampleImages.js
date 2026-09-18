@@ -247,63 +247,64 @@ const kadambaSvg = `
 
 export const SAMPLE_INSCRIPTIONS = [
   {
-    id: 'ashokan-brahmi',
-    title: 'Ashokan Rock Edict (Girnar)',
-    script: 'Ashokan Brahmi',
+    id: 'brahmi-a',
+    title: 'Brahmi Vowel A (𑀅)',
+    script: 'Brahmi A (𑀅)',
+    period: 'c. 3rd Century BCE',
+    medium: 'Ashokan Rock Edict (Girnar)',
+    description: 'Foundational initial open vowel character with vertical spine and dual concave hooks.',
+    thumbnail: '/samples/brahmi_a.png',
+    expectedScript: 'Brahmi A (𑀅)'
+  },
+  {
+    id: 'brahmi-ka',
+    title: 'Brahmi Consonant Ka (𑀓)',
+    script: 'Brahmi Ka (𑀓)',
     period: 'c. 250 BCE',
-    medium: 'Rock Edict',
-    description: 'Monumental Mauryan rock inscription in geometric Brahmi.',
-    thumbnail: svgToDataUrl(ashokanBrahmiSvg),
-    expectedScript: 'Ashokan Brahmi'
+    medium: 'Mauryan Sandstone Pillar',
+    description: 'Distinctive Greek cross-shaped foundational velar plosive glyph.',
+    thumbnail: '/samples/brahmi_ka.png',
+    expectedScript: 'Brahmi Ka (𑀓)'
   },
   {
-    id: 'tamil-brahmi',
-    title: 'Mangulam Cavern Inscription',
-    script: 'Tamil-Brahmi',
+    id: 'brahmi-ga',
+    title: 'Brahmi Consonant Ga (𑀕)',
+    script: 'Brahmi Ga (𑀕)',
+    period: 'c. 250 BCE',
+    medium: 'Lauriya-Nandangarh Column',
+    description: 'Inverted chevron (V-shape) voiced velar consonant.',
+    thumbnail: '/samples/brahmi_ga.png',
+    expectedScript: 'Brahmi Ga (𑀕)'
+  },
+  {
+    id: 'brahmi-bha',
+    title: 'Brahmi Consonant Bha (𑀪)',
+    script: 'Brahmi Bha (𑀪)',
     period: 'c. 2nd Century BCE',
-    medium: 'Cave Brow Inscription',
-    description: 'Sangam-era cavern inscription recording monastic stone bed endowments.',
-    thumbnail: svgToDataUrl(tamilBrahmiSvg),
-    expectedScript: 'Tamil-Brahmi'
+    medium: 'Barabar Cave Donative Stele',
+    description: 'Vertical stem with an attached upper crossbar and base curve.',
+    thumbnail: '/samples/brahmi_bha.png',
+    expectedScript: 'Brahmi Bha (𑀪)'
   },
   {
-    id: 'kharosthi',
-    title: 'Gandharan Buddhist Schist',
-    script: 'Kharosthi',
-    period: 'c. 1st Century CE',
-    medium: 'Schist Slab',
-    description: 'Right-to-left flowing Kharosthi text in Gandhari Prakrit.',
-    thumbnail: svgToDataUrl(kharosthiSvg),
-    expectedScript: 'Kharosthi'
+    id: 'brahmi-ta',
+    title: 'Brahmi Consonant Ta (𑀢)',
+    script: 'Brahmi Ta (𑀢)',
+    period: 'c. 3rd Century BCE',
+    medium: 'Maski Minor Rock Edict',
+    description: 'Semicircular dental consonant glyph with downward orientation.',
+    thumbnail: '/samples/brahmi_ta.png',
+    expectedScript: 'Brahmi Ta (𑀢)'
   },
   {
-    id: 'grantha',
-    title: 'Pallava Copper Plate Charter',
-    script: 'Grantha',
-    period: 'c. 7th Century CE',
-    medium: 'Copper Plate (Tamra-shasana)',
-    description: 'Royal Sanskrit charter in curved, flowing Grantha letterforms.',
-    thumbnail: svgToDataUrl(granthaSvg),
-    expectedScript: 'Grantha'
-  },
-  {
-    id: 'gupta-script',
-    title: 'Prayag Prashasti (Allahabad)',
-    script: 'Gupta Script',
-    period: 'c. 4th Century CE',
-    medium: 'Sandstone Pillar',
-    description: 'Classical Sanskrit eulogy with transitional wedge-headed headmarks.',
-    thumbnail: svgToDataUrl(guptaScriptSvg),
-    expectedScript: 'Gupta Script'
-  },
-  {
-    id: 'kadamba',
-    title: 'Halmidi Stone Inscription',
-    script: 'Kadamba',
-    period: 'c. 450 CE',
-    medium: 'Basalt Stele',
-    description: 'Oldest known Kannada epigraph with square box-head serifs.',
-    thumbnail: svgToDataUrl(kadambaSvg),
-    expectedScript: 'Kadamba'
+    id: 'brahmi-sa',
+    title: 'Brahmi Consonant Sa (𑀲)',
+    script: 'Brahmi Sa (𑀲)',
+    period: 'c. 250 BCE',
+    medium: 'Dhauli Rock Inscription',
+    description: 'Hooked sibilant consonant with central horizontal cross-stroke.',
+    thumbnail: '/samples/brahmi_sa.png',
+    expectedScript: 'Brahmi Sa (𑀲)'
   }
 ];
+
