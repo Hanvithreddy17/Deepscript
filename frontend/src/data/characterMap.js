@@ -618,110 +618,110 @@ export const CHARACTER_MAP = {
 
   // --- Epigraphic Numerals ---
   'zero': {
-    name: 'Ancient Indian Zero (Bindu / 𑁦)',
+    name: 'Brahmi Zero / Bindu (𑁦)',
     transliteration: 'śūnya / zero (0)',
-    category: 'Numeral / Place Value Sign',
+    category: 'Brahmi Numeral Sign',
     phonetic: 'Śūnya [0]',
-    scriptFamily: 'Ancient Indian Mathematics & Epigraphy',
+    scriptFamily: 'Ashokan Brahmi Script',
     period: 'c. 3rd Century BCE onwards',
-    region: 'Gwalior, Bakhshali, Gujarat',
-    visualClues: 'Small circular ring or solid dot (bindu) engraved as a numerical place holder.',
-    historicalContext: 'The foundational Indian contribution to world mathematics, recorded in the Gwalior temple inscription and Bakhshali manuscript.'
+    region: 'Pan-Indian Epigraphy',
+    visualClues: 'Circular ring or solid dot (bindu) engraved as a numerical place holder.',
+    historicalContext: 'The foundational Brahmi numeral contribution to world mathematics, recorded in Ashokan edicts and early inscriptions.'
   },
   'one': {
-    name: 'Ancient Indian Numeral 1 (𑁧)',
+    name: 'Brahmi Numeral 1 (𑁧)',
     transliteration: 'eka / one (1)',
-    category: 'Epigraphic Numeral',
+    category: 'Brahmi Numeral',
     phonetic: 'Eka [1]',
-    scriptFamily: 'Brahmi Numeral System',
+    scriptFamily: 'Ashokan Brahmi Script',
     period: 'c. 3rd Century BCE onwards',
     region: 'Pan-Indian Epigraphy',
     visualClues: 'Single horizontal stroke or vertical tally bar.',
     historicalContext: 'Standard numeral 1 in early Indian edicts and land grant copper plates.'
   },
   'two': {
-    name: 'Ancient Indian Numeral 2 (𑁨)',
+    name: 'Brahmi Numeral 2 (𑁨)',
     transliteration: 'dvi / two (2)',
-    category: 'Epigraphic Numeral',
+    category: 'Brahmi Numeral',
     phonetic: 'Dvi [2]',
-    scriptFamily: 'Brahmi Numeral System',
+    scriptFamily: 'Ashokan Brahmi Script',
     period: 'c. 3rd Century BCE onwards',
     region: 'Pan-Indian Epigraphy',
     visualClues: 'Two parallel horizontal bars or curved cursive joint.',
     historicalContext: 'Ancestor of the modern Arabic-Indic numeral 2.'
   },
   'three': {
-    name: 'Ancient Indian Numeral 3 (𑁩)',
+    name: 'Brahmi Numeral 3 (𑁩)',
     transliteration: 'tri / three (3)',
-    category: 'Epigraphic Numeral',
+    category: 'Brahmi Numeral',
     phonetic: 'Tri [3]',
-    scriptFamily: 'Brahmi Numeral System',
+    scriptFamily: 'Ashokan Brahmi Script',
     period: 'c. 3rd Century BCE onwards',
     region: 'Pan-Indian Epigraphy',
     visualClues: 'Three stacked horizontal strokes or stepped curves.',
     historicalContext: 'Ancestor of modern digit 3.'
   },
   'four': {
-    name: 'Ancient Indian Numeral 4 (𑁪)',
+    name: 'Brahmi Numeral 4 (𑁪)',
     transliteration: 'catur / four (4)',
-    category: 'Epigraphic Numeral',
+    category: 'Brahmi Numeral',
     phonetic: 'Catur [4]',
-    scriptFamily: 'Brahmi Numeral System',
+    scriptFamily: 'Ashokan Brahmi Script',
     period: 'c. 3rd Century BCE onwards',
     region: 'Pan-Indian Epigraphy',
     visualClues: 'Cross-like or folded loop glyph.',
     historicalContext: 'Epigraphic numeral representing 4.'
   },
   'five': {
-    name: 'Ancient Indian Numeral 5 (𑁫)',
+    name: 'Brahmi Numeral 5 (𑁫)',
     transliteration: 'pañca / five (5)',
-    category: 'Epigraphic Numeral',
+    category: 'Brahmi Numeral',
     phonetic: 'Pañca [5]',
-    scriptFamily: 'Brahmi Numeral System',
+    scriptFamily: 'Ashokan Brahmi Script',
     period: 'c. 3rd Century BCE onwards',
     region: 'Pan-Indian Epigraphy',
     visualClues: 'Open curve with top horizontal bar.',
     historicalContext: 'Standard epigraphic numeral 5.'
   },
   'six': {
-    name: 'Ancient Indian Numeral 6 (𑁬)',
+    name: 'Brahmi Numeral 6 (𑁬)',
     transliteration: 'ṣaṭ / six (6)',
-    category: 'Epigraphic Numeral',
+    category: 'Brahmi Numeral',
     phonetic: 'Ṣaṭ [6]',
-    scriptFamily: 'Brahmi Numeral System',
+    scriptFamily: 'Ashokan Brahmi Script',
     period: 'c. 3rd Century BCE onwards',
     region: 'Pan-Indian Epigraphy',
     visualClues: 'Coiled circular loop with upper stem.',
     historicalContext: 'Epigraphic numeral representing 6.'
   },
   'seven': {
-    name: 'Ancient Indian Numeral 7 (𑁭)',
+    name: 'Brahmi Numeral 7 (𑁭)',
     transliteration: 'sapta / seven (7)',
-    category: 'Epigraphic Numeral',
+    category: 'Brahmi Numeral',
     phonetic: 'Sapta [7]',
-    scriptFamily: 'Brahmi Numeral System',
+    scriptFamily: 'Ashokan Brahmi Script',
     period: 'c. 3rd Century BCE onwards',
     region: 'Pan-Indian Epigraphy',
     visualClues: 'Upper hook with a downward curved stroke.',
     historicalContext: 'Epigraphic numeral representing 7.'
   },
   'eight': {
-    name: 'Ancient Indian Numeral 8 (𑁮)',
+    name: 'Brahmi Numeral 8 (𑁮)',
     transliteration: 'aṣṭa / eight (8)',
-    category: 'Epigraphic Numeral',
+    category: 'Brahmi Numeral',
     phonetic: 'Aṣṭa [8]',
-    scriptFamily: 'Brahmi Numeral System',
+    scriptFamily: 'Ashokan Brahmi Script',
     period: 'c. 3rd Century BCE onwards',
     region: 'Pan-Indian Epigraphy',
     visualClues: 'Curved arch with two side prongs.',
     historicalContext: 'Epigraphic numeral representing 8.'
   },
   'nine': {
-    name: 'Ancient Indian Numeral 9 (𑁯)',
+    name: 'Brahmi Numeral 9 (𑁯)',
     transliteration: 'nava / nine (9)',
-    category: 'Epigraphic Numeral',
+    category: 'Brahmi Numeral',
     phonetic: 'Nava [9]',
-    scriptFamily: 'Brahmi Numeral System',
+    scriptFamily: 'Ashokan Brahmi Script',
     period: 'c. 3rd Century BCE onwards',
     region: 'Pan-Indian Epigraphy',
     visualClues: 'Downward spiral or hook with upper loop.',
@@ -735,14 +735,21 @@ export const CHARACTER_MAP = {
 export function getCharacterDetails(classLabel) {
   if (!classLabel) return null;
   const key = String(classLabel).toLowerCase().trim();
-  return CHARACTER_MAP[key] || {
-    name: `Class: ${classLabel}`,
+  const entry = CHARACTER_MAP[key];
+  if (entry) {
+    return {
+      ...entry,
+      scriptFamily: 'Ashokan Brahmi Script',
+    };
+  }
+  return {
+    name: `Brahmi Glyph (${classLabel})`,
     transliteration: classLabel,
-    category: 'Ancient Indian Inscription Symbol',
+    category: 'Ancient Brahmi Character',
     phonetic: 'Historical epigraphic character',
-    scriptFamily: 'Early Brahmi & Descendant Scripts',
-    period: 'c. 3rd BCE – 8th CE',
-    region: 'Historical Subcontinent',
+    scriptFamily: 'Ashokan Brahmi Script',
+    period: 'c. 3rd Century BCE onwards',
+    region: 'Pan-Indian Epigraphy',
     visualClues: 'Identified via fine-tuned Vision Transformer metric feature embedding.',
     historicalContext: `Identified character family '${classLabel}' from the 62-class DeepScript epigraphic corpus.`
   };
