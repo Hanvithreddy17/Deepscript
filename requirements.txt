@@ -1,6 +1,8 @@
 torch
 torchvision
 transformers
+huggingface_hub
+httpx
 timm
 opencv-python
 Pillow
