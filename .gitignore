@@ -90,10 +90,12 @@ dataset/data/
 *.rar
 *.parquet
 
-# Generic data CSVs ignored, but allow results CSVs
+# Generic data CSVs ignored, but allow results and dataset metadata CSVs
 *.csv
 !results/**/*.csv
 !results/*.csv
+!dataset/metadata.csv
+!dataset/*.csv
 
 # Node & Frontend
 node_modules/
