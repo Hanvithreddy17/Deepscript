@@ -1,6 +1,6 @@
 # DeepScript Dataset Validation & Audit Report
 
-**Audit Execution Timestamp:** `2026-09-27T15:38:53.681379`  
+**Audit Execution Timestamp:** `2026-09-27T16:36:20.898751`  
 **Dataset Directory Audited:** `C:\Users\hanvi\OneDrive\Desktop\Deepscript\Deepscript\dataset\whole_inscriptions`  
 **Audit Status:** `CLEAN / PASS`
 
@@ -8,16 +8,12 @@
 
 ## 1. Executive Summary
 
-- **Total Whole-Inscription Images Found:** `0`
-- **Valid Images:** `0`
+- **Total Whole-Inscription Images Found:** `10`
+- **Valid Images:** `10`
 - **Corrupted / Unreadable Images:** `0`
-- **Empty Script Classes:** `6 / 6`
+- **Empty Script Classes:** `5 / 6`
 - **Exact Duplicate Files:** `0`
 - **Cross-Class Duplicates:** `0`
-
-> [!NOTE]
-> **Dataset structure detected.** No whole-inscription images have been added yet.
-> All 6 script family directories are properly structured and ready to receive verified epigraphic specimens.
 
 ---
 
@@ -25,7 +21,7 @@
 
 | Script Family | Folder Status | Total Images | Valid | Corrupted | Resolution Range (Min – Max) | Formats |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **`brahmi`** | Empty (Ready) | 0 | 0 | 0 | N/A | None |
+| **`brahmi`** | Populated | 10 | 10 | 0 | 473x348 – 5748x3648 | JPEG:8, MPO:1, PNG:1 |
 | **`gupta`** | Empty (Ready) | 0 | 0 | 0 | N/A | None |
 | **`kharosthi`** | Empty (Ready) | 0 | 0 | 0 | N/A | None |
 | **`grantha`** | Empty (Ready) | 0 | 0 | 0 | N/A | None |
@@ -44,8 +40,8 @@
 ## 4. Metadata Validation (`dataset/metadata.csv`)
 
 - **Metadata Header Status:** `VALID`
-- **Total Metadata Records:** `0`
-- **Valid Metadata Rows:** `0`
+- **Total Metadata Records:** `10`
+- **Valid Metadata Rows:** `10`
 - **Images on Disk Missing Metadata:** `0`
 - **Metadata Paths Missing on Disk:** `0`
 - **Invalid Script Entries:** `0`

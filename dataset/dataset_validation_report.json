@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-27T15:38:53.681379",
+  "timestamp": "2026-09-27T16:36:20.898751",
   "dataset_dir": "C:\\Users\\hanvi\\OneDrive\\Desktop\\Deepscript\\Deepscript\\dataset\\whole_inscriptions",
   "folder_check": {
     "supported_scripts": [
@@ -21,7 +21,6 @@
     "missing_folders": [],
     "unexpected_folders": [],
     "empty_folders": [
-      "brahmi",
       "gupta",
       "kharosthi",
       "grantha",
@@ -30,26 +29,34 @@
     ]
   },
   "summary": {
-    "total_images_found": 0,
-    "valid_images": 0,
+    "total_images_found": 10,
+    "valid_images": 10,
     "corrupted_images": 0,
     "non_image_files": 0
   },
   "script_statistics": {
     "brahmi": {
-      "total": 0,
-      "valid": 0,
+      "total": 10,
+      "valid": 10,
       "corrupted": 0,
       "dimensions": {
-        "min_width": null,
-        "max_width": null,
-        "min_height": null,
-        "max_height": null,
-        "avg_width": 0.0,
-        "avg_height": 0.0
+        "min_width": 473,
+        "max_width": 5748,
+        "min_height": 348,
+        "max_height": 3648,
+        "avg_width": 3372.2,
+        "avg_height": 2131.0
       },
-      "formats": {},
-      "color_modes": {},
+      "formats": {
+        "JPEG": 8,
+        "MPO": 1,
+        "PNG": 1
+      },
+      "color_modes": {
+        "RGB": 8,
+        "L": 1,
+        "RGBA": 1
+      },
       "corrupted_files": []
     },
     "gupta": {
@@ -139,8 +146,8 @@
   },
   "metadata_check": {
     "metadata_file_found": true,
-    "total_metadata_rows": 0,
-    "valid_rows": 0,
+    "total_metadata_rows": 10,
+    "valid_rows": 10,
     "unmatched_dataset_images": [],
     "unmatched_metadata_paths": [],
     "invalid_scripts": [],
