@@ -1,0 +1,153 @@
+{
+  "timestamp": "2026-09-27T15:38:53.681379",
+  "dataset_dir": "C:\\Users\\hanvi\\OneDrive\\Desktop\\Deepscript\\Deepscript\\dataset\\whole_inscriptions",
+  "folder_check": {
+    "supported_scripts": [
+      "brahmi",
+      "gupta",
+      "kharosthi",
+      "grantha",
+      "kadamba",
+      "tamil_brahmi"
+    ],
+    "existing_folders": [
+      "brahmi",
+      "grantha",
+      "gupta",
+      "kadamba",
+      "kharosthi",
+      "tamil_brahmi"
+    ],
+    "missing_folders": [],
+    "unexpected_folders": [],
+    "empty_folders": [
+      "brahmi",
+      "gupta",
+      "kharosthi",
+      "grantha",
+      "kadamba",
+      "tamil_brahmi"
+    ]
+  },
+  "summary": {
+    "total_images_found": 0,
+    "valid_images": 0,
+    "corrupted_images": 0,
+    "non_image_files": 0
+  },
+  "script_statistics": {
+    "brahmi": {
+      "total": 0,
+      "valid": 0,
+      "corrupted": 0,
+      "dimensions": {
+        "min_width": null,
+        "max_width": null,
+        "min_height": null,
+        "max_height": null,
+        "avg_width": 0.0,
+        "avg_height": 0.0
+      },
+      "formats": {},
+      "color_modes": {},
+      "corrupted_files": []
+    },
+    "gupta": {
+      "total": 0,
+      "valid": 0,
+      "corrupted": 0,
+      "dimensions": {
+        "min_width": null,
+        "max_width": null,
+        "min_height": null,
+        "max_height": null,
+        "avg_width": 0.0,
+        "avg_height": 0.0
+      },
+      "formats": {},
+      "color_modes": {},
+      "corrupted_files": []
+    },
+    "kharosthi": {
+      "total": 0,
+      "valid": 0,
+      "corrupted": 0,
+      "dimensions": {
+        "min_width": null,
+        "max_width": null,
+        "min_height": null,
+        "max_height": null,
+        "avg_width": 0.0,
+        "avg_height": 0.0
+      },
+      "formats": {},
+      "color_modes": {},
+      "corrupted_files": []
+    },
+    "grantha": {
+      "total": 0,
+      "valid": 0,
+      "corrupted": 0,
+      "dimensions": {
+        "min_width": null,
+        "max_width": null,
+        "min_height": null,
+        "max_height": null,
+        "avg_width": 0.0,
+        "avg_height": 0.0
+      },
+      "formats": {},
+      "color_modes": {},
+      "corrupted_files": []
+    },
+    "kadamba": {
+      "total": 0,
+      "valid": 0,
+      "corrupted": 0,
+      "dimensions": {
+        "min_width": null,
+        "max_width": null,
+        "min_height": null,
+        "max_height": null,
+        "avg_width": 0.0,
+        "avg_height": 0.0
+      },
+      "formats": {},
+      "color_modes": {},
+      "corrupted_files": []
+    },
+    "tamil_brahmi": {
+      "total": 0,
+      "valid": 0,
+      "corrupted": 0,
+      "dimensions": {
+        "min_width": null,
+        "max_width": null,
+        "min_height": null,
+        "max_height": null,
+        "avg_width": 0.0,
+        "avg_height": 0.0
+      },
+      "formats": {},
+      "color_modes": {},
+      "corrupted_files": []
+    }
+  },
+  "duplicates": {
+    "exact_duplicates": {},
+    "cross_class_duplicates": {}
+  },
+  "metadata_check": {
+    "metadata_file_found": true,
+    "total_metadata_rows": 0,
+    "valid_rows": 0,
+    "unmatched_dataset_images": [],
+    "unmatched_metadata_paths": [],
+    "invalid_scripts": [],
+    "invalid_verified_flags": [],
+    "duplicate_metadata_entries": [],
+    "missing_required_fields": []
+  },
+  "leakage_warnings": [],
+  "status": "PASS"
+}
