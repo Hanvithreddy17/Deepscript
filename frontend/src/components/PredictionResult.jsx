@@ -65,10 +65,15 @@ export function PredictionResult({
       <div className="pb-4 border-b border-slate-200/80">
         
         <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-            Identified Script Family
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+              Identified Script Family
+            </span>
+            <span className="hidden sm:inline-flex items-center text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+              {sourceLabel || 'DeepScript ViT-B/16'}
+            </span>
+          </div>
 
           <div className="flex items-center gap-2">
             <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${badgeInfo.bg}`}>
@@ -166,7 +171,7 @@ export function PredictionResult({
                 <span>Paleographic Diagnostics</span>
               </h4>
               <p className="text-xs text-slate-700 leading-relaxed">
-                {details?.visualClues || details?.strokeStyle || 'Visual stroke and contour morphology analyzed with Hugging Face VLM.'}
+                {details?.visualClues || details?.strokeStyle || 'Visual stroke and contour morphology analyzed with ViT-B/16 neural feature extractor.'}
               </p>
             </div>
 
@@ -213,7 +218,7 @@ export function PredictionResult({
                 <span>Historical Context & Inscriptions</span>
               </h4>
               <p className="text-xs text-slate-700 leading-relaxed">
-                {details?.historicalContext || 'Ancient Indian epigraphic record verified with Hugging Face Vision-Language Model.'}
+                {details?.historicalContext || 'Ancient Indian epigraphic record verified with DeepScript epigraphic database.'}
               </p>
             </div>
 
@@ -243,7 +248,7 @@ export function PredictionResult({
             </h4>
             <div className="space-y-2">
               {candidates.map((cand, idx) => {
-                const candScore = Math.round(cand.score * 100);
+                const candScore = Math.round((cand.score ?? cand.probability ?? cand.confidence ?? 0) * 100);
                 return (
                   <div key={cand.script || idx} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5">
                     <div className="flex justify-between items-center text-xs">
