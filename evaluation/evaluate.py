@@ -149,7 +149,7 @@ def plot_confusion_matrix_heatmap(
     ax.set_xticklabels(display_names, rotation=90, fontsize=6)
     ax.set_yticklabels(display_names, fontsize=6)
 
-    ax.set_title('DeepScript: 62-Class Normalized Confusion Matrix (Test Set)', fontsize=14, fontweight='bold', pad=15)
+    ax.set_title(f'DeepScript: {num_classes}-Class Normalized Confusion Matrix (Test Set)', fontsize=14, fontweight='bold', pad=15)
     ax.set_xlabel('Predicted Script Class', fontsize=11, labelpad=10)
     ax.set_ylabel('Ground Truth Class', fontsize=11, labelpad=10)
 

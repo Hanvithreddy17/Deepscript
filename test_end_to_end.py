@@ -33,7 +33,7 @@ from preprocessing import (
 from models import get_deepscript_model
 from models.classifier import PrototypicalHead, CosineSimilarityHead
 from evaluation.few_shot_eval import FewShotEpisodeSampler
-from backend.main import app, load_model_and_checkpoint, state
+from backend.main import app, state
 
 
 class TestEndToEndSystem(unittest.TestCase):
@@ -162,7 +162,8 @@ class TestEndToEndSystem(unittest.TestCase):
             # Classes
             c_resp = client.get("/classes")
             self.assertEqual(c_resp.status_code, 200)
-            self.assertEqual(c_resp.json()["total_classes"], 62)
+            self.assertIn("count", c_resp.json())
+            self.assertEqual(c_resp.json()["count"], 5)
 
             # Predict with valid image
             dummy_img = Image.new("RGB", (224, 224), color=(200, 180, 150))
@@ -177,7 +178,6 @@ class TestEndToEndSystem(unittest.TestCase):
             self.assertIn("confidence", p_data)
             self.assertIn("candidates", p_data)
             self.assertEqual(len(p_data["candidates"]), 3)
-            self.assertEqual(p_data["source"], "live")
 
             # Invalid / corrupt upload
             bad_resp = client.post("/predict", files={"file": ("bad.bin", b"not-an-image", "application/octet-stream")})

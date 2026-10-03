@@ -118,7 +118,7 @@ export default function App() {
 
     } catch (err) {
       console.error('Analysis failed:', err);
-      setErrorMessage(err.message || 'An error occurred while communicating with the Hugging Face VLM engine.');
+      setErrorMessage(err.message || 'An error occurred while communicating with the DeepScript inference engine.');
     } finally {
       setIsAnalyzing(false);
     }
@@ -163,7 +163,7 @@ export default function App() {
                 <ShieldAlert className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="font-bold text-rose-900 text-sm">VLM Inference Pipeline Notice</h4>
+                <h4 className="font-bold text-rose-900 text-sm">Inference Pipeline Notice</h4>
                 <p className="text-xs text-rose-700 mt-0.5 leading-relaxed">{errorMessage}</p>
               </div>
             </div>
@@ -209,7 +209,7 @@ export default function App() {
 
                 <div>
                   <span className="text-[11px] font-bold uppercase tracking-wider text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">
-                    Hugging Face Vision-Language Model
+                    DeepScript ViT-B/16
                   </span>
                   <h3 className="font-display font-extrabold text-lg text-slate-900 mt-2">
                     Analyzing Epigraphic Features
@@ -222,11 +222,11 @@ export default function App() {
                 <div className="space-y-2 text-left bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 text-xs font-mono text-slate-600">
                   <div className="flex items-center gap-2 text-emerald-700">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span>Preprocessing & polarity standardizer: OK</span>
+                    <span>Preprocessing & bicubic resize (224x224): OK</span>
                   </div>
                   <div className="flex items-center gap-2 text-amber-700">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-                    <span>Multimodal VLM visual feature extraction...</span>
+                    <span>ViT-B/16 neural embedding & cosine projection...</span>
                   </div>
                   <div className="flex items-center gap-2 text-slate-400">
                     <span className="w-1.5 h-1.5 rounded-full bg-slate-300" />
@@ -258,7 +258,7 @@ export default function App() {
                       Epigraphic Intelligence
                     </h3>
                     <p className="text-xs text-slate-500">
-                      Powered by Free Hugging Face VLM
+                      DeepScript ViT-B/16 (Primary) • Optional VLM
                     </p>
                   </div>
                 </div>
@@ -267,13 +267,13 @@ export default function App() {
                   <div className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                     <span>
-                      <strong>Select any specimen</strong> on the left or upload an image to run the Vision-Language Model.
+                      <strong>Select any specimen</strong> on the left or upload an image to run the ViT-B/16 classifier.
                     </span>
                   </div>
                   <div className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                     <span>
-                      Accurately identifies distinct families: <strong>Ashokan Brahmi, Tamil-Brahmi, Kharosthi, Gupta, Kadamba, Grantha, Vatteluttu, Early Nagari</strong>.
+                      Primary 5 MVP Classes: <strong>Ashokan Brahmi, Gupta, Kharosthi, Grantha, Kadamba</strong>.
                     </span>
                   </div>
                   <div className="flex items-start gap-2">
@@ -411,7 +411,10 @@ export default function App() {
             <div className="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200 text-amber-950 text-xs leading-relaxed flex items-start gap-2.5">
               <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
               <div>
-                <strong>Free Hugging Face VLM:</strong> DeepScript is powered by open-source Vision-Language Models to perform <strong>Script Family Classification</strong> and Paleographic Feature Reasoning across ancient Indian epigraphy.
+                <strong>DeepScript ViT-B/16 Architecture:</strong> DeepScript utilizes a fine-tuned Vision Transformer (ViT-B/16) with embedding projection and cosine similarity head to perform <strong>Script Family Classification</strong> on whole ancient inscriptions, with optional VLM paleographic assistance.
+                <p className="mt-1 text-[11px] text-amber-900/80">
+                  Initial evaluation: 100% on a 6-image held-out test split (small MVP dataset of 49 whole inscriptions; ongoing research).
+                </p>
               </div>
             </div>
 

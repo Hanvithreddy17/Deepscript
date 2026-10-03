@@ -247,64 +247,63 @@ const kadambaSvg = `
 
 export const SAMPLE_INSCRIPTIONS = [
   {
-    id: 'brahmi-a',
-    title: 'Brahmi Vowel A (𑀅)',
-    script: 'Brahmi A (𑀅)',
+    id: 'gupta_samudragupta_pillar',
+    title: 'Gupta Script (Late Northern Brahmi / Siddhamātṛkā)',
+    script: 'Gupta Script',
+    period: 'c. 4th – 6th Century CE',
+    medium: 'Prayagraj Pillar Inscription of Samudragupta',
+    description: 'Prominent solid triangular wedge headmarks on vertical stems with ornate Sanskrit conjunct ligatures.',
+    thumbnail: svgToDataUrl(guptaScriptSvg),
+    expectedScript: 'Gupta Script'
+  },
+  {
+    id: 'ashokan_brahmi_girnar',
+    title: 'Ashokan Brahmi Rock Edict',
+    script: 'Ashokan Brahmi',
     period: 'c. 3rd Century BCE',
-    medium: 'Ashokan Rock Edict (Girnar)',
-    description: 'Foundational initial open vowel character with vertical spine and dual concave hooks.',
-    thumbnail: '/samples/brahmi_a.png',
-    expectedScript: 'Brahmi A (𑀅)'
+    medium: 'Girnar Major Rock Edict (Gujarat)',
+    description: 'Monumental Mauryan script featuring clean geometric crosses, circular ma, and unornamented stems.',
+    thumbnail: svgToDataUrl(ashokanBrahmiSvg),
+    expectedScript: 'Ashokan Brahmi'
   },
   {
-    id: 'brahmi-ka',
-    title: 'Brahmi Consonant Ka (𑀓)',
-    script: 'Brahmi Ka (𑀓)',
-    period: 'c. 250 BCE',
-    medium: 'Mauryan Sandstone Pillar',
-    description: 'Distinctive Greek cross-shaped foundational velar plosive glyph.',
-    thumbnail: '/samples/brahmi_ka.png',
-    expectedScript: 'Brahmi Ka (𑀓)'
+    id: 'tamil_brahmi_mangulam_cavern',
+    title: 'Tamil-Brahmi Cavern Dedication',
+    script: 'Tamil-Brahmi',
+    period: 'c. 3rd c. BCE – 2nd c. CE',
+    medium: 'Mangulam Jain Cavern Bed (Madurai)',
+    description: 'Early Sangam epigraph with distinctive Old Tamil zha/la/ra letterforms and virama pulli dots.',
+    thumbnail: svgToDataUrl(tamilBrahmiSvg),
+    expectedScript: 'Tamil-Brahmi'
   },
   {
-    id: 'brahmi-ga',
-    title: 'Brahmi Consonant Ga (𑀕)',
-    script: 'Brahmi Ga (𑀕)',
-    period: 'c. 250 BCE',
-    medium: 'Lauriya-Nandangarh Column',
-    description: 'Inverted chevron (V-shape) voiced velar consonant.',
-    thumbnail: '/samples/brahmi_ga.png',
-    expectedScript: 'Brahmi Ga (𑀕)'
+    id: 'kharosthi_gandhara_slab',
+    title: 'Kharosthi Gandhara Slab',
+    script: 'Kharosthi',
+    period: 'c. 2nd Century BCE – 2nd Century CE',
+    medium: 'Taxila Schist Slab & Birch Bark',
+    description: 'Right-to-left flowing sister script of ancient India with cursive descenders and slanted vowel hooks.',
+    thumbnail: svgToDataUrl(kharosthiSvg),
+    expectedScript: 'Kharosthi'
   },
   {
-    id: 'brahmi-bha',
-    title: 'Brahmi Consonant Bha (𑀪)',
-    script: 'Brahmi Bha (𑀪)',
-    period: 'c. 2nd Century BCE',
-    medium: 'Barabar Cave Donative Stele',
-    description: 'Vertical stem with an attached upper crossbar and base curve.',
-    thumbnail: '/samples/brahmi_bha.png',
-    expectedScript: 'Brahmi Bha (𑀪)'
+    id: 'kadamba_halmidi_box_headed',
+    title: 'Kadamba Box-Headed Script',
+    script: 'Kadamba Script',
+    period: 'c. 5th Century CE',
+    medium: 'Halmidi Inscription (Earliest Kannada)',
+    description: 'Signature rectangular hollow box-heads atop character spines with rounded Deccan base curves.',
+    thumbnail: svgToDataUrl(kadambaSvg),
+    expectedScript: 'Kadamba Script'
   },
   {
-    id: 'brahmi-ta',
-    title: 'Brahmi Consonant Ta (𑀢)',
-    script: 'Brahmi Ta (𑀢)',
-    period: 'c. 3rd Century BCE',
-    medium: 'Maski Minor Rock Edict',
-    description: 'Semicircular dental consonant glyph with downward orientation.',
-    thumbnail: '/samples/brahmi_ta.png',
-    expectedScript: 'Brahmi Ta (𑀢)'
-  },
-  {
-    id: 'brahmi-sa',
-    title: 'Brahmi Consonant Sa (𑀲)',
-    script: 'Brahmi Sa (𑀲)',
-    period: 'c. 250 BCE',
-    medium: 'Dhauli Rock Inscription',
-    description: 'Hooked sibilant consonant with central horizontal cross-stroke.',
-    thumbnail: '/samples/brahmi_sa.png',
-    expectedScript: 'Brahmi Sa (𑀲)'
+    id: 'grantha_pallava_kailasanathar',
+    title: 'Pallava Grantha Temple Edict',
+    script: 'Grantha Script',
+    period: 'c. 7th – 8th Century CE',
+    medium: 'Kanchipuram Kailasanathar Temple',
+    description: 'Ornate swirling Sanskrit letterforms with double loops and flourishing circular vowel tails.',
+    thumbnail: svgToDataUrl(granthaSvg),
+    expectedScript: 'Grantha Script'
   }
 ];
-
