@@ -30,11 +30,11 @@ export function Navbar({
               </span>
               <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold text-amber-800 bg-amber-50 border border-amber-200/70 px-2 py-0.5 rounded-full">
                 <Sparkles className="w-3 h-3 text-amber-600" />
-                Hugging Face VLM
+                ViT-B/16
               </span>
             </div>
             <p className="text-[11px] text-slate-500 hidden md:block">
-              Free Multimodal Paleography & Ancient Indian Script Recognition
+              Vision Transformer Ancient Indian Script Identification
             </p>
           </div>
         </div>
@@ -50,7 +50,7 @@ export function Navbar({
                 ? 'bg-emerald-50 text-emerald-800 border-emerald-200/80 shadow-2xs hover:bg-emerald-100/70' 
                 : 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200/70'
             }`}
-            title="Configure Hugging Face VLM model & token"
+            title="View model status & optional VLM fallback settings"
           >
             <span className="relative flex h-2 w-2">
               {isLiveApi && (
@@ -59,7 +59,7 @@ export function Navbar({
               <span className={`relative inline-flex rounded-full h-2 w-2 ${isLiveApi ? 'bg-emerald-500' : 'bg-slate-400'}`}></span>
             </span>
             <span className="font-semibold text-[11px] sm:text-xs">
-              {isLiveApi ? modelShortName : 'Connecting Engine...'}
+              {isLiveApi ? 'ViT-B/16 Ready' : 'Connecting Engine...'}
             </span>
             <Settings className="w-3 h-3 text-slate-400 hover:text-slate-700" />
           </button>
