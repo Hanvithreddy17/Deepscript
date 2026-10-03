@@ -81,14 +81,14 @@ export function HfModelSettingsModal({ isOpen, onClose, activeModel, onConfigUpd
         <div className="flex items-center justify-between pb-3 border-b border-slate-200">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-800 border border-amber-200 flex items-center justify-center font-bold text-xs">
-              🤗
+              ⚡
             </div>
             <div>
               <h3 className="font-display font-bold text-base text-slate-900">
-                Hugging Face VLM Engine Settings
+                DeepScript Model Architecture & Settings
               </h3>
               <p className="text-xs text-slate-500">
-                100% Free Open-Source Vision-Language Inference
+                Primary: ViT-B/16 • Optional Fallback: Hugging Face VLM
               </p>
             </div>
           </div>
@@ -101,11 +101,30 @@ export function HfModelSettingsModal({ isOpen, onClose, activeModel, onConfigUpd
           </button>
         </div>
 
+        {/* Primary Model Highlight Card */}
+        <div className="p-3 rounded-xl bg-emerald-50/70 border border-emerald-300 ring-1 ring-emerald-500/20 shadow-2xs">
+          <div className="flex items-center justify-between">
+            <span className="font-bold text-xs text-emerald-950 flex items-center gap-1.5">
+              <Cpu className="w-3.5 h-3.5 text-emerald-700" />
+              DeepScript ViT-B/16 (Primary Model)
+            </span>
+            <span className="text-[10px] font-mono px-2 py-0.2 rounded font-semibold bg-emerald-200/80 text-emerald-900">
+              Active Primary
+            </span>
+          </div>
+          <p className="text-[11px] font-medium text-emerald-900 mt-0.5">
+            Fine-Tuned Vision Transformer + Cosine Similarity Head
+          </p>
+          <p className="text-[11px] text-emerald-800/80 mt-0.5 leading-relaxed">
+            Trained on whole inscriptions for 5 script classes: Brahmi, Grantha, Gupta, Kadamba, Kharosthi.
+          </p>
+        </div>
+
         {/* Model Selector */}
         <div className="space-y-2">
           <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-            <Cpu className="w-3.5 h-3.5 text-amber-600" />
-            <span>Select Vision-Language Model</span>
+            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+            <span>Hugging Face VLM — Optional Fallback Engine</span>
           </label>
 
           <div className="space-y-2">
@@ -188,7 +207,7 @@ export function HfModelSettingsModal({ isOpen, onClose, activeModel, onConfigUpd
             ) : (
               <>
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Save VLM Settings</span>
+                <span>Save Settings</span>
               </>
             )}
           </button>
