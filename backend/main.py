@@ -1,15 +1,23 @@
 """
-DeepScript — Production FastAPI Inference Backend (Hugging Face VLM)
-====================================================================
+DeepScript — Production FastAPI Inference Backend (ViT-B/16 & HF VLM)
+=====================================================================
 Serves real-time inference for Ancient Indian Script Identification using
-open-source Vision-Language Models from Hugging Face and an expert
-epigraphic paleography morphological intelligence engine.
+a fine-tuned Vision Transformer (ViT-B/16) on whole-inscription images as the
+primary engine, with open-source Vision-Language Models (Hugging Face) as an optional fallback.
+
+Supported 5-Class MVP Epigraphic Families:
+  1. Brahmi     (Ashokan Brahmi)
+  2. Grantha    (Pallava & Chola Grantha)
+  3. Gupta      (Late Northern Brahmi / Siddhamātṛkā)
+  4. Kadamba    (Box-Headed Western Brahmi)
+  5. Kharosthi  (Gandharan Right-to-Left)
 
 Endpoints:
-  - GET  /health         : Health status, VLM model metadata, uptime
-  - GET  /classes        : List of supported Ancient Indian Script Families
-  - POST /predict        : Upload inscription image for script identification & dossier
-  - POST /api/hf-config  : Update or test Hugging Face token and active VLM model
+  - GET  /              : Root health status
+  - GET  /health        : Health status, active ViT model metadata, uptime
+  - GET  /classes       : List of 5 supported MVP Ancient Indian Script Families
+  - POST /predict       : Inscription image classification (Default: ViT-B/16)
+  - POST /api/hf-config : Update or test Hugging Face token and active VLM model
 """
 
 import io
@@ -19,6 +27,13 @@ import logging
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 from contextlib import asynccontextmanager
+
+# Reconfigure stdout for UTF-8 compatibility on Windows
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 from fastapi import FastAPI, File, UploadFile, HTTPException, Query, Header, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -31,6 +46,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
+from backend.vit_inference import vit_inference_engine, EPIGRAPHIC_DOSSIER_DB
 from backend.hf_vlm_engine import hf_vlm_engine, EPIGRAPHIC_SCRIPTS_DB
 
 # Configure logging
@@ -43,22 +59,35 @@ logger = logging.getLogger("deepscript.backend")
 
 # Global state container
 state: Dict[str, Any] = {
-    "engine": hf_vlm_engine,
-    "classes": list(EPIGRAPHIC_SCRIPTS_DB.keys()),
+    "vit_engine": vit_inference_engine,
+    "vlm_engine": hf_vlm_engine,
+    "classes": ["brahmi", "grantha", "gupta", "kadamba", "kharosthi"],
     "is_ready": False,
+    "vit_ready": False,
     "start_time": time.time(),
 }
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Lifespan context manager to initialize VLM engine on startup and clean up on shutdown."""
+    """Lifespan context manager to load ViT-B/16 checkpoint on startup and clean up on shutdown."""
     try:
-        logger.info("Initializing DeepScript Hugging Face VLM Engine...")
+        logger.info("===============================================================")
+        logger.info(" Initializing DeepScript ViT-B/16 Whole-Inscription Engine...")
+        logger.info("===============================================================")
+        loaded = vit_inference_engine.load_model()
+        if loaded:
+            state["vit_ready"] = True
+            state["classes"] = vit_inference_engine.classes
+            logger.info(f"ViT-B/16 Whole-Inscription Classifier loaded successfully with {len(state['classes'])} classes.")
+        else:
+            logger.warning("ViT-B/16 checkpoint could not be loaded; falling back to VLM mode.")
+
         state["is_ready"] = True
-        logger.info("DeepScript Hugging Face VLM Inference Engine is READY.")
+        logger.info("DeepScript FastAPI Inference Engine is READY.")
     except Exception as e:
-        logger.error(f"Failed to initialize VLM engine: {e}", exc_info=True)
+        logger.error(f"Failed to initialize inference engine: {e}", exc_info=True)
+        state["is_ready"] = True  # Still allow service to boot for diagnostics
     yield
     logger.info("DeepScript backend service shutting down.")
 
@@ -67,10 +96,10 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="DeepScript Ancient Indian Script Recognition API",
     description=(
-        "Production REST API for identifying ancient Indian script families "
-        "from visual inscription images using free Hugging Face Vision-Language Models."
+        "Production REST API for identifying ancient Indian script families from whole-inscription images "
+        "using fine-tuned ViT-B/16 neural feature extractors and cosine similarity metric heads."
     ),
-    version="2.0.0",
+    version="2.1.0",
     lifespan=lifespan,
 )
 
@@ -89,34 +118,50 @@ class HfConfigRequest(BaseModel):
     model: Optional[str] = None
 
 
+@app.get("/", summary="Root status check")
+async def root() -> Dict[str, Any]:
+    """Returns basic API status and engine information."""
+    return {
+        "service": "DeepScript Inference API",
+        "status": "online",
+        "primary_engine": "ViT-B/16 Whole-Inscription Classifier",
+        "classes": state["classes"],
+    }
+
+
 @app.get("/health", summary="Health check and engine status")
 async def health_check() -> Dict[str, Any]:
-    """Returns the operational status, active Hugging Face model, and epigraphic classes."""
+    """Returns the operational status, active ViT checkpoint metadata, and epigraphic classes."""
     uptime = round(time.time() - state["start_time"], 2)
     return {
         "status": "healthy" if state["is_ready"] else "initializing",
-        "engine": "Hugging Face VLM (Free)",
-        "active_model": hf_vlm_engine.active_model,
-        "token_configured": bool(hf_vlm_engine.hf_token),
+        "primary_engine": "ViT-B/16 Whole-Inscription Classifier",
+        "vit_loaded": vit_inference_engine.is_loaded,
+        "checkpoint_path": str(vit_inference_engine.checkpoint_path),
+        "device": str(vit_inference_engine.device),
         "num_classes": len(state["classes"]),
+        "classes": state["classes"],
         "supported_scripts": state["classes"],
+        "fallback_vlm_available": True,
+        "active_vlm_model": hf_vlm_engine.active_model,
         "uptime_seconds": uptime,
     }
 
 
 @app.get("/classes", summary="List of supported ancient Indian script families")
 async def get_supported_classes() -> Dict[str, Any]:
-    """Returns the dictionary and list of all supported ancient Indian script families."""
+    """Returns the dictionary and list of all 5 supported MVP ancient Indian script families."""
     return {
         "count": len(state["classes"]),
         "scripts": state["classes"],
-        "metadata": EPIGRAPHIC_SCRIPTS_DB
+        "classes": state["classes"],
+        "metadata": EPIGRAPHIC_DOSSIER_DB,
     }
 
 
-@app.post("/api/hf-config", summary="Configure Hugging Face Token & Model")
+@app.post("/api/hf-config", summary="Configure Hugging Face Token & Model (Fallback)")
 async def configure_hf(config: HfConfigRequest) -> Dict[str, Any]:
-    """Updates the active Hugging Face model or user token dynamically."""
+    """Updates the active Hugging Face model or user token dynamically for the optional fallback engine."""
     if config.token is not None:
         hf_vlm_engine.set_hf_token(config.token)
     if config.model is not None:
@@ -132,12 +177,15 @@ async def configure_hf(config: HfConfigRequest) -> Dict[str, Any]:
 async def predict_script(
     file: UploadFile = File(..., description="Inscription image (PNG, JPEG, WebP)"),
     top_k: int = Query(5, ge=1, le=10, description="Number of top candidates"),
-    model: Optional[str] = Query(None, description="Preferred Hugging Face model name"),
-    x_hf_token: Optional[str] = Header(None, description="Optional user Hugging Face token"),
+    engine: Optional[str] = Query("vit", description="Inference engine: 'vit' (default, fine-tuned ViT-B/16) or 'vlm' (Hugging Face VLM fallback)"),
+    model: Optional[str] = Query(None, description="Preferred Hugging Face model name (if engine='vlm')"),
+    x_hf_token: Optional[str] = Header(None, description="Optional user Hugging Face token (if engine='vlm')"),
 ) -> Dict[str, Any]:
     """
-    Identifies the ancient Indian script family from an uploaded inscription image.
-    Uses Hugging Face Vision-Language Model and returns comprehensive paleographic dossier.
+    Identifies the ancient Indian script family from an uploaded whole-inscription image.
+    
+    Default Engine: Fine-Tuned ViT-B/16 with Embedding Projector & Cosine Similarity Head.
+    Optional Fallback: Hugging Face Vision-Language Model.
     """
     if not state["is_ready"]:
         raise HTTPException(
@@ -168,29 +216,46 @@ async def predict_script(
             detail=f"Image reading error: {str(e)}",
         )
 
-    # 2. Run Hugging Face VLM Inference & Paleographic Analysis
-    try:
-        result = await hf_vlm_engine.identify_script(
-            image=pil_img,
-            filename=file.filename or "",
-            user_hf_token=x_hf_token,
-            preferred_model=model
-        )
+    filename = file.filename or "uploaded_inscription.png"
 
-        # Slice candidates to requested top_k
-        if "candidates" in result and len(result["candidates"]) > top_k:
-            result["candidates"] = result["candidates"][:top_k]
+    # 2. Execute Inference via Selected Engine
+    use_vlm = (engine and engine.lower() == "vlm") or not vit_inference_engine.is_loaded
 
-        return result
-
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"Inference pipeline failure: {e}", exc_info=True)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Inference error: {str(e)}",
-        )
+    if use_vlm:
+        logger.info(f"[ENGINE: Hugging Face VLM] Processing '{filename}' via VLM engine...")
+        try:
+            result = await hf_vlm_engine.identify_script(
+                image=pil_img,
+                filename=filename,
+                user_hf_token=x_hf_token,
+                preferred_model=model,
+            )
+            if "candidates" in result and len(result["candidates"]) > top_k:
+                result["candidates"] = result["candidates"][:top_k]
+            return result
+        except HTTPException:
+            raise
+        except Exception as e:
+            logger.error(f"VLM inference pipeline failure: {e}", exc_info=True)
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"VLM Inference error: {str(e)}",
+            )
+    else:
+        logger.info(f"[ENGINE: ViT-B/16 Whole-Inscription] Processing '{filename}' via ViT neural pipeline...")
+        try:
+            result = vit_inference_engine.predict(
+                image=pil_img,
+                top_k=top_k,
+                filename=filename,
+            )
+            return result
+        except Exception as e:
+            logger.error(f"ViT inference pipeline failure: {e}", exc_info=True)
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"ViT Inference error: {str(e)}",
+            )
 
 
 if __name__ == "__main__":

@@ -1,9 +1,9 @@
 /**
- * DeepScript Inference API Service (Free Hugging Face VLM)
+ * DeepScript Inference API Service
  * 
  * Communicates with the FastAPI backend endpoint: POST /predict
- * Performs real-time inference using open-source Vision-Language Models from Hugging Face
- * and paleographic morphological intelligence.
+ * Performs real-time inference using fine-tuned ViT-B/16 whole-inscription model
+ * with optional Hugging Face VLM fallback and epigraphic intelligence.
  */
 
 import { ANCIENT_SCRIPTS } from '../data/scriptsData';
@@ -13,7 +13,7 @@ const HEALTH_URL = '/health';
 const HF_CONFIG_URL = '/api/hf-config';
 
 /**
- * Checks if the FastAPI backend server is reachable and VLM engine is ready.
+ * Checks if the FastAPI backend server is reachable and ViT engine is ready.
  */
 export async function checkBackendStatus() {
   try {
@@ -31,8 +31,9 @@ export async function checkBackendStatus() {
     const data = await response.json();
     return {
       online: data.status === 'healthy',
-      engine: data.engine || 'Hugging Face VLM (Free)',
-      activeModel: data.active_model || 'Qwen/Qwen2.5-VL-7B-Instruct',
+      engine: data.primary_engine || data.engine || 'DeepScript ViT-B/16',
+      activeModel: data.checkpoint_path ? 'ViT-B/16' : (data.active_vlm_model || 'ViT-B/16'),
+      vitLoaded: Boolean(data.vit_loaded),
       tokenConfigured: Boolean(data.token_configured)
     };
   } catch {
@@ -181,7 +182,7 @@ export async function predictScript(imagePayload, metadata = {}) {
     const scriptFamily = data.script_family || data.script;
     const staticDossier = ANCIENT_SCRIPTS[scriptFamily] || {};
     
-    // Merge VLM backend details with static epigraphic records
+    // Merge backend details with static epigraphic records
     const mergedDetails = {
       ...staticDossier,
       ...(data.details || {}),
@@ -193,9 +194,13 @@ export async function predictScript(imagePayload, metadata = {}) {
       script: scriptFamily,
       rawClass: data.script,
       confidence: Number(data.confidence || 0.90),
-      candidates: data.candidates || [],
-      source: 'hf_vlm_free',
-      sourceLabel: data.source_label || 'Hugging Face VLM (Free)',
+      candidates: (data.candidates || []).map(c => ({
+        ...c,
+        score: c.probability ?? c.confidence ?? c.score ?? 0,
+        script: c.script_family || c.script || c.class,
+      })),
+      source: data.source || 'vit_b16_whole_inscription',
+      sourceLabel: data.source_label || 'DeepScript ViT-B/16 (Whole-Inscription Classifier)',
       model: data.model || preferredModel,
       executionTimeMs: data.execution_time_ms || executionTimeMs,
       details: mergedDetails,
@@ -203,7 +208,7 @@ export async function predictScript(imagePayload, metadata = {}) {
   } catch (err) {
     clearTimeout(timeoutId);
     if (err.name === 'AbortError') {
-      throw new Error('Request timed out while connecting to the Hugging Face inference server.');
+      throw new Error('Request timed out while connecting to the DeepScript inference server.');
     }
     throw err;
   }

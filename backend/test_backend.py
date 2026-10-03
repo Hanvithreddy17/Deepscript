@@ -2,7 +2,7 @@
 DeepScript — FastAPI Backend Test Suite
 ========================================
 Tests the FastAPI backend endpoints (/health, /classes, /predict)
-using FastAPI TestClient and sample dataset images.
+using FastAPI TestClient and sample whole-inscription dataset images.
 """
 
 import sys
@@ -16,6 +16,8 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from backend.main import app
 
+EXPECTED_CLASSES = ["brahmi", "grantha", "gupta", "kadamba", "kharosthi"]
+
 
 def test_backend_lifespan_and_endpoints():
     """Validates full backend lifecycle, health check, class discovery, and inference."""
@@ -26,55 +28,62 @@ def test_backend_lifespan_and_endpoints():
         data = response.json()
         assert data["service"] == "DeepScript Inference API"
         assert data["status"] == "online"
+        print("Root endpoint test passed.")
 
         # 2. Test Health Check
         health_resp = client.get("/health")
         assert health_resp.status_code == 200, f"Health failed: {health_resp.text}"
         health_data = health_resp.json()
         assert health_data["status"] == "healthy"
-        assert health_data["num_classes"] == 62
-        assert "model_info" in health_data
-        print(f"Health check passed: {health_data['device']}, 62 classes active.")
+        assert health_data["num_classes"] == 5
+        assert health_data["vit_loaded"] is True
+        assert set(health_data["classes"]) == set(EXPECTED_CLASSES)
+        print(f"Health check passed: {health_data['device']}, 5 MVP classes active.")
 
         # 3. Test Classes List
         classes_resp = client.get("/classes")
         assert classes_resp.status_code == 200, f"Classes failed: {classes_resp.text}"
         classes_data = classes_resp.json()
-        assert classes_data["total_classes"] == 62
-        assert len(classes_data["classes"]) == 62
-        assert "ka" in classes_data["classes"]
-        assert "a" in classes_data["classes"]
-        print(f"Classes endpoint passed: {classes_data['classes'][:5]}...")
+        assert classes_data["count"] == 5
+        assert set(classes_data["classes"]) == set(EXPECTED_CLASSES)
+        for cls in EXPECTED_CLASSES:
+            assert cls in classes_data["metadata"]
+        print(f"Classes endpoint passed: {classes_data['classes']}.")
 
-        # 4. Test Predict Endpoint with a Sample Dataset Image
-        # Find any valid sample image in dataset/dataset/
-        dataset_dir = PROJECT_ROOT / "dataset" / "dataset"
-        sample_img_paths = list(dataset_dir.glob("*/*.png")) + list(dataset_dir.glob("*/*.jpg"))
-        
-        if sample_img_paths:
+        # 4. Test Predict Endpoint with Sample Whole-Inscription Images
+        dataset_dir = PROJECT_ROOT / "dataset" / "whole_inscriptions"
+        tested_count = 0
+
+        for target_cls in EXPECTED_CLASSES:
+            class_folder = dataset_dir / target_cls
+            sample_img_paths = list(class_folder.glob("*.jpg")) + list(class_folder.glob("*.png"))
+            if not sample_img_paths:
+                continue
+
             sample_path = sample_img_paths[0]
-            true_class = sample_path.parent.name
-            print(f"Testing /predict with sample: {sample_path.name} (ground truth: {true_class})")
-
             with open(sample_path, "rb") as img_file:
-                files = {"file": (sample_path.name, img_file, "image/png")}
+                files = {"file": (sample_path.name, img_file, "image/jpeg")}
                 predict_resp = client.post("/predict?top_k=5", files=files)
 
-            assert predict_resp.status_code == 200, f"Predict failed: {predict_resp.text}"
+            assert predict_resp.status_code == 200, f"Predict failed for {sample_path.name}: {predict_resp.text}"
             pred_data = predict_resp.json()
 
             assert "script" in pred_data
+            assert pred_data["script"] in EXPECTED_CLASSES
             assert "confidence" in pred_data
+            assert 0.0 <= pred_data["confidence"] <= 1.0
             assert "candidates" in pred_data
             assert len(pred_data["candidates"]) == 5
             assert "execution_time_ms" in pred_data
-            assert pred_data["source"] == "live"
-            assert 0.0 <= pred_data["confidence"] <= 1.0
+            assert pred_data["source"] == "vit_b16_whole_inscription"
+            assert "details" in pred_data
+            assert "name" in pred_data["details"]
 
-            print(f"Prediction successful: predicted '{pred_data['script']}' with confidence {pred_data['confidence']:.4f} in {pred_data['execution_time_ms']}ms")
-            print(f"Top candidates: {pred_data['candidates']}")
-        else:
-            print("Warning: No dataset images found for inference test.")
+            print(f"  [Predict: {target_cls}] Sample '{sample_path.name[:35]}...' -> Predicted '{pred_data['script']}' (Conf: {pred_data['confidence']:.4f}, Latency: {pred_data['execution_time_ms']}ms)")
+            tested_count += 1
+
+        assert tested_count >= 3, f"Expected at least 3 classes to be tested, got {tested_count}"
+        print(f"Tested /predict across {tested_count} inscription classes successfully.")
 
         # 5. Test Error Handling: Empty File Upload
         empty_resp = client.post("/predict?top_k=5", files={"file": ("empty.png", b"", "image/png")})
