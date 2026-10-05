@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-27T16:36:20.898751",
+  "timestamp": "2026-10-05T21:53:10.015373",
   "dataset_dir": "C:\\Users\\hanvi\\OneDrive\\Desktop\\Deepscript\\Deepscript\\dataset\\whole_inscriptions",
   "folder_check": {
     "supported_scripts": [
@@ -21,16 +21,12 @@
     "missing_folders": [],
     "unexpected_folders": [],
     "empty_folders": [
-      "gupta",
-      "kharosthi",
-      "grantha",
-      "kadamba",
       "tamil_brahmi"
     ]
   },
   "summary": {
-    "total_images_found": 10,
-    "valid_images": 10,
+    "total_images_found": 49,
+    "valid_images": 49,
     "corrupted_images": 0,
     "non_image_files": 0
   },
@@ -60,67 +56,84 @@
       "corrupted_files": []
     },
     "gupta": {
-      "total": 0,
-      "valid": 0,
+      "total": 10,
+      "valid": 10,
       "corrupted": 0,
       "dimensions": {
-        "min_width": null,
-        "max_width": null,
-        "min_height": null,
-        "max_height": null,
-        "avg_width": 0.0,
-        "avg_height": 0.0
+        "min_width": 450,
+        "max_width": 1920,
+        "min_height": 388,
+        "max_height": 1569,
+        "avg_width": 1230.5,
+        "avg_height": 1038.1
       },
-      "formats": {},
-      "color_modes": {},
+      "formats": {
+        "JPEG": 10
+      },
+      "color_modes": {
+        "RGB": 9,
+        "L": 1
+      },
       "corrupted_files": []
     },
     "kharosthi": {
-      "total": 0,
-      "valid": 0,
+      "total": 10,
+      "valid": 10,
       "corrupted": 0,
       "dimensions": {
-        "min_width": null,
-        "max_width": null,
-        "min_height": null,
-        "max_height": null,
-        "avg_width": 0.0,
-        "avg_height": 0.0
+        "min_width": 950,
+        "max_width": 1920,
+        "min_height": 602,
+        "max_height": 1897,
+        "avg_width": 1684.1,
+        "avg_height": 996.7
       },
-      "formats": {},
-      "color_modes": {},
+      "formats": {
+        "JPEG": 10
+      },
+      "color_modes": {
+        "RGB": 10
+      },
       "corrupted_files": []
     },
     "grantha": {
-      "total": 0,
-      "valid": 0,
+      "total": 10,
+      "valid": 10,
       "corrupted": 0,
       "dimensions": {
-        "min_width": null,
-        "max_width": null,
-        "min_height": null,
-        "max_height": null,
-        "avg_width": 0.0,
-        "avg_height": 0.0
+        "min_width": 841,
+        "max_width": 1920,
+        "min_height": 474,
+        "max_height": 2560,
+        "avg_width": 1492.5,
+        "avg_height": 1174.9
       },
-      "formats": {},
-      "color_modes": {},
+      "formats": {
+        "JPEG": 10
+      },
+      "color_modes": {
+        "RGB": 10
+      },
       "corrupted_files": []
     },
     "kadamba": {
-      "total": 0,
-      "valid": 0,
+      "total": 9,
+      "valid": 9,
       "corrupted": 0,
       "dimensions": {
-        "min_width": null,
-        "max_width": null,
-        "min_height": null,
-        "max_height": null,
-        "avg_width": 0.0,
-        "avg_height": 0.0
+        "min_width": 1318,
+        "max_width": 1920,
+        "min_height": 879,
+        "max_height": 2560,
+        "avg_width": 1853.1,
+        "avg_height": 2000.1
       },
-      "formats": {},
-      "color_modes": {},
+      "formats": {
+        "JPEG": 9
+      },
+      "color_modes": {
+        "RGB": 9
+      },
       "corrupted_files": []
     },
     "tamil_brahmi": {
@@ -146,8 +159,8 @@
   },
   "metadata_check": {
     "metadata_file_found": true,
-    "total_metadata_rows": 10,
-    "valid_rows": 10,
+    "total_metadata_rows": 49,
+    "valid_rows": 49,
     "unmatched_dataset_images": [],
     "unmatched_metadata_paths": [],
     "invalid_scripts": [],

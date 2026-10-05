@@ -1,0 +1,14 @@
+{
+  "checkpoint_evaluated": "checkpoints\\whole_inscription_vit\\best_vit_model.pth",
+  "total_test_samples": 6,
+  "num_classes": 5,
+  "test_loss": 0.0348,
+  "top1_accuracy": 1.0,
+  "top3_accuracy": 1.0,
+  "macro_precision": 1.0,
+  "macro_recall": 1.0,
+  "macro_f1": 1.0,
+  "weighted_precision": 1.0,
+  "weighted_recall": 1.0,
+  "weighted_f1": 1.0
+}
