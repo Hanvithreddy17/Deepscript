@@ -180,6 +180,7 @@ async def predict_script(
     engine: Optional[str] = Query("vit", description="Inference engine: 'vit' (default, fine-tuned ViT-B/16) or 'vlm' (Hugging Face VLM fallback)"),
     model: Optional[str] = Query(None, description="Preferred Hugging Face model name (if engine='vlm')"),
     x_hf_token: Optional[str] = Header(None, description="Optional user Hugging Face token (if engine='vlm')"),
+    min_confidence: Optional[float] = Query(None, ge=0.0, le=1.0, description="Optional minimum confidence threshold (default: 0.50)"),
 ) -> Dict[str, Any]:
     """
     Identifies the ancient Indian script family from an uploaded whole-inscription image.
@@ -196,24 +197,43 @@ async def predict_script(
     # 1. Read & Validate Uploaded Image
     try:
         image_bytes = await file.read()
-        if not image_bytes:
+        if not image_bytes or len(image_bytes) == 0:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Uploaded file is empty.",
+                detail="Invalid input image: Uploaded file is empty (0 bytes).",
             )
-        pil_img = Image.open(io.BytesIO(image_bytes))
-        pil_img = pil_img.convert("RGB")
+
+        try:
+            pil_img = Image.open(io.BytesIO(image_bytes))
+            # Force raster load to verify pixel stream decodability (catches truncated/corrupted payloads)
+            pil_img.load()
+        except (UnidentifiedImageError, OSError, ValueError, SyntaxError) as decode_err:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Invalid input image: The uploaded file is unreadable, corrupted, or unsupported ({decode_err}).",
+            )
+
+        # Validate non-degenerate image dimensions
+        width, height = pil_img.size
+        if width <= 0 or height <= 0:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid input image: Image dimensions must be greater than zero.",
+            )
+        if width < 10 or height < 10:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Invalid input image: Image resolution ({width}x{height}) is too small to contain an inscription.",
+            )
+
+        if pil_img.mode != "RGB":
+            pil_img = pil_img.convert("RGB")
     except HTTPException:
         raise
-    except UnidentifiedImageError:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="The uploaded file could not be parsed as a valid image.",
-        )
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Image reading error: {str(e)}",
+            detail=f"Invalid input image: {str(e)}",
         )
 
     filename = file.filename or "uploaded_inscription.png"
@@ -248,6 +268,7 @@ async def predict_script(
                 image=pil_img,
                 top_k=top_k,
                 filename=filename,
+                min_confidence=min_confidence,
             )
             return result
         except Exception as e:

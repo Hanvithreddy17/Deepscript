@@ -28,6 +28,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 import torch
 import torch.nn.functional as F
+import numpy as np
 from PIL import Image
 
 # Ensure project root is in sys.path
@@ -188,6 +189,97 @@ EPIGRAPHIC_DOSSIER_DB: Dict[str, Dict[str, Any]] = {
 DEFAULT_CHECKPOINT_PATH = PROJECT_ROOT / "checkpoints" / "whole_inscription_vit" / "best_vit_model.pth"
 
 
+class ScriptPresenceValidator:
+    """
+    Validates whether an input image meets minimum epigraphic feature criteria
+    and confidence thresholds to be accepted as a supported ancient Indian script.
+
+    Provides a modular abstraction for:
+    1. Blank / uniform / degenerate image rejection.
+    2. Epistemic uncertainty / low-confidence rejection.
+    3. Extensible Out-Of-Distribution (OOD) detector hooks for future models.
+    """
+
+    def __init__(
+        self,
+        min_confidence: float = 0.50,
+        min_pixel_std: float = 3.0,
+        min_edge_energy: float = 1.0,
+    ):
+        self.min_confidence = min_confidence
+        self.min_pixel_std = min_pixel_std
+        self.min_edge_energy = min_edge_energy
+
+    def check_visual_content(self, image: Image.Image) -> Tuple[bool, Optional[str], Dict[str, float]]:
+        """
+        Inspects raw image properties to detect blank, uniform, or degenerate images.
+        Whole-inscription specimens exhibit prominent stroke edges and surface contrast.
+        """
+        grayscale = image.convert("L").resize((224, 224), Image.Resampling.BICUBIC)
+        arr = np.asarray(grayscale, dtype=np.float32)
+
+        pixel_std = float(arr.std())
+        dx = float(np.abs(np.diff(arr, axis=0)).mean())
+        dy = float(np.abs(np.diff(arr, axis=1)).mean())
+        edge_energy = dx + dy
+
+        metrics = {
+            "pixel_std": round(pixel_std, 2),
+            "edge_energy": round(edge_energy, 2),
+        }
+
+        if pixel_std < self.min_pixel_std or edge_energy < self.min_edge_energy:
+            return (
+                False,
+                f"Image contains no visible inscription features or stroke content "
+                f"(blank/uniform image detected: pixel_std={pixel_std:.1f}, edge_energy={edge_energy:.1f}).",
+                metrics,
+            )
+
+        return True, None, metrics
+
+    def check_prediction_confidence(
+        self,
+        confidence: float,
+        min_confidence: Optional[float] = None,
+        cos_similarity: Optional[float] = None,
+    ) -> Tuple[bool, Optional[str]]:
+        """
+        Evaluates model classification confidence against the configured acceptance threshold.
+        A low softmax probability indicates high uncertainty among the 5 script classes.
+        """
+        threshold = min_confidence if min_confidence is not None else self.min_confidence
+        if confidence < threshold:
+            return (
+                False,
+                f"Classification confidence ({confidence:.1%}) is below acceptance threshold "
+                f"({threshold:.1%}). Supported ancient script could not be confidently established.",
+            )
+        return True, None
+
+    def ood_detector(
+        self,
+        image: Image.Image,
+        embeddings: Optional[torch.Tensor] = None,
+        logits: Optional[torch.Tensor] = None,
+    ) -> Tuple[bool, Optional[str]]:
+        """
+        Extensible hook for future Out-Of-Distribution (OOD) detectors.
+        
+        NOTE ON CURRENT MODEL LIMITATION:
+        The current ViT-B/16 classifier is trained in a closed-world setting across 5 ancient
+        script classes (49 training specimens) using cosine metric learning. Closed-world softmax
+        naturally maps arbitrary natural photographs into one of the 5 angular sectors.
+        Reliably distinguishing arbitrary natural photographs from ancient inscriptions requires
+        either:
+          (a) A dedicated negative/background class,
+          (b) A trained binary inscription detector / OCR bounding pre-filter, or
+          (c) Mahalanobis distance / energy-based OOD detection calibrated on a large OOD dataset.
+        This hook provides the extension point for such models.
+        """
+        return True, None
+
+
 class ViTInferenceEngine:
     """
     Singleton inference engine that loads a fine-tuned ViT-B/16 checkpoint
@@ -198,6 +290,7 @@ class ViTInferenceEngine:
         self,
         checkpoint_path: Optional[Union[str, Path]] = None,
         device: Optional[str] = None,
+        min_confidence: float = 0.50,
     ):
         self.checkpoint_path = Path(checkpoint_path) if checkpoint_path else DEFAULT_CHECKPOINT_PATH
         self.device = torch.device(device if device else ("cuda" if torch.cuda.is_available() else "cpu"))
@@ -207,6 +300,7 @@ class ViTInferenceEngine:
         self.transform = get_eval_transforms(image_size=(224, 224))
         self.is_loaded: bool = False
         self.metadata: Dict[str, Any] = {}
+        self.validator = ScriptPresenceValidator(min_confidence=min_confidence)
 
     def load_model(self, checkpoint_path: Optional[Union[str, Path]] = None) -> bool:
         """
@@ -276,15 +370,17 @@ class ViTInferenceEngine:
         image: Image.Image,
         top_k: int = 5,
         filename: str = "",
+        min_confidence: Optional[float] = None,
     ) -> Dict[str, Any]:
         """
-        Executes ViT-B/16 neural classification on an inscription image.
-        Uses pure neural image feature embeddings and cosine similarity (NO heuristic or filename shortcuts).
+        Executes ViT-B/16 neural classification on an inscription image with
+        input validation and cautious rejection.
 
         Args:
             image: PIL Image instance of the whole inscription.
             top_k: Number of top candidate classes to return.
             filename: Original filename for logging/metadata purposes only.
+            min_confidence: Optional override for minimum acceptance confidence.
 
         Returns:
             Dictionary matching the DeepScript /predict response schema.
@@ -293,20 +389,78 @@ class ViTInferenceEngine:
             raise RuntimeError("ViT-B/16 model is not loaded. Please call load_model() first.")
 
         t_start = time.perf_counter()
+        orig_w, orig_h = image.size
 
-        # 1. Preprocess Image (Convert to RGB, Resize to (224, 224), ImageNet Normalize)
+        # 1. Visual Content & Feature Presence Check (Rejects blank/uniform/flat images)
+        is_valid_content, content_reject_reason, visual_metrics = self.validator.check_visual_content(image)
+        if not is_valid_content:
+            latency_ms = round((time.perf_counter() - t_start) * 1000, 2)
+            logger.info(
+                f"[ViT-B/16 REJECTED] Image: '{filename or 'uploaded_image'}' ({orig_w}x{orig_h}) -> "
+                f"Script not detected ({content_reject_reason}) in {latency_ms}ms"
+            )
+            candidates: List[Dict[str, Any]] = []
+            k = min(top_k, len(self.classes))
+            for cls_name in self.classes[:k]:
+                dossier = EPIGRAPHIC_DOSSIER_DB.get(cls_name, {})
+                family_display = dossier.get("name", cls_name.capitalize())
+                candidates.append({
+                    "class": cls_name,
+                    "script": cls_name,
+                    "script_family": family_display,
+                    "confidence": 0.0,
+                    "probability": 0.0,
+                })
+
+            return {
+                "status": "script_not_detected",
+                "decision": "rejected",
+                "rejection_reason": content_reject_reason,
+                "script": "Script not detected",
+                "script_family": "Script not detected",
+                "raw_class": None,
+                "confidence": 0.0,
+                "candidates": candidates,
+                "execution_time_ms": latency_ms,
+                "model": "vit_b_16_whole_inscription",
+                "source": "vit_b16_whole_inscription",
+                "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+                "details": {
+                    "name": "Script not detected",
+                    "scriptFamily": "Script not detected",
+                    "period": "N/A",
+                    "region": "N/A",
+                    "writingDirection": "N/A",
+                    "headmark": "N/A",
+                    "strokeStyle": "N/A",
+                    "keyGlyphs": [],
+                    "historicalContext": content_reject_reason,
+                    "famousInscriptions": [],
+                    "visualClues": "No ancient script features or stroke contours detected. The image appears blank or uniform.",
+                    "vlmNotes": "Inference rejected: image does not contain visible inscription stroke content.",
+                    "morphologyMetrics": {
+                        "visual_metrics": visual_metrics,
+                        "status": "rejected_blank_image",
+                    },
+                },
+                "image_details": {
+                    "original_filename": filename,
+                    "dimensions": f"{orig_w}x{orig_h}",
+                },
+            }
+
+        # 2. Preprocess Image (Convert to RGB, Resize to (224, 224), ImageNet Normalize)
         if image.mode != "RGB":
             image = image.convert("RGB")
 
-        orig_w, orig_h = image.size
         img_tensor = self.transform(image).unsqueeze(0).to(self.device)
 
-        # 2. Neural Forward Pass
+        # 3. Neural Forward Pass
         with torch.no_grad():
             logits = self.model(img_tensor)  # [1, num_classes]
             probabilities = F.softmax(logits, dim=-1)[0]  # [num_classes]
 
-        # 3. Extract Top-K Probabilities and Classes
+        # 4. Extract Top-K Probabilities and Classes
         k = min(top_k, len(self.classes))
         top_probs, top_indices = torch.topk(probabilities, k=k)
 
@@ -316,7 +470,11 @@ class ViTInferenceEngine:
         predicted_class = self.classes[top_indices[0]]
         predicted_confidence = float(top_probs[0])
 
-        # 4. Construct Top-K Candidate List
+        # Compute cosine similarity
+        scale = getattr(self.model.head, "scale", torch.tensor(1.0)).item() if hasattr(self.model, "head") else 1.0
+        top_cos_sim = float((logits[0, top_indices[0]] / scale).item())
+
+        # 5. Construct Top-K Candidate List
         candidates: List[Dict[str, Any]] = []
         for idx, prob in zip(top_indices, top_probs):
             cls_name = self.classes[idx]
@@ -331,12 +489,71 @@ class ViTInferenceEngine:
                 "probability": round(float(prob), 4),
             })
 
-        # 5. Retrieve Epigraphic Dossier for the Top Predicted Script
+        # 6. Evaluate Confidence Threshold and OOD Hook
+        effective_min_conf = min_confidence if min_confidence is not None else self.validator.min_confidence
+        is_conf_ok, conf_reject_reason = self.validator.check_prediction_confidence(
+            confidence=predicted_confidence,
+            min_confidence=effective_min_conf,
+            cos_similarity=top_cos_sim,
+        )
+        is_ood_ok, ood_reject_reason = self.validator.ood_detector(
+            image=image,
+            logits=logits,
+        )
+
+        latency_ms = round((time.perf_counter() - t_start) * 1000, 2)
+
+        if not is_conf_ok or not is_ood_ok:
+            reject_reason = conf_reject_reason or ood_reject_reason
+            logger.info(
+                f"[ViT-B/16 REJECTED] Image: '{filename or 'uploaded_image'}' ({orig_w}x{orig_h}) -> "
+                f"Script not detected ({reject_reason}) in {latency_ms}ms"
+            )
+            return {
+                "status": "script_not_detected",
+                "decision": "rejected",
+                "rejection_reason": reject_reason,
+                "script": "Script not detected",
+                "script_family": "Script not detected",
+                "raw_class": predicted_class,
+                "confidence": round(predicted_confidence, 4),
+                "candidates": candidates,
+                "execution_time_ms": latency_ms,
+                "model": "vit_b_16_whole_inscription",
+                "source": "vit_b16_whole_inscription",
+                "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+                "details": {
+                    "name": "Script not detected",
+                    "scriptFamily": "Script not detected",
+                    "period": "N/A",
+                    "region": "N/A",
+                    "writingDirection": "N/A",
+                    "headmark": "N/A",
+                    "strokeStyle": "N/A",
+                    "keyGlyphs": [],
+                    "historicalContext": reject_reason,
+                    "famousInscriptions": [],
+                    "visualClues": (
+                        "Epigraphic features were uncertain or below acceptance threshold. "
+                        "The image could not be verified as a supported ancient Indian script inscription."
+                    ),
+                    "vlmNotes": f"Inference abstained: {reject_reason}",
+                    "morphologyMetrics": {
+                        "top1_probability": round(predicted_confidence, 4),
+                        "max_cosine_similarity": round(top_cos_sim, 4),
+                        "threshold": effective_min_conf,
+                        "status": "uncertain_abstention",
+                    },
+                },
+                "image_details": {
+                    "original_filename": filename,
+                    "dimensions": f"{orig_w}x{orig_h}",
+                },
+            }
+
+        # 7. Accepted Script Prediction
         pred_dossier = EPIGRAPHIC_DOSSIER_DB.get(predicted_class, {})
         script_family_display = pred_dossier.get("name", predicted_class.capitalize())
-
-        t_end = time.perf_counter()
-        latency_ms = round((t_end - t_start) * 1000, 2)
 
         logger.info(
             f"[ViT-B/16 INFERENCE] Image: '{filename or 'uploaded_image'}' ({orig_w}x{orig_h}) -> "
@@ -345,6 +562,9 @@ class ViTInferenceEngine:
         )
 
         return {
+            "status": "success",
+            "decision": "accepted",
+            "rejection_reason": None,
             "script": predicted_class,
             "script_family": script_family_display,
             "raw_class": predicted_class,
@@ -369,6 +589,7 @@ class ViTInferenceEngine:
                 "vlmNotes": f"Classified by fine-tuned ViT-B/16 with cosine metric projector. Top confidence: {predicted_confidence*100:.1f}%.",
                 "morphologyMetrics": {
                     "top1_probability": round(predicted_confidence, 4),
+                    "max_cosine_similarity": round(top_cos_sim, 4),
                     "embedding_dim": 256,
                     "backbone": "vit_b_16",
                 },

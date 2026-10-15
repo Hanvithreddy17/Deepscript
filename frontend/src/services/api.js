@@ -173,11 +173,74 @@ export async function predictScript(imagePayload, metadata = {}) {
           errorDetail = 'Backend inference server is offline. Please check that FastAPI is running on http://localhost:8000.';
         }
       }
+
+      if (response.status === 400 || errorDetail.toLowerCase().includes('invalid input image')) {
+        return {
+          status: 'invalid_input',
+          decision: 'rejected',
+          script: 'Invalid input image',
+          scriptFamily: 'Invalid input image',
+          confidence: 0.0,
+          rejectionReason: errorDetail,
+          candidates: [],
+          source: 'input_validator',
+          sourceLabel: 'DeepScript Input Validator',
+          model: preferredModel,
+          executionTimeMs: Math.round(performance.now() - startTime),
+          details: {
+            name: 'Invalid input image',
+            scriptFamily: 'Invalid input image',
+            period: 'N/A',
+            region: 'N/A',
+            writingDirection: 'N/A',
+            headmark: 'N/A',
+            strokeStyle: 'N/A',
+            keyGlyphs: [],
+            historicalContext: errorDetail,
+            visualClues: 'Please ensure you upload an intact, non-empty image file in JPEG, PNG, or WebP format with valid resolution.',
+            famousInscriptions: [],
+          },
+        };
+      }
       throw new Error(errorDetail);
     }
 
     const data = await response.json();
     const executionTimeMs = Math.round(performance.now() - startTime);
+
+    if (data.status === 'script_not_detected' || data.decision === 'rejected') {
+      return {
+        status: 'script_not_detected',
+        decision: 'rejected',
+        script: 'Script not detected',
+        scriptFamily: 'Script not detected',
+        rawClass: data.raw_class || null,
+        confidence: Number(data.confidence || 0),
+        rejectionReason: data.rejection_reason || 'Ancient script inscription could not be confidently established.',
+        candidates: (data.candidates || []).map(c => ({
+          ...c,
+          score: c.probability ?? c.confidence ?? c.score ?? 0,
+          script: c.script_family || c.script || c.class,
+        })),
+        source: data.source || 'vit_b16_whole_inscription',
+        sourceLabel: data.source_label || 'DeepScript ViT-B/16 (Whole-Inscription Classifier)',
+        model: data.model || preferredModel,
+        executionTimeMs: data.execution_time_ms || executionTimeMs,
+        details: {
+          name: 'Script not detected',
+          scriptFamily: 'Script not detected',
+          period: 'N/A',
+          region: 'N/A',
+          writingDirection: 'N/A',
+          headmark: 'N/A',
+          strokeStyle: 'N/A',
+          keyGlyphs: [],
+          historicalContext: data.rejection_reason || 'The uploaded image could not be verified as containing a supported ancient Indian script inscription.',
+          visualClues: 'Input did not meet epigraphic confidence or feature criteria for Ashokan Brahmi, Gupta, Kharosthi, Grantha, or Kadamba.',
+          famousInscriptions: [],
+        },
+      };
+    }
 
     const scriptFamily = data.script_family || data.script;
     const staticDossier = ANCIENT_SCRIPTS[scriptFamily] || {};
@@ -191,6 +254,8 @@ export async function predictScript(imagePayload, metadata = {}) {
     };
 
     return {
+      status: 'success',
+      decision: 'accepted',
       script: scriptFamily,
       rawClass: data.script,
       confidence: Number(data.confidence || 0.90),

@@ -12,7 +12,11 @@ import {
   ShieldCheck,
   Compass,
   ArrowRightLeft,
-  Crown
+  Crown,
+  AlertTriangle,
+  SearchX,
+  Info,
+  ShieldAlert
 } from 'lucide-react';
 
 export function PredictionResult({
@@ -57,6 +61,157 @@ export function PredictionResult({
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  // 1. Invalid Input Image State
+  if (result.status === 'invalid_input' || scriptFamily === 'Invalid input image') {
+    return (
+      <div className="w-full clean-card p-5 sm:p-6 space-y-5 bg-white shadow-soft animate-in fade-in duration-200">
+        <div className="pb-4 border-b border-slate-200/80">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold uppercase tracking-wider">
+                <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
+                Input Validation
+              </span>
+              <span className="text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                {sourceLabel || 'DeepScript Input Validator'}
+              </span>
+            </div>
+            {executionTimeMs !== undefined && (
+              <span className="text-[11px] font-mono text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                {executionTimeMs}ms
+              </span>
+            )}
+          </div>
+
+          <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Invalid input image
+          </h2>
+          <p className="text-xs text-rose-700 mt-2 leading-relaxed bg-rose-50/70 border border-rose-200/80 rounded-xl p-3">
+            {result.rejectionReason || details?.historicalContext || 'The uploaded file could not be decoded as a valid, non-empty image.'}
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+            <Info className="w-3.5 h-3.5 text-slate-500" />
+            <span>Image Requirements</span>
+          </h4>
+          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2 text-xs text-slate-600">
+            <div className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+              <span>Supported formats: standard raster images (PNG, JPEG, WebP, TIFF).</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+              <span>Ensure the file is not empty (0 bytes) or corrupted.</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+              <span>Ensure image resolution is at least 10×10 pixels.</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-3 border-t border-slate-200/80 flex items-center justify-end">
+          <button
+            type="button"
+            onClick={handleCopyJson}
+            className="text-xs text-slate-500 hover:text-slate-800 inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md hover:bg-slate-100 transition-colors"
+            title="Copy raw validation payload"
+          >
+            {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+            <span>{copied ? 'Copied' : 'Copy JSON'}</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // 2. Script Not Detected State
+  if (result.status === 'script_not_detected' || scriptFamily === 'Script not detected') {
+    return (
+      <div className="w-full clean-card p-5 sm:p-6 space-y-5 bg-white shadow-soft animate-in fade-in duration-200">
+        <div className="pb-4 border-b border-slate-200/80">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold uppercase tracking-wider">
+                <SearchX className="w-3.5 h-3.5 text-amber-600" />
+                Detection Status
+              </span>
+              <span className="text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                {sourceLabel || 'DeepScript ViT-B/16'}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border bg-slate-100 text-slate-700 border-slate-200">
+                <ShieldAlert className="w-3.5 h-3.5 text-slate-500" />
+                <span>Uncertain Match</span>
+              </span>
+              {executionTimeMs !== undefined && (
+                <span className="text-[11px] font-mono text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                  {executionTimeMs}ms
+                </span>
+              )}
+            </div>
+          </div>
+
+          <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Script not detected
+          </h2>
+          <p className="text-xs text-amber-900 mt-2 leading-relaxed bg-amber-50/70 border border-amber-200/80 rounded-xl p-3">
+            {result.rejectionReason || details?.historicalContext || 'The system could not confidently establish that the image contains a supported ancient Indian script inscription.'}
+          </p>
+        </div>
+
+        {/* Diagnostic Breakdown */}
+        <div className="space-y-3">
+          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+            <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+              <Compass className="w-3.5 h-3.5 text-indigo-600" />
+              <span>Epigraphic Assessment</span>
+            </h4>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              {details?.visualClues || 'Input features do not meet canonical characteristics for Ashokan Brahmi, Gupta, Kharosthi, Grantha, or Kadamba inscriptions. The model abstained from making an authoritative prediction.'}
+            </p>
+          </div>
+
+          {/* If candidates exist, display exploratory distribution */}
+          {candidates && candidates.length > 0 && (
+            <div className="space-y-2 pt-1">
+              <h5 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                Exploratory Class Alignment (Abstained)
+              </h5>
+              <div className="space-y-1.5">
+                {candidates.map((cand, idx) => {
+                  const candScore = Math.round((cand.score ?? cand.probability ?? cand.confidence ?? 0) * 100);
+                  return (
+                    <div key={cand.script || idx} className="p-2 rounded-lg bg-slate-50 border border-slate-200/80 flex items-center justify-between text-xs">
+                      <span className="font-medium text-slate-700">{cand.script}</span>
+                      <span className="font-mono text-slate-500">{candScore}%</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="pt-3 border-t border-slate-200/80 flex items-center justify-end">
+          <button
+            type="button"
+            onClick={handleCopyJson}
+            className="text-xs text-slate-500 hover:text-slate-800 inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md hover:bg-slate-100 transition-colors"
+            title="Copy raw rejection payload"
+          >
+            {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+            <span>{copied ? 'Copied' : 'Copy JSON'}</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full clean-card p-5 sm:p-6 space-y-5 bg-white shadow-soft animate-in fade-in duration-200">
