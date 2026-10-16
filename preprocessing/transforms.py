@@ -154,3 +154,61 @@ def denormalize_tensor(
         raise ValueError(f"Expected 3D [C, H, W] or 4D [B, C, H, W] tensor, got shape {tensor.shape}")
     
     return torch.clamp(t, 0.0, 1.0)
+
+
+def extract_aspect_preserving_tiles(
+    image: Image.Image,
+    max_tiles: int = 5,
+    overlap: float = 0.25,
+    min_ar_threshold: float = 1.8,
+) -> List[Image.Image]:
+    """
+    Extracts square aspect-ratio-preserving tiles along the dominant dimension
+    for extremely wide or tall inscriptions (e.g. cave drip ledges, pillar lines).
+
+    Preserves native character height and stroke geometry without horizontal
+    or vertical squishing distortion.
+
+    Args:
+        image: PIL Image in RGB mode.
+        max_tiles: Maximum number of tiles to extract (default 5).
+        overlap: Overlap fraction between consecutive tiles (default 0.25).
+        min_ar_threshold: Aspect ratio threshold above which tiling triggers (default 1.8).
+
+    Returns:
+        List of PIL Image tiles. If aspect ratio is normal, returns [image].
+    """
+    w, h = image.size
+    ar = w / float(max(1, h))
+
+    tiles: List[Image.Image] = []
+
+    if ar > min_ar_threshold:
+        # Wide horizontal inscription
+        s = h
+        step = max(1, int(s * (1.0 - overlap)))
+        xs = list(range(0, max(1, w - s + 1), step))
+        if len(xs) == 0 or xs[-1] < w - s:
+            xs.append(w - s)
+        if len(xs) > max_tiles:
+            indices = [int(i * (len(xs) - 1) / (max_tiles - 1)) for i in range(max_tiles)]
+            xs = [xs[i] for i in indices]
+        for x in xs:
+            tiles.append(image.crop((max(0, x), 0, min(w, x + s), h)))
+    elif ar < (1.0 / min_ar_threshold):
+        # Tall vertical inscription
+        s = w
+        step = max(1, int(s * (1.0 - overlap)))
+        ys = list(range(0, max(1, h - s + 1), step))
+        if len(ys) == 0 or ys[-1] < h - s:
+            ys.append(h - s)
+        if len(ys) > max_tiles:
+            indices = [int(i * (len(ys) - 1) / (max_tiles - 1)) for i in range(max_tiles)]
+            ys = [ys[i] for i in indices]
+        for y in ys:
+            tiles.append(image.crop((0, max(0, y), w, min(h, y + s))))
+    else:
+        # Standard aspect ratio
+        tiles.append(image)
+
+    return tiles

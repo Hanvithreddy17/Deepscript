@@ -13,6 +13,7 @@ from preprocessing.transforms import (
     get_eval_transforms,
     get_display_transforms,
     denormalize_tensor,
+    extract_aspect_preserving_tiles,
 )
 from preprocessing.dataset import (
     AncientScriptDataset,
@@ -36,6 +37,7 @@ __all__ = [
     "get_eval_transforms",
     "get_display_transforms",
     "denormalize_tensor",
+    "extract_aspect_preserving_tiles",
     "AncientScriptDataset",
     "SUPPORTED_IMAGE_EXTENSIONS",
     "create_stratified_splits",

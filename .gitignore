@@ -82,6 +82,7 @@ experiments/
 dataset/raw/
 dataset/processed/
 dataset/data/
+dataset/tiles_cache/
 *.zip
 *.tar
 *.tar.gz
