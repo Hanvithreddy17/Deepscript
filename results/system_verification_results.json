@@ -1,0 +1,1549 @@
+[
+  {
+    "test_case": {
+      "group": "Tamil-Brahmi (Genuine)",
+      "file": "dataset/whole_inscriptions/tamil_brahmi/Mangulam_inscription_south_India.jpg",
+      "site": "Mangulam, Madurai",
+      "expected_status": "success",
+      "expected_class": "tamil_brahmi"
+    },
+    "result": {
+      "status": "unsupported_script",
+      "decision": "rejected",
+      "rejection_reason": "Prototype cosine similarity (0.218) is below the calibrated validation threshold (0.280). The inscription does not match any of the 6 supported ancient script prototypes.",
+      "script": "Unsupported Script Inscription",
+      "script_family": "Unsupported Script Inscription",
+      "raw_class": "kadamba",
+      "confidence": 0.2181,
+      "candidates": [
+        {
+          "class": "kadamba",
+          "script": "kadamba",
+          "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+          "confidence": 0.2181,
+          "probability": 0.7829,
+          "cosine_similarity": 0.2181
+        },
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.1314,
+          "probability": 0.1959,
+          "cosine_similarity": 0.1314
+        },
+        {
+          "class": "grantha",
+          "script": "grantha",
+          "script_family": "Grantha Script (Pallava & Chola Grantha)",
+          "confidence": 0.0,
+          "probability": 0.0132,
+          "cosine_similarity": -0.0373
+        },
+        {
+          "class": "tamil_brahmi",
+          "script": "tamil_brahmi",
+          "script_family": "Tamil-Brahmi",
+          "confidence": 0.0,
+          "probability": 0.0032,
+          "cosine_similarity": -0.1252
+        },
+        {
+          "class": "gupta",
+          "script": "gupta",
+          "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+          "confidence": 0.0,
+          "probability": 0.0026,
+          "cosine_similarity": -0.1399
+        }
+      ],
+      "execution_time_ms": 225.13,
+      "model": "vit_b_16_whole_inscription",
+      "source": "vit_b16_whole_inscription",
+      "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+      "details": {
+        "name": "Unsupported Script Inscription",
+        "scriptFamily": "Unsupported Script Inscription",
+        "period": "Unsupported / Historical Era",
+        "region": "Non-matching regional tradition",
+        "writingDirection": "N/A",
+        "headmark": "N/A",
+        "strokeStyle": "N/A",
+        "keyGlyphs": [],
+        "historicalContext": "Prototype cosine similarity (0.218) is below the calibrated validation threshold (0.280). The inscription does not match any of the 6 supported ancient script prototypes.",
+        "famousInscriptions": [],
+        "visualClues": "The image appears to contain an inscription, but its palaeographical features or metric embedding do not match the canonical criteria for the 6 supported ancient scripts (Ashokan Brahmi, Tamil-Brahmi, Gupta, Kharosthi, Grantha, Kadamba). The system safely abstained to avoid false attribution.",
+        "vlmNotes": "Inference abstained: Prototype cosine similarity (0.218) is below the calibrated validation threshold (0.280). The inscription does not match any of the 6 supported ancient script prototypes.",
+        "morphologyMetrics": {
+          "top1_probability": 0.7829,
+          "max_cosine_similarity": 0.2181,
+          "classification_margin": 0.0866,
+          "calibrated_confidence": 0.2181,
+          "threshold": 0.3,
+          "status": "unsupported_script_rejection",
+          "palaeography_metrics": {
+            "evaluated_class": "kadamba",
+            "status": "passed"
+          }
+        }
+      },
+      "image_details": {
+        "original_filename": "Mangulam_inscription_south_India.jpg",
+        "dimensions": "904x603"
+      }
+    }
+  },
+  {
+    "test_case": {
+      "group": "Tamil-Brahmi (Genuine)",
+      "file": "dataset/whole_inscriptions/tamil_brahmi/2nd_century_BCE_Tamil_Brahmi_inscription_Arittapatti_Madurai_India.jpg",
+      "site": "Arittapatti, Madurai",
+      "expected_status": "success",
+      "expected_class": "tamil_brahmi"
+    },
+    "result": {
+      "status": "unsupported_script",
+      "decision": "rejected",
+      "rejection_reason": "Classification margin (0.030) is below the calibrated threshold (0.040). Ambiguous script boundary between candidate classes.",
+      "script": "Unsupported Script Inscription",
+      "script_family": "Unsupported Script Inscription",
+      "raw_class": "brahmi",
+      "confidence": 0.4135,
+      "candidates": [
+        {
+          "class": "brahmi",
+          "script": "brahmi",
+          "script_family": "Ashokan Brahmi",
+          "confidence": 0.4135,
+          "probability": 0.6171,
+          "cosine_similarity": 0.4135
+        },
+        {
+          "class": "tamil_brahmi",
+          "script": "tamil_brahmi",
+          "script_family": "Tamil-Brahmi",
+          "confidence": 0.3822,
+          "probability": 0.3822,
+          "cosine_similarity": 0.3836
+        },
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.0,
+          "probability": 0.0004,
+          "cosine_similarity": -0.05
+        },
+        {
+          "class": "grantha",
+          "script": "grantha",
+          "script_family": "Grantha Script (Pallava & Chola Grantha)",
+          "confidence": 0.0,
+          "probability": 0.0003,
+          "cosine_similarity": -0.0633
+        },
+        {
+          "class": "gupta",
+          "script": "gupta",
+          "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": -0.2081
+        }
+      ],
+      "execution_time_ms": 522.03,
+      "model": "vit_b_16_whole_inscription",
+      "source": "vit_b16_whole_inscription",
+      "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+      "details": {
+        "name": "Unsupported Script Inscription",
+        "scriptFamily": "Unsupported Script Inscription",
+        "period": "Unsupported / Historical Era",
+        "region": "Non-matching regional tradition",
+        "writingDirection": "N/A",
+        "headmark": "N/A",
+        "strokeStyle": "N/A",
+        "keyGlyphs": [],
+        "historicalContext": "Classification margin (0.030) is below the calibrated threshold (0.040). Ambiguous script boundary between candidate classes.",
+        "famousInscriptions": [],
+        "visualClues": "The image appears to contain an inscription, but its palaeographical features or metric embedding do not match the canonical criteria for the 6 supported ancient scripts (Ashokan Brahmi, Tamil-Brahmi, Gupta, Kharosthi, Grantha, Kadamba). The system safely abstained to avoid false attribution.",
+        "vlmNotes": "Inference abstained: Classification margin (0.030) is below the calibrated threshold (0.040). Ambiguous script boundary between candidate classes.",
+        "morphologyMetrics": {
+          "top1_probability": 0.6171,
+          "max_cosine_similarity": 0.4135,
+          "classification_margin": 0.03,
+          "calibrated_confidence": 0.4135,
+          "threshold": 0.3,
+          "status": "unsupported_script_rejection",
+          "palaeography_metrics": {
+            "evaluated_class": "brahmi",
+            "status": "passed"
+          }
+        }
+      },
+      "image_details": {
+        "original_filename": "2nd_century_BCE_Tamil_Brahmi_inscription_Arittapatti_Madurai_India.jpg",
+        "dimensions": "4032x3024"
+      }
+    }
+  },
+  {
+    "test_case": {
+      "group": "Tamil-Brahmi (Genuine)",
+      "file": "dataset/whole_inscriptions/tamil_brahmi/TBSI_020_original.jpg",
+      "site": "Arittapatti, Madurai",
+      "expected_status": "success",
+      "expected_class": "tamil_brahmi"
+    },
+    "result": {
+      "status": "success",
+      "decision": "accepted",
+      "rejection_reason": null,
+      "script": "tamil_brahmi",
+      "script_family": "Tamil-Brahmi",
+      "raw_class": "tamil_brahmi",
+      "confidence": 0.501,
+      "candidates": [
+        {
+          "class": "tamil_brahmi",
+          "script": "tamil_brahmi",
+          "script_family": "Tamil-Brahmi",
+          "confidence": 0.501,
+          "probability": 0.9706,
+          "cosine_similarity": 0.501
+        },
+        {
+          "class": "brahmi",
+          "script": "brahmi",
+          "script_family": "Ashokan Brahmi",
+          "confidence": 0.0289,
+          "probability": 0.0289,
+          "cosine_similarity": 0.2813
+        },
+        {
+          "class": "grantha",
+          "script": "grantha",
+          "script_family": "Grantha Script (Pallava & Chola Grantha)",
+          "confidence": 0.0005,
+          "probability": 0.0005,
+          "cosine_similarity": 0.0214
+        },
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": -0.1582
+        },
+        {
+          "class": "gupta",
+          "script": "gupta",
+          "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": -0.168
+        }
+      ],
+      "execution_time_ms": 1883.77,
+      "model": "vit_b_16_whole_inscription",
+      "source": "vit_b16_whole_inscription",
+      "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+      "details": {
+        "name": "Tamil-Brahmi",
+        "scriptFamily": "Tamil-Brahmi",
+        "period": "c. 3rd Century BCE \u2013 5th Century CE (Sangam Era)",
+        "region": "Southern India (Tamil Nadu, Kerala) and Sri Lanka",
+        "writingDirection": "Left-to-Right",
+        "headmark": "None (Clean, unornamented strokes directly incised into natural rock caverns)",
+        "strokeStyle": "Simple, spare geometric lines with specialized Dravidian phonetic adaptations",
+        "keyGlyphs": [
+          "\u1e3aa (\u0bb4 - specialized retroflex approximant)",
+          "\u1e36a (\u0bb3 - retroflex lateral)",
+          "\u1e5ea (\u0bb1 - alveolar trill)",
+          "\u1e48a (\u0ba9 - alveolar nasal)",
+          "Pulli (virama vowel cancellation dot)"
+        ],
+        "historicalContext": "The foundational script of the ancient Tamil Sangam era. Adapted from early Brahmi specifically to record Old Tamil phonology, featuring dedicated characters for unique Dravidian sounds and early vowel suppression (pulli). Inscribed on natural cavern beds and rock faces by Jain and Buddhist ascetics, merchants, and chieftains of the Pandya, Chera, and Chola lineages.",
+        "famousInscriptions": [
+          "Mangulam Jain Cavern Inscriptions of Nedunjeliyan (Madurai)",
+          "Sittannavasal Cave Temple (Pudukkottai)",
+          "Arittapatti Inscribed Caverns",
+          "Jambai Rock Inscription of Athiyaman Neduman Anji",
+          "Pugalur Chera Dynasty Inscriptions (Karur)",
+          "Alagarmalai Cavern Beds",
+          "Edakal Cave Rock Carvings (Wayanad)"
+        ],
+        "visualClues": "Clean unornamented strokes, absence of headbars or serifs, presence of distinct Dravidian characters (\u0bb4, \u0bb3, \u0bb1, \u0ba9), and characteristic horizontal single-line dedicatory formats on cavern drip ledges.",
+        "vlmNotes": "Classified by fine-tuned ViT-B/16 with cosine metric projector. Calibrated confidence: 50.1% (Cosine alignment: 0.501, Margin: 0.220).",
+        "morphologyMetrics": {
+          "top1_probability": 0.9706,
+          "max_cosine_similarity": 0.501,
+          "classification_margin": 0.2197,
+          "calibrated_confidence": 0.501,
+          "embedding_dim": 256,
+          "backbone": "vit_b_16",
+          "palaeography_metrics": {
+            "evaluated_class": "tamil_brahmi",
+            "status": "passed"
+          }
+        }
+      },
+      "image_details": {
+        "original_filename": "TBSI_020_original.jpg",
+        "dimensions": "2500x733"
+      }
+    }
+  },
+  {
+    "test_case": {
+      "group": "Tamil-Brahmi (Genuine)",
+      "file": "dataset/whole_inscriptions/tamil_brahmi/TBSI_029_original.jpg",
+      "site": "Kongarpuliyankulam, Madurai",
+      "expected_status": "success",
+      "expected_class": "tamil_brahmi"
+    },
+    "result": {
+      "status": "success",
+      "decision": "accepted",
+      "rejection_reason": null,
+      "script": "tamil_brahmi",
+      "script_family": "Tamil-Brahmi",
+      "raw_class": "tamil_brahmi",
+      "confidence": 0.5918,
+      "candidates": [
+        {
+          "class": "tamil_brahmi",
+          "script": "tamil_brahmi",
+          "script_family": "Tamil-Brahmi",
+          "confidence": 0.5918,
+          "probability": 0.9995,
+          "cosine_similarity": 0.5918
+        },
+        {
+          "class": "brahmi",
+          "script": "brahmi",
+          "script_family": "Ashokan Brahmi",
+          "confidence": 0.0004,
+          "probability": 0.0004,
+          "cosine_similarity": 0.1016
+        },
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.0001,
+          "probability": 0.0001,
+          "cosine_similarity": 0.0017
+        },
+        {
+          "class": "grantha",
+          "script": "grantha",
+          "script_family": "Grantha Script (Pallava & Chola Grantha)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": -0.0805
+        },
+        {
+          "class": "gupta",
+          "script": "gupta",
+          "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": -0.137
+        }
+      ],
+      "execution_time_ms": 1398.74,
+      "model": "vit_b_16_whole_inscription",
+      "source": "vit_b16_whole_inscription",
+      "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+      "details": {
+        "name": "Tamil-Brahmi",
+        "scriptFamily": "Tamil-Brahmi",
+        "period": "c. 3rd Century BCE \u2013 5th Century CE (Sangam Era)",
+        "region": "Southern India (Tamil Nadu, Kerala) and Sri Lanka",
+        "writingDirection": "Left-to-Right",
+        "headmark": "None (Clean, unornamented strokes directly incised into natural rock caverns)",
+        "strokeStyle": "Simple, spare geometric lines with specialized Dravidian phonetic adaptations",
+        "keyGlyphs": [
+          "\u1e3aa (\u0bb4 - specialized retroflex approximant)",
+          "\u1e36a (\u0bb3 - retroflex lateral)",
+          "\u1e5ea (\u0bb1 - alveolar trill)",
+          "\u1e48a (\u0ba9 - alveolar nasal)",
+          "Pulli (virama vowel cancellation dot)"
+        ],
+        "historicalContext": "The foundational script of the ancient Tamil Sangam era. Adapted from early Brahmi specifically to record Old Tamil phonology, featuring dedicated characters for unique Dravidian sounds and early vowel suppression (pulli). Inscribed on natural cavern beds and rock faces by Jain and Buddhist ascetics, merchants, and chieftains of the Pandya, Chera, and Chola lineages.",
+        "famousInscriptions": [
+          "Mangulam Jain Cavern Inscriptions of Nedunjeliyan (Madurai)",
+          "Sittannavasal Cave Temple (Pudukkottai)",
+          "Arittapatti Inscribed Caverns",
+          "Jambai Rock Inscription of Athiyaman Neduman Anji",
+          "Pugalur Chera Dynasty Inscriptions (Karur)",
+          "Alagarmalai Cavern Beds",
+          "Edakal Cave Rock Carvings (Wayanad)"
+        ],
+        "visualClues": "Clean unornamented strokes, absence of headbars or serifs, presence of distinct Dravidian characters (\u0bb4, \u0bb3, \u0bb1, \u0ba9), and characteristic horizontal single-line dedicatory formats on cavern drip ledges.",
+        "vlmNotes": "Classified by fine-tuned ViT-B/16 with cosine metric projector. Calibrated confidence: 59.2% (Cosine alignment: 0.592, Margin: 0.490).",
+        "morphologyMetrics": {
+          "top1_probability": 0.9995,
+          "max_cosine_similarity": 0.5918,
+          "classification_margin": 0.4902,
+          "calibrated_confidence": 0.5918,
+          "embedding_dim": 256,
+          "backbone": "vit_b_16",
+          "palaeography_metrics": {
+            "evaluated_class": "tamil_brahmi",
+            "status": "passed"
+          }
+        }
+      },
+      "image_details": {
+        "original_filename": "TBSI_029_original.jpg",
+        "dimensions": "2501x1255"
+      }
+    }
+  },
+  {
+    "test_case": {
+      "group": "Tamil-Brahmi (Genuine)",
+      "file": "dataset/whole_inscriptions/tamil_brahmi/Sittanavasal_Rock_Bed_Inscription.jpg",
+      "site": "Sittanavasal, Pudukkottai",
+      "expected_status": "any",
+      "expected_class": "tamil_brahmi"
+    },
+    "result": {
+      "status": "unsupported_script",
+      "decision": "rejected",
+      "rejection_reason": "Prototype cosine similarity (0.256) is below the calibrated validation threshold (0.280). The inscription does not match any of the 6 supported ancient script prototypes.",
+      "script": "Unsupported Script Inscription",
+      "script_family": "Unsupported Script Inscription",
+      "raw_class": "brahmi",
+      "confidence": 0.2555,
+      "candidates": [
+        {
+          "class": "brahmi",
+          "script": "brahmi",
+          "script_family": "Ashokan Brahmi",
+          "confidence": 0.2555,
+          "probability": 0.6369,
+          "cosine_similarity": 0.2555
+        },
+        {
+          "class": "tamil_brahmi",
+          "script": "tamil_brahmi",
+          "script_family": "Tamil-Brahmi",
+          "confidence": 0.2138,
+          "probability": 0.3271,
+          "cosine_similarity": 0.2138
+        },
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.034,
+          "probability": 0.034,
+          "cosine_similarity": 0.0722
+        },
+        {
+          "class": "grantha",
+          "script": "grantha",
+          "script_family": "Grantha Script (Pallava & Chola Grantha)",
+          "confidence": 0.0,
+          "probability": 0.0017,
+          "cosine_similarity": -0.1144
+        },
+        {
+          "class": "gupta",
+          "script": "gupta",
+          "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+          "confidence": 0.0,
+          "probability": 0.0002,
+          "cosine_similarity": -0.2378
+        }
+      ],
+      "execution_time_ms": 958.82,
+      "model": "vit_b_16_whole_inscription",
+      "source": "vit_b16_whole_inscription",
+      "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+      "details": {
+        "name": "Unsupported Script Inscription",
+        "scriptFamily": "Unsupported Script Inscription",
+        "period": "Unsupported / Historical Era",
+        "region": "Non-matching regional tradition",
+        "writingDirection": "N/A",
+        "headmark": "N/A",
+        "strokeStyle": "N/A",
+        "keyGlyphs": [],
+        "historicalContext": "Prototype cosine similarity (0.256) is below the calibrated validation threshold (0.280). The inscription does not match any of the 6 supported ancient script prototypes.",
+        "famousInscriptions": [],
+        "visualClues": "The image appears to contain an inscription, but its palaeographical features or metric embedding do not match the canonical criteria for the 6 supported ancient scripts (Ashokan Brahmi, Tamil-Brahmi, Gupta, Kharosthi, Grantha, Kadamba). The system safely abstained to avoid false attribution.",
+        "vlmNotes": "Inference abstained: Prototype cosine similarity (0.256) is below the calibrated validation threshold (0.280). The inscription does not match any of the 6 supported ancient script prototypes.",
+        "morphologyMetrics": {
+          "top1_probability": 0.6369,
+          "max_cosine_similarity": 0.2555,
+          "classification_margin": 0.0417,
+          "calibrated_confidence": 0.2555,
+          "threshold": 0.3,
+          "status": "unsupported_script_rejection",
+          "palaeography_metrics": {
+            "evaluated_class": "brahmi",
+            "status": "passed"
+          }
+        }
+      },
+      "image_details": {
+        "original_filename": "Sittanavasal_Rock_Bed_Inscription.jpg",
+        "dimensions": "4608x3456"
+      }
+    }
+  },
+  {
+    "test_case": {
+      "group": "Ashokan Brahmi (Genuine)",
+      "file": "dataset/whole_inscriptions/brahmi/Devanampiyena Piyadasi in the Lumbini Edict of Ashoka.jpg",
+      "site": "Lumbini, Nepal",
+      "expected_status": "success",
+      "expected_class": "brahmi"
+    },
+    "result": {
+      "status": "success",
+      "decision": "accepted",
+      "rejection_reason": null,
+      "script": "brahmi",
+      "script_family": "Ashokan Brahmi",
+      "raw_class": "brahmi",
+      "confidence": 0.4159,
+      "candidates": [
+        {
+          "class": "brahmi",
+          "script": "brahmi",
+          "script_family": "Ashokan Brahmi",
+          "confidence": 0.4159,
+          "probability": 0.9893,
+          "cosine_similarity": 0.4159
+        },
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.0058,
+          "probability": 0.0058,
+          "cosine_similarity": 0.095
+        },
+        {
+          "class": "tamil_brahmi",
+          "script": "tamil_brahmi",
+          "script_family": "Tamil-Brahmi",
+          "confidence": 0.0045,
+          "probability": 0.0045,
+          "cosine_similarity": 0.0788
+        },
+        {
+          "class": "grantha",
+          "script": "grantha",
+          "script_family": "Grantha Script (Pallava & Chola Grantha)",
+          "confidence": 0.0,
+          "probability": 0.0003,
+          "cosine_similarity": -0.0861
+        },
+        {
+          "class": "kadamba",
+          "script": "kadamba",
+          "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": -0.2103
+        }
+      ],
+      "execution_time_ms": 1932.17,
+      "model": "vit_b_16_whole_inscription",
+      "source": "vit_b16_whole_inscription",
+      "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+      "details": {
+        "name": "Ashokan Brahmi",
+        "scriptFamily": "Ashokan Brahmi",
+        "period": "c. 3rd Century BCE (Mauryan Era)",
+        "region": "Pan-Indian (Girnar, Delhi-Topra, Lumbini, Maski, Sarnath)",
+        "writingDirection": "Left-to-Right",
+        "headmark": "None (Clean geometric perpendicular tops, no wedges or headbars)",
+        "strokeStyle": "Standardized geometric lines, perpendicular stems, and crisp circular arcs",
+        "keyGlyphs": [
+          "Ka (+ Greek cross shape)",
+          "Ma (circle over crescent/base)",
+          "Ya (inverted tuning fork)",
+          "Ra (straight vertical line)",
+          "Ba (square box)"
+        ],
+        "historicalContext": "Monumental imperial script of Emperor Ashoka's Major and Minor Rock Edicts. Foundational ancestor to virtually all modern Indian and Southeast Asian scripts.",
+        "famousInscriptions": [
+          "Girnar Major Rock Edict (Gujarat)",
+          "Delhi-Topra Ashokan Pillar Inscription",
+          "Lumbini Rummindei Pillar Inscription",
+          "Maski Minor Rock Edict"
+        ],
+        "visualClues": "Pure geometric symmetry, cross-shaped 'Ka', circle-based 'Ma' and 'Tha', total absence of wedge headmarks or top horizontal bars.",
+        "vlmNotes": "Classified by fine-tuned ViT-B/16 with cosine metric projector. Calibrated confidence: 41.6% (Cosine alignment: 0.416, Margin: 0.321).",
+        "morphologyMetrics": {
+          "top1_probability": 0.9893,
+          "max_cosine_similarity": 0.4159,
+          "classification_margin": 0.3208,
+          "calibrated_confidence": 0.4159,
+          "embedding_dim": 256,
+          "backbone": "vit_b_16",
+          "palaeography_metrics": {
+            "evaluated_class": "brahmi",
+            "status": "passed"
+          }
+        }
+      },
+      "image_details": {
+        "original_filename": "Devanampiyena Piyadasi in the Lumbini Edict of Ashoka.jpg",
+        "dimensions": "1600x348"
+      }
+    }
+  },
+  {
+    "test_case": {
+      "group": "Other Supported Classes",
+      "file": "dataset/whole_inscriptions/gupta/Eran inscription of Samudragupta.jpg",
+      "site": "Eran, Madhya Pradesh",
+      "expected_status": "success",
+      "expected_class": "gupta"
+    },
+    "result": {
+      "status": "success",
+      "decision": "accepted",
+      "rejection_reason": null,
+      "script": "gupta",
+      "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+      "raw_class": "gupta",
+      "confidence": 0.3666,
+      "candidates": [
+        {
+          "class": "gupta",
+          "script": "gupta",
+          "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+          "confidence": 0.3666,
+          "probability": 0.6596,
+          "cosine_similarity": 0.3666
+        },
+        {
+          "class": "grantha",
+          "script": "grantha",
+          "script_family": "Grantha Script (Pallava & Chola Grantha)",
+          "confidence": 0.3242,
+          "probability": 0.3347,
+          "cosine_similarity": 0.3242
+        },
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.0054,
+          "probability": 0.0054,
+          "cosine_similarity": 0.0666
+        },
+        {
+          "class": "kadamba",
+          "script": "kadamba",
+          "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+          "confidence": 0.0,
+          "probability": 0.0001,
+          "cosine_similarity": -0.1775
+        },
+        {
+          "class": "tamil_brahmi",
+          "script": "tamil_brahmi",
+          "script_family": "Tamil-Brahmi",
+          "confidence": 0.0,
+          "probability": 0.0001,
+          "cosine_similarity": -0.2099
+        }
+      ],
+      "execution_time_ms": 1470.03,
+      "model": "vit_b_16_whole_inscription",
+      "source": "vit_b16_whole_inscription",
+      "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+      "details": {
+        "name": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+        "scriptFamily": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+        "period": "c. 4th \u2013 8th Century CE (Imperial Gupta to Post-Gupta/Harsha Era)",
+        "region": "Northern, Central, and Eastern India (Prayagraj, Mathura, Eran, Nalanda, Sarnath)",
+        "writingDirection": "Left-to-Right",
+        "headmark": "Prominent solid triangular wedges or nail-head marks (Ku\u1e6dila acute strokes)",
+        "strokeStyle": "Ornate cursive calligraphic curves with tapering vertical brush/chisel lines and complex multi-tier ligatures",
+        "keyGlyphs": [
+          "Triangular wedge headmark atop consonants (Proto-Shirorekha)",
+          "Diagnostic '\u015ar\u012b' (\u0936\u094d\u0930\u0940) honorific with high looped crest",
+          "Tripartite 'Ya' (\u092f) with looped left arm",
+          "Dagger-shaped 'Ka' (\u0915) with horizontal crossbar",
+          "Flowing vocalic diacritics (M\u0101tr\u0101s) sweeping above headline"
+        ],
+        "historicalContext": "The imperial court script of Samudragupta, Chandragupta II, and King Harsha. Evolved directly into Siddham\u0101t\u1e5bk\u0101 (Ku\u1e6dila), Sarada, Gau\u1e0d\u012b (Proto-Bengali), Tibetan, and Early N\u0101gar\u012b.",
+        "famousInscriptions": [
+          "Prayagraj (Allahabad) Pillar Pra\u015basti of Samudragupta",
+          "Eran Stone Inscription of Samudragupta",
+          "Mathura Inscribed Sculptures & Votive Records",
+          "Udayagiri Cave Inscriptions (Madhya Pradesh)",
+          "Nalanda Monastic Copper Plates & Clay Seals"
+        ],
+        "visualClues": "Prominent solid triangular/wedge headmarks on vertical stems, ornate multi-tier Sanskrit conjunct ligatures, curved base loops, and top-curling vocalic flourishes.",
+        "vlmNotes": "Classified by fine-tuned ViT-B/16 with cosine metric projector. Calibrated confidence: 36.7% (Cosine alignment: 0.367, Margin: 0.042).",
+        "morphologyMetrics": {
+          "top1_probability": 0.6596,
+          "max_cosine_similarity": 0.3666,
+          "classification_margin": 0.0424,
+          "calibrated_confidence": 0.3666,
+          "embedding_dim": 256,
+          "backbone": "vit_b_16",
+          "palaeography_metrics": {
+            "evaluated_class": "gupta",
+            "status": "passed"
+          }
+        }
+      },
+      "image_details": {
+        "original_filename": "Eran inscription of Samudragupta.jpg",
+        "dimensions": "450x1374"
+      }
+    }
+  },
+  {
+    "test_case": {
+      "group": "Negative Evaluation (Blanks)",
+      "file": "dataset/negative_evaluation_set/blank_and_low_info/pure_black.png",
+      "site": "Synthetic Blank",
+      "expected_status": "script_not_detected",
+      "expected_class": null
+    },
+    "result": {
+      "status": "script_not_detected",
+      "decision": "rejected",
+      "rejection_reason": "Image contains no visible inscription features or stroke content (blank/uniform image detected: pixel_std=0.0, edge_energy=0.0).",
+      "script": "Script not detected",
+      "script_family": "Script not detected",
+      "raw_class": null,
+      "confidence": 0.0,
+      "candidates": [
+        {
+          "class": "brahmi",
+          "script": "brahmi",
+          "script_family": "Ashokan Brahmi",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        },
+        {
+          "class": "grantha",
+          "script": "grantha",
+          "script_family": "Grantha Script (Pallava & Chola Grantha)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        },
+        {
+          "class": "gupta",
+          "script": "gupta",
+          "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        },
+        {
+          "class": "kadamba",
+          "script": "kadamba",
+          "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        },
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        }
+      ],
+      "execution_time_ms": 3.23,
+      "model": "vit_b_16_whole_inscription",
+      "source": "vit_b16_whole_inscription",
+      "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+      "details": {
+        "name": "Script not detected",
+        "scriptFamily": "Script not detected",
+        "period": "N/A",
+        "region": "N/A",
+        "writingDirection": "N/A",
+        "headmark": "N/A",
+        "strokeStyle": "N/A",
+        "keyGlyphs": [],
+        "historicalContext": "Image contains no visible inscription features or stroke content (blank/uniform image detected: pixel_std=0.0, edge_energy=0.0).",
+        "famousInscriptions": [],
+        "visualClues": "No ancient script features or stroke contours detected. The image appears blank or uniform.",
+        "vlmNotes": "Inference rejected: image does not contain visible inscription stroke content.",
+        "morphologyMetrics": {
+          "visual_metrics": {
+            "pixel_std": 0.0,
+            "edge_energy": 0.0
+          },
+          "status": "rejected_blank_image"
+        }
+      },
+      "image_details": {
+        "original_filename": "pure_black.png",
+        "dimensions": "300x300"
+      }
+    }
+  },
+  {
+    "test_case": {
+      "group": "Negative Evaluation (Blanks)",
+      "file": "dataset/negative_evaluation_set/blank_and_low_info/pure_white.png",
+      "site": "Synthetic Blank",
+      "expected_status": "script_not_detected",
+      "expected_class": null
+    },
+    "result": {
+      "status": "script_not_detected",
+      "decision": "rejected",
+      "rejection_reason": "Image contains no visible inscription features or stroke content (blank/uniform image detected: pixel_std=0.0, edge_energy=0.0).",
+      "script": "Script not detected",
+      "script_family": "Script not detected",
+      "raw_class": null,
+      "confidence": 0.0,
+      "candidates": [
+        {
+          "class": "brahmi",
+          "script": "brahmi",
+          "script_family": "Ashokan Brahmi",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        },
+        {
+          "class": "grantha",
+          "script": "grantha",
+          "script_family": "Grantha Script (Pallava & Chola Grantha)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        },
+        {
+          "class": "gupta",
+          "script": "gupta",
+          "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        },
+        {
+          "class": "kadamba",
+          "script": "kadamba",
+          "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        },
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        }
+      ],
+      "execution_time_ms": 2.75,
+      "model": "vit_b_16_whole_inscription",
+      "source": "vit_b16_whole_inscription",
+      "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+      "details": {
+        "name": "Script not detected",
+        "scriptFamily": "Script not detected",
+        "period": "N/A",
+        "region": "N/A",
+        "writingDirection": "N/A",
+        "headmark": "N/A",
+        "strokeStyle": "N/A",
+        "keyGlyphs": [],
+        "historicalContext": "Image contains no visible inscription features or stroke content (blank/uniform image detected: pixel_std=0.0, edge_energy=0.0).",
+        "famousInscriptions": [],
+        "visualClues": "No ancient script features or stroke contours detected. The image appears blank or uniform.",
+        "vlmNotes": "Inference rejected: image does not contain visible inscription stroke content.",
+        "morphologyMetrics": {
+          "visual_metrics": {
+            "pixel_std": 0.0,
+            "edge_energy": 0.0
+          },
+          "status": "rejected_blank_image"
+        }
+      },
+      "image_details": {
+        "original_filename": "pure_white.png",
+        "dimensions": "300x300"
+      }
+    }
+  },
+  {
+    "test_case": {
+      "group": "Negative Evaluation (Blanks)",
+      "file": "dataset/negative_evaluation_set/blank_and_low_info/uniform_gray.png",
+      "site": "Synthetic Blank",
+      "expected_status": "script_not_detected",
+      "expected_class": null
+    },
+    "result": {
+      "status": "script_not_detected",
+      "decision": "rejected",
+      "rejection_reason": "Image contains no visible inscription features or stroke content (blank/uniform image detected: pixel_std=0.0, edge_energy=0.0).",
+      "script": "Script not detected",
+      "script_family": "Script not detected",
+      "raw_class": null,
+      "confidence": 0.0,
+      "candidates": [
+        {
+          "class": "brahmi",
+          "script": "brahmi",
+          "script_family": "Ashokan Brahmi",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        },
+        {
+          "class": "grantha",
+          "script": "grantha",
+          "script_family": "Grantha Script (Pallava & Chola Grantha)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        },
+        {
+          "class": "gupta",
+          "script": "gupta",
+          "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        },
+        {
+          "class": "kadamba",
+          "script": "kadamba",
+          "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        },
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        }
+      ],
+      "execution_time_ms": 2.95,
+      "model": "vit_b_16_whole_inscription",
+      "source": "vit_b16_whole_inscription",
+      "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+      "details": {
+        "name": "Script not detected",
+        "scriptFamily": "Script not detected",
+        "period": "N/A",
+        "region": "N/A",
+        "writingDirection": "N/A",
+        "headmark": "N/A",
+        "strokeStyle": "N/A",
+        "keyGlyphs": [],
+        "historicalContext": "Image contains no visible inscription features or stroke content (blank/uniform image detected: pixel_std=0.0, edge_energy=0.0).",
+        "famousInscriptions": [],
+        "visualClues": "No ancient script features or stroke contours detected. The image appears blank or uniform.",
+        "vlmNotes": "Inference rejected: image does not contain visible inscription stroke content.",
+        "morphologyMetrics": {
+          "visual_metrics": {
+            "pixel_std": 0.0,
+            "edge_energy": 0.0
+          },
+          "status": "rejected_blank_image"
+        }
+      },
+      "image_details": {
+        "original_filename": "uniform_gray.png",
+        "dimensions": "300x300"
+      }
+    }
+  },
+  {
+    "test_case": {
+      "group": "Negative Evaluation (Ordinary Objects)",
+      "file": "dataset/negative_evaluation_set/ordinary_objects/batman-.jpg",
+      "site": "Everyday Photograph",
+      "expected_status": "script_not_detected",
+      "expected_class": null
+    },
+    "result": {
+      "status": "script_not_detected",
+      "decision": "rejected",
+      "rejection_reason": "Prototype cosine similarity (0.158) is extremely low. Image exhibits no sufficient metric alignment with any supported ancient script prototype.",
+      "script": "Script not detected",
+      "script_family": "Script not detected",
+      "raw_class": "brahmi",
+      "confidence": 0.1576,
+      "candidates": [
+        {
+          "class": "brahmi",
+          "script": "brahmi",
+          "script_family": "Ashokan Brahmi",
+          "confidence": 0.1576,
+          "probability": 0.5386,
+          "cosine_similarity": 0.1576
+        },
+        {
+          "class": "kadamba",
+          "script": "kadamba",
+          "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+          "confidence": 0.0886,
+          "probability": 0.1784,
+          "cosine_similarity": 0.0886
+        },
+        {
+          "class": "tamil_brahmi",
+          "script": "tamil_brahmi",
+          "script_family": "Tamil-Brahmi",
+          "confidence": 0.0777,
+          "probability": 0.1499,
+          "cosine_similarity": 0.0777
+        },
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.0653,
+          "probability": 0.1231,
+          "cosine_similarity": 0.0653
+        },
+        {
+          "class": "gupta",
+          "script": "gupta",
+          "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+          "confidence": 0.0,
+          "probability": 0.0076,
+          "cosine_similarity": -0.1086
+        }
+      ],
+      "execution_time_ms": 766.68,
+      "model": "vit_b_16_whole_inscription",
+      "source": "vit_b16_whole_inscription",
+      "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+      "details": {
+        "name": "Script not detected",
+        "scriptFamily": "Script not detected",
+        "period": "Unsupported / Historical Era",
+        "region": "Non-matching regional tradition",
+        "writingDirection": "N/A",
+        "headmark": "N/A",
+        "strokeStyle": "N/A",
+        "keyGlyphs": [],
+        "historicalContext": "Prototype cosine similarity (0.158) is extremely low. Image exhibits no sufficient metric alignment with any supported ancient script prototype.",
+        "famousInscriptions": [],
+        "visualClues": "Epigraphic features were uncertain or below acceptance threshold.",
+        "vlmNotes": "Inference abstained: Prototype cosine similarity (0.158) is extremely low. Image exhibits no sufficient metric alignment with any supported ancient script prototype.",
+        "morphologyMetrics": {
+          "top1_probability": 0.5386,
+          "max_cosine_similarity": 0.1576,
+          "classification_margin": 0.0691,
+          "calibrated_confidence": 0.1576,
+          "threshold": 0.3,
+          "status": "uncertain_abstention",
+          "palaeography_metrics": {
+            "evaluated_class": "brahmi",
+            "status": "passed"
+          }
+        }
+      },
+      "image_details": {
+        "original_filename": "batman-.jpg",
+        "dimensions": "3840x2160"
+      }
+    }
+  },
+  {
+    "test_case": {
+      "group": "Negative Evaluation (Ordinary Objects)",
+      "file": "dataset/negative_evaluation_set/ordinary_objects/spidey.jpg",
+      "site": "Everyday Photograph",
+      "expected_status": "script_not_detected",
+      "expected_class": null
+    },
+    "result": {
+      "status": "script_not_detected",
+      "decision": "rejected",
+      "rejection_reason": "Prototype cosine similarity (0.154) is extremely low. Image exhibits no sufficient metric alignment with any supported ancient script prototype.",
+      "script": "Script not detected",
+      "script_family": "Script not detected",
+      "raw_class": "kadamba",
+      "confidence": 0.1542,
+      "candidates": [
+        {
+          "class": "kadamba",
+          "script": "kadamba",
+          "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+          "confidence": 0.1542,
+          "probability": 0.7732,
+          "cosine_similarity": 0.1542
+        },
+        {
+          "class": "brahmi",
+          "script": "brahmi",
+          "script_family": "Ashokan Brahmi",
+          "confidence": 0.0387,
+          "probability": 0.1219,
+          "cosine_similarity": 0.0387
+        },
+        {
+          "class": "gupta",
+          "script": "gupta",
+          "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+          "confidence": 0.0,
+          "probability": 0.062,
+          "cosine_similarity": -0.0036
+        },
+        {
+          "class": "grantha",
+          "script": "grantha",
+          "script_family": "Grantha Script (Pallava & Chola Grantha)",
+          "confidence": 0.0,
+          "probability": 0.0286,
+          "cosine_similarity": -0.052
+        },
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.0,
+          "probability": 0.0138,
+          "cosine_similarity": -0.0975
+        }
+      ],
+      "execution_time_ms": 844.07,
+      "model": "vit_b_16_whole_inscription",
+      "source": "vit_b16_whole_inscription",
+      "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+      "details": {
+        "name": "Script not detected",
+        "scriptFamily": "Script not detected",
+        "period": "Unsupported / Historical Era",
+        "region": "Non-matching regional tradition",
+        "writingDirection": "N/A",
+        "headmark": "N/A",
+        "strokeStyle": "N/A",
+        "keyGlyphs": [],
+        "historicalContext": "Prototype cosine similarity (0.154) is extremely low. Image exhibits no sufficient metric alignment with any supported ancient script prototype.",
+        "famousInscriptions": [],
+        "visualClues": "Epigraphic features were uncertain or below acceptance threshold.",
+        "vlmNotes": "Inference abstained: Prototype cosine similarity (0.154) is extremely low. Image exhibits no sufficient metric alignment with any supported ancient script prototype.",
+        "morphologyMetrics": {
+          "top1_probability": 0.7732,
+          "max_cosine_similarity": 0.1542,
+          "classification_margin": 0.1155,
+          "calibrated_confidence": 0.1542,
+          "threshold": 0.3,
+          "status": "uncertain_abstention",
+          "palaeography_metrics": {
+            "evaluated_class": "kadamba",
+            "status": "passed"
+          }
+        }
+      },
+      "image_details": {
+        "original_filename": "spidey.jpg",
+        "dimensions": "3840x2160"
+      }
+    }
+  },
+  {
+    "test_case": {
+      "group": "Negative Evaluation (Ordinary Objects)",
+      "file": "dataset/negative_evaluation_set/ordinary_objects/himym.webp",
+      "site": "Television Still",
+      "expected_status": "unsupported_script",
+      "expected_class": null
+    },
+    "result": {
+      "status": "unsupported_script",
+      "decision": "rejected",
+      "rejection_reason": "Classification margin (0.011) is below the calibrated threshold (0.040). Ambiguous script boundary between candidate classes.",
+      "script": "Unsupported Script Inscription",
+      "script_family": "Unsupported Script Inscription",
+      "raw_class": "kharosthi",
+      "confidence": 0.3114,
+      "candidates": [
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.3114,
+          "probability": 0.5422,
+          "cosine_similarity": 0.3114
+        },
+        {
+          "class": "kadamba",
+          "script": "kadamba",
+          "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+          "confidence": 0.3002,
+          "probability": 0.4535,
+          "cosine_similarity": 0.3002
+        },
+        {
+          "class": "brahmi",
+          "script": "brahmi",
+          "script_family": "Ashokan Brahmi",
+          "confidence": 0.0,
+          "probability": 0.0025,
+          "cosine_similarity": -0.0239
+        },
+        {
+          "class": "gupta",
+          "script": "gupta",
+          "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+          "confidence": 0.0,
+          "probability": 0.001,
+          "cosine_similarity": -0.0821
+        },
+        {
+          "class": "tamil_brahmi",
+          "script": "tamil_brahmi",
+          "script_family": "Tamil-Brahmi",
+          "confidence": 0.0,
+          "probability": 0.0006,
+          "cosine_similarity": -0.1099
+        }
+      ],
+      "execution_time_ms": 501.65,
+      "model": "vit_b_16_whole_inscription",
+      "source": "vit_b16_whole_inscription",
+      "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+      "details": {
+        "name": "Unsupported Script Inscription",
+        "scriptFamily": "Unsupported Script Inscription",
+        "period": "Unsupported / Historical Era",
+        "region": "Non-matching regional tradition",
+        "writingDirection": "N/A",
+        "headmark": "N/A",
+        "strokeStyle": "N/A",
+        "keyGlyphs": [],
+        "historicalContext": "Classification margin (0.011) is below the calibrated threshold (0.040). Ambiguous script boundary between candidate classes.",
+        "famousInscriptions": [],
+        "visualClues": "The image appears to contain an inscription, but its palaeographical features or metric embedding do not match the canonical criteria for the 6 supported ancient scripts (Ashokan Brahmi, Tamil-Brahmi, Gupta, Kharosthi, Grantha, Kadamba). The system safely abstained to avoid false attribution.",
+        "vlmNotes": "Inference abstained: Classification margin (0.011) is below the calibrated threshold (0.040). Ambiguous script boundary between candidate classes.",
+        "morphologyMetrics": {
+          "top1_probability": 0.5422,
+          "max_cosine_similarity": 0.3114,
+          "classification_margin": 0.0112,
+          "calibrated_confidence": 0.3114,
+          "threshold": 0.3,
+          "status": "unsupported_script_rejection",
+          "palaeography_metrics": {
+            "evaluated_class": "kharosthi",
+            "status": "passed"
+          }
+        }
+      },
+      "image_details": {
+        "original_filename": "himym.webp",
+        "dimensions": "1920x1080"
+      }
+    }
+  },
+  {
+    "test_case": {
+      "group": "Negative Evaluation (Natural Unscribed Rocks)",
+      "file": "dataset/negative_evaluation_set/textured_unscribed_rocks/granite_hill_boulders_natural.jpg",
+      "site": "Natural Granite Slope",
+      "expected_status": "script_not_detected",
+      "expected_class": null
+    },
+    "result": {
+      "status": "script_not_detected",
+      "decision": "rejected",
+      "rejection_reason": "Prototype cosine similarity (0.101) is extremely low. Image exhibits no sufficient metric alignment with any supported ancient script prototype.",
+      "script": "Script not detected",
+      "script_family": "Script not detected",
+      "raw_class": "kadamba",
+      "confidence": 0.1013,
+      "candidates": [
+        {
+          "class": "kadamba",
+          "script": "kadamba",
+          "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+          "confidence": 0.1013,
+          "probability": 0.4481,
+          "cosine_similarity": 0.1013
+        },
+        {
+          "class": "brahmi",
+          "script": "brahmi",
+          "script_family": "Ashokan Brahmi",
+          "confidence": 0.0845,
+          "probability": 0.3423,
+          "cosine_similarity": 0.0845
+        },
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.001,
+          "probability": 0.0901,
+          "cosine_similarity": 0.001
+        },
+        {
+          "class": "gupta",
+          "script": "gupta",
+          "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+          "confidence": 0.0,
+          "probability": 0.0559,
+          "cosine_similarity": -0.0289
+        },
+        {
+          "class": "grantha",
+          "script": "grantha",
+          "script_family": "Grantha Script (Pallava & Chola Grantha)",
+          "confidence": 0.0,
+          "probability": 0.0555,
+          "cosine_similarity": -0.0293
+        }
+      ],
+      "execution_time_ms": 592.81,
+      "model": "vit_b_16_whole_inscription",
+      "source": "vit_b16_whole_inscription",
+      "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+      "details": {
+        "name": "Script not detected",
+        "scriptFamily": "Script not detected",
+        "period": "Unsupported / Historical Era",
+        "region": "Non-matching regional tradition",
+        "writingDirection": "N/A",
+        "headmark": "N/A",
+        "strokeStyle": "N/A",
+        "keyGlyphs": [],
+        "historicalContext": "Prototype cosine similarity (0.101) is extremely low. Image exhibits no sufficient metric alignment with any supported ancient script prototype.",
+        "famousInscriptions": [],
+        "visualClues": "Epigraphic features were uncertain or below acceptance threshold.",
+        "vlmNotes": "Inference abstained: Prototype cosine similarity (0.101) is extremely low. Image exhibits no sufficient metric alignment with any supported ancient script prototype.",
+        "morphologyMetrics": {
+          "top1_probability": 0.4481,
+          "max_cosine_similarity": 0.1013,
+          "classification_margin": 0.0168,
+          "calibrated_confidence": 0.1013,
+          "threshold": 0.3,
+          "status": "uncertain_abstention",
+          "palaeography_metrics": {
+            "evaluated_class": "kadamba",
+            "status": "passed"
+          }
+        }
+      },
+      "image_details": {
+        "original_filename": "granite_hill_boulders_natural.jpg",
+        "dimensions": "2736x1824"
+      }
+    }
+  },
+  {
+    "test_case": {
+      "group": "Negative Evaluation (Modern Languages)",
+      "file": "dataset/negative_evaluation_set/modern_other_languages/modern_english_latin_sample.png",
+      "site": "Modern Latin Typography",
+      "expected_status": "unsupported_script",
+      "expected_class": null
+    },
+    "result": {
+      "status": "success",
+      "decision": "accepted",
+      "rejection_reason": null,
+      "script": "gupta",
+      "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+      "raw_class": "gupta",
+      "confidence": 0.4109,
+      "candidates": [
+        {
+          "class": "gupta",
+          "script": "gupta",
+          "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+          "confidence": 0.4109,
+          "probability": 0.9626,
+          "cosine_similarity": 0.4109
+        },
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.019,
+          "probability": 0.019,
+          "cosine_similarity": 0.1654
+        },
+        {
+          "class": "kadamba",
+          "script": "kadamba",
+          "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+          "confidence": 0.0183,
+          "probability": 0.0183,
+          "cosine_similarity": 0.163
+        },
+        {
+          "class": "tamil_brahmi",
+          "script": "tamil_brahmi",
+          "script_family": "Tamil-Brahmi",
+          "confidence": 0.0,
+          "probability": 0.0001,
+          "cosine_similarity": -0.156
+        },
+        {
+          "class": "grantha",
+          "script": "grantha",
+          "script_family": "Grantha Script (Pallava & Chola Grantha)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": -0.2749
+        }
+      ],
+      "execution_time_ms": 332.28,
+      "model": "vit_b_16_whole_inscription",
+      "source": "vit_b16_whole_inscription",
+      "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+      "details": {
+        "name": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+        "scriptFamily": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+        "period": "c. 4th \u2013 8th Century CE (Imperial Gupta to Post-Gupta/Harsha Era)",
+        "region": "Northern, Central, and Eastern India (Prayagraj, Mathura, Eran, Nalanda, Sarnath)",
+        "writingDirection": "Left-to-Right",
+        "headmark": "Prominent solid triangular wedges or nail-head marks (Ku\u1e6dila acute strokes)",
+        "strokeStyle": "Ornate cursive calligraphic curves with tapering vertical brush/chisel lines and complex multi-tier ligatures",
+        "keyGlyphs": [
+          "Triangular wedge headmark atop consonants (Proto-Shirorekha)",
+          "Diagnostic '\u015ar\u012b' (\u0936\u094d\u0930\u0940) honorific with high looped crest",
+          "Tripartite 'Ya' (\u092f) with looped left arm",
+          "Dagger-shaped 'Ka' (\u0915) with horizontal crossbar",
+          "Flowing vocalic diacritics (M\u0101tr\u0101s) sweeping above headline"
+        ],
+        "historicalContext": "The imperial court script of Samudragupta, Chandragupta II, and King Harsha. Evolved directly into Siddham\u0101t\u1e5bk\u0101 (Ku\u1e6dila), Sarada, Gau\u1e0d\u012b (Proto-Bengali), Tibetan, and Early N\u0101gar\u012b.",
+        "famousInscriptions": [
+          "Prayagraj (Allahabad) Pillar Pra\u015basti of Samudragupta",
+          "Eran Stone Inscription of Samudragupta",
+          "Mathura Inscribed Sculptures & Votive Records",
+          "Udayagiri Cave Inscriptions (Madhya Pradesh)",
+          "Nalanda Monastic Copper Plates & Clay Seals"
+        ],
+        "visualClues": "Prominent solid triangular/wedge headmarks on vertical stems, ornate multi-tier Sanskrit conjunct ligatures, curved base loops, and top-curling vocalic flourishes.",
+        "vlmNotes": "Classified by fine-tuned ViT-B/16 with cosine metric projector. Calibrated confidence: 41.1% (Cosine alignment: 0.411, Margin: 0.245).",
+        "morphologyMetrics": {
+          "top1_probability": 0.9626,
+          "max_cosine_similarity": 0.4109,
+          "classification_margin": 0.2455,
+          "calibrated_confidence": 0.4109,
+          "embedding_dim": 256,
+          "backbone": "vit_b_16",
+          "palaeography_metrics": {
+            "evaluated_class": "gupta",
+            "status": "passed"
+          }
+        }
+      },
+      "image_details": {
+        "original_filename": "modern_english_latin_sample.png",
+        "dimensions": "600x400"
+      }
+    }
+  },
+  {
+    "test_case": {
+      "group": "Negative Evaluation (Unsupported Scripts)",
+      "file": "dataset/negative_evaluation_set/medieval_tamil/vatteluttu_script_specimen.png",
+      "site": "Vatteluttu Inscription Specimen",
+      "expected_status": "script_not_detected",
+      "expected_class": null
+    },
+    "result": {
+      "status": "script_not_detected",
+      "decision": "rejected",
+      "rejection_reason": "Image contains no visible inscription features or stroke content (blank/uniform image detected: pixel_std=0.0, edge_energy=0.0).",
+      "script": "Script not detected",
+      "script_family": "Script not detected",
+      "raw_class": null,
+      "confidence": 0.0,
+      "candidates": [
+        {
+          "class": "brahmi",
+          "script": "brahmi",
+          "script_family": "Ashokan Brahmi",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        },
+        {
+          "class": "grantha",
+          "script": "grantha",
+          "script_family": "Grantha Script (Pallava & Chola Grantha)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        },
+        {
+          "class": "gupta",
+          "script": "gupta",
+          "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        },
+        {
+          "class": "kadamba",
+          "script": "kadamba",
+          "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        },
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": 0.0
+        }
+      ],
+      "execution_time_ms": 26.55,
+      "model": "vit_b_16_whole_inscription",
+      "source": "vit_b16_whole_inscription",
+      "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+      "details": {
+        "name": "Script not detected",
+        "scriptFamily": "Script not detected",
+        "period": "N/A",
+        "region": "N/A",
+        "writingDirection": "N/A",
+        "headmark": "N/A",
+        "strokeStyle": "N/A",
+        "keyGlyphs": [],
+        "historicalContext": "Image contains no visible inscription features or stroke content (blank/uniform image detected: pixel_std=0.0, edge_energy=0.0).",
+        "famousInscriptions": [],
+        "visualClues": "No ancient script features or stroke contours detected. The image appears blank or uniform.",
+        "vlmNotes": "Inference rejected: image does not contain visible inscription stroke content.",
+        "morphologyMetrics": {
+          "visual_metrics": {
+            "pixel_std": 0.0,
+            "edge_energy": 0.0
+          },
+          "status": "rejected_blank_image"
+        }
+      },
+      "image_details": {
+        "original_filename": "vatteluttu_script_specimen.png",
+        "dimensions": "960x1545"
+      }
+    }
+  }
+]
