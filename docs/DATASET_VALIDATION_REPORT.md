@@ -1,6 +1,6 @@
 # DeepScript Dataset Validation & Audit Report
 
-**Audit Execution Timestamp:** `2026-10-05T21:53:10.015373`  
+**Audit Execution Timestamp:** `2026-10-16T12:44:46.607682`  
 **Dataset Directory Audited:** `C:\Users\hanvi\OneDrive\Desktop\Deepscript\Deepscript\dataset\whole_inscriptions`  
 **Audit Status:** `CLEAN / PASS`
 
@@ -8,10 +8,10 @@
 
 ## 1. Executive Summary
 
-- **Total Whole-Inscription Images Found:** `49`
-- **Valid Images:** `49`
+- **Total Whole-Inscription Images Found:** `61`
+- **Valid Images:** `61`
 - **Corrupted / Unreadable Images:** `0`
-- **Empty Script Classes:** `1 / 6`
+- **Empty Script Classes:** `0 / 6`
 - **Exact Duplicate Files:** `0`
 - **Cross-Class Duplicates:** `0`
 
@@ -26,7 +26,7 @@
 | **`kharosthi`** | Populated | 10 | 10 | 0 | 950x602 – 1920x1897 | JPEG:10 |
 | **`grantha`** | Populated | 10 | 10 | 0 | 841x474 – 1920x2560 | JPEG:10 |
 | **`kadamba`** | Populated | 9 | 9 | 0 | 1318x879 – 1920x2560 | JPEG:9 |
-| **`tamil_brahmi`** | Empty (Ready) | 0 | 0 | 0 | N/A | None |
+| **`tamil_brahmi`** | Populated | 12 | 12 | 0 | 2495x284 – 2501x1700 | JPEG:12 |
 
 ---
 
@@ -40,8 +40,8 @@
 ## 4. Metadata Validation (`dataset/metadata.csv`)
 
 - **Metadata Header Status:** `VALID`
-- **Total Metadata Records:** `49`
-- **Valid Metadata Rows:** `49`
+- **Total Metadata Records:** `61`
+- **Valid Metadata Rows:** `61`
 - **Images on Disk Missing Metadata:** `0`
 - **Metadata Paths Missing on Disk:** `0`
 - **Invalid Script Entries:** `0`

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-05T21:53:10.015373",
+  "timestamp": "2026-10-16T12:44:46.607682",
   "dataset_dir": "C:\\Users\\hanvi\\OneDrive\\Desktop\\Deepscript\\Deepscript\\dataset\\whole_inscriptions",
   "folder_check": {
     "supported_scripts": [
@@ -20,13 +20,11 @@
     ],
     "missing_folders": [],
     "unexpected_folders": [],
-    "empty_folders": [
-      "tamil_brahmi"
-    ]
+    "empty_folders": []
   },
   "summary": {
-    "total_images_found": 49,
-    "valid_images": 49,
+    "total_images_found": 61,
+    "valid_images": 61,
     "corrupted_images": 0,
     "non_image_files": 0
   },
@@ -137,19 +135,23 @@
       "corrupted_files": []
     },
     "tamil_brahmi": {
-      "total": 0,
-      "valid": 0,
+      "total": 12,
+      "valid": 12,
       "corrupted": 0,
       "dimensions": {
-        "min_width": null,
-        "max_width": null,
-        "min_height": null,
-        "max_height": null,
-        "avg_width": 0.0,
-        "avg_height": 0.0
+        "min_width": 2495,
+        "max_width": 2501,
+        "min_height": 284,
+        "max_height": 1700,
+        "avg_width": 2499.2,
+        "avg_height": 913.7
       },
-      "formats": {},
-      "color_modes": {},
+      "formats": {
+        "JPEG": 12
+      },
+      "color_modes": {
+        "RGB": 12
+      },
       "corrupted_files": []
     }
   },
@@ -159,8 +161,8 @@
   },
   "metadata_check": {
     "metadata_file_found": true,
-    "total_metadata_rows": 49,
-    "valid_rows": 49,
+    "total_metadata_rows": 61,
+    "valid_rows": 61,
     "unmatched_dataset_images": [],
     "unmatched_metadata_paths": [],
     "invalid_scripts": [],

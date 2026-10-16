@@ -10,12 +10,13 @@ DeepScript is an end-to-end deep learning system designed to identify ancient In
 
 Ancient Indian inscriptions engraved across temple walls, caves, pillars, and copper charters represent millennia of cultural and historical heritage. Identifying historical scripts requires specialized epigraphic paleography expertise. DeepScript automates whole-inscription script identification using a fine-tuned Vision Transformer (ViT-B/16), metric feature embeddings, and cosine similarity classification.
 
-### Supported 5-Class MVP Script Families
-1. **Ashokan Brahmi** (`brahmi`) — 3rd Century BCE monumental imperial script.
-2. **Gupta Script** (`gupta`) — 4th–8th Century CE late northern Brahmi with wedge headmarks.
-3. **Kharosthi** (`kharosthi`) — 4th Century BCE – 3rd Century CE Gandharan right-to-left script.
-4. **Grantha Script** (`grantha`) — 6th–14th Century CE South Indian rounded script for Sanskrit.
-5. **Kadamba Script** (`kadamba`) — 5th–6th Century CE box-headed Western Brahmi of the Deccan.
+### Supported 6 Epigraphic Script Families
+1. **Ashokan Brahmi** (`brahmi`) — c. 3rd Century BCE monumental imperial Prakrit script of Emperor Ashoka.
+2. **Tamil-Brahmi** (`tamil_brahmi`) — c. 3rd Century BCE – 5th Century CE early Sangam cavern script adapted for Old Tamil phonology.
+3. **Gupta Script** (`gupta`) — c. 4th–8th Century CE late northern Brahmi / Siddhamātṛkā with wedge headmarks.
+4. **Kharosthi** (`kharosthi`) — c. 4th Century BCE – 3rd Century CE Gandharan right-to-left sister script.
+5. **Grantha Script** (`grantha`) — c. 6th–14th Century CE South Indian rounded script for classical Sanskrit.
+6. **Kadamba Script** (`kadamba`) — c. 5th–6th Century CE box-headed Western Brahmi of the Deccan.
 
 ---
 
@@ -23,6 +24,9 @@ Ancient Indian inscriptions engraved across temple walls, caves, pillars, and co
 
 ```
 [ Whole Inscription Image (Stone Wall / Cave / Pillar / Copper Plate) ]
+                                 │
+                                 ▼
+[ Input Validator: Blank/Degenerate Image Rejection + Integrity Checks ]
                                  │
                                  ▼
 [ Image Preprocessing: Resize 224×224 (Bicubic) + ImageNet Normalization ]
@@ -34,10 +38,10 @@ Ancient Indian inscriptions engraved across temple walls, caves, pillars, and co
 [ Metric Embedding Projector (MLP: 768 → 512 → 256 + L2-Normalization) ]
                                  │  (256-dimensional unit-norm embedding, ||z||₂ = 1.0)
                                  ▼
-[ Cosine Similarity Classification Head (5 Script Classes) ]
+[ Cosine Similarity Classification Head (6 Script Classes) ]
                                  │
                                  ▼
-[ Script Family Prediction + Probability Distribution + Paleographic Dossier ]
+[ Script Family Prediction + Probability Distribution + Epigraphic Dossier ]
 ```
 
 ---
@@ -45,39 +49,43 @@ Ancient Indian inscriptions engraved across temple walls, caves, pillars, and co
 ## 3. Dataset & Provenance
 
 - **Target Corpus:** `dataset/whole_inscriptions/`
-- **Total Verified Images:** 49 whole-inscription specimens.
-  - **Brahmi:** 10 images
-  - **Gupta:** 10 images
-  - **Kharosthi:** 10 images
-  - **Grantha:** 10 images
-  - **Kadamba:** 9 images
-- **Metadata Provenance:** Full archaeological provenance, site records, and Wikimedia Commons source URLs catalogued in [`dataset/metadata.csv`](dataset/metadata.csv).
+- **Total Verified Images:** 61 whole-inscription specimens.
+  - **Ashokan Brahmi (`brahmi`):** 10 images (Mauryan Rock & Pillar Edicts: Ramgarh, Kangra, Erragudi, Sarnath, Lumbini, Vidisha, Nashik).
+  - **Tamil-Brahmi (`tamil_brahmi`):** 12 images (Sangam Cavern & Boulder Inscriptions: Mangulam, Sittannavasal, Arittapatti, Jambai, Pugalur, Alagarmalai, Edakal, Kongarpuliyankulam, Karungalakkudi, Kilavalavu, Aiyarmalai).
+  - **Gupta (`gupta`):** 10 images (Samudragupta Eran, Chandragupta II Mathura/Sanchi, Bhitari, Allahabad Prashasti).
+  - **Kharosthi (`kharosthi`):** 10 images (Shahbazgarhi, Mansehra, Niya wooden tablets, Bimaran reliquary).
+  - **Grantha (`grantha`):** 10 images (Mandagapattu, Thalavanur, Velvikudi grant, Kurumathur).
+  - **Kadamba (`kadamba`):** 9 images (Halmidi, Talagunda pillar & door jambs, Malavalli, Banavasi).
+- **Provenance & Licences:**
+  - Tamil-Brahmi stone inscriptions: *Tamil Brahmi Stone Inscription (TBSI)* dataset by Sukumar M / Tamil Nadu Department of Archaeology (TNDA), hosted on Mendeley Data (DOI: [10.17632/2spz2js9jp.1](https://data.mendeley.com/datasets/2spz2js9jp/1)), licensed under **CC BY 4.0**.
+  - Brahmi, Gupta, Kharosthi, Grantha, Kadamba: Curated from Wikimedia Commons under Creative Commons (CC BY-SA 4.0 / CC BY-SA 3.0 / CC BY-SA 2.0 / Public Domain). Full per-image provenance recorded in [`dataset/metadata.csv`](dataset/metadata.csv).
 - **Format Standardization:** Automatic RGB conversion, bicubic interpolation, and ImageNet standardization.
 
 ---
 
 ## 4. Transfer Learning & Training Strategy
 
-Training uses a two-stage transfer learning strategy:
+Training uses a two-stage transfer learning strategy (`configs/training_config_6class.yaml`):
 
-1. **Stage 1 (Head Warmup - 3 Epochs):**
+1. **Stage 1 (Head Warmup - 4 Epochs):**
    - ViT backbone frozen (85.8M parameters).
    - Embedding projector & cosine head trained (AdamW, Head LR = $10^{-3}$, CosineAnnealingLR).
-2. **Stage 2 (Fine-Tuning - 3 Epochs):**
-   - Unfreezes last 2 Transformer encoder blocks (Layers 10 & 11).
+2. **Stage 2 (Fine-Tuning - 4 Epochs):**
+   - Unfreezes last 2 Transformer encoder blocks (Layers 10 & 11, 14.9M trainable parameters).
    - Differential learning rates: Backbone LR = $2 \times 10^{-5}$, Head LR = $2 \times 10^{-4}$.
 
 ---
 
 ## 5. Evaluation Results
 
-### Held-Out Test Set (Isolated 15% Split, $N = 6$ samples)
+### Held-Out Test Set (Isolated Partition, $N = 8$ samples)
 - **Top-1 Accuracy:** 100.00%
 - **Top-3 Accuracy:** 100.00%
-- **Test Cross-Entropy Loss:** 0.0348
+- **Test Cross-Entropy Loss:** 0.0424
 - **Macro Precision / Recall / F1:** 1.0000 / 1.0000 / 1.0000
+- **Ashokan Brahmi vs. Tamil-Brahmi:** 0 cross-class confusion (Precision: 100.0%, Recall: 100.0% for both classes).
 
-> **Small Dataset Disclaimer:** Because the current curated dataset contains 49 whole-inscription images across 5 classes (with 6 isolated test samples), these metrics validate that the ViT metric learning pipeline and cosine similarity head are working end-to-end. They do not imply universal real-world generalization across uncurated field images.
+> **Epigraphic & Dataset Limitations:** While the model achieves high metric separation on the curated corpus ($N = 61$), whole-inscription recognition in open-world archaeological settings is subject to rock weathering, erosion, biogrowth, and poor lighting. Photos must exhibit visible glyph stroke relief. Sub-variety identification (e.g., exact regional Pandya vs. Chera cavern sub-phase) is not claimed beyond family-level classification.
 
 ---
 
@@ -85,17 +93,18 @@ Training uses a two-stage transfer learning strategy:
 
 ### 1. Primary Inference Engine: ViT-B/16
 - **Module:** [`backend/vit_inference.py`](backend/vit_inference.py)
-- **Checkpoint:** [`checkpoints/whole_inscription_vit/best_vit_model.pth`](checkpoints/whole_inscription_vit/best_vit_model.pth)
-- **Execution:** Pure neural inference on CPU (~160–280 ms latency per image).
+- **Active 6-Class Checkpoint:** [`checkpoints/six_class_vit/best_vit_model.pth`](checkpoints/six_class_vit/best_vit_model.pth)
+- **Preserved 5-Class Fallback Checkpoint:** [`checkpoints/whole_inscription_vit/best_vit_model.pth`](checkpoints/whole_inscription_vit/best_vit_model.pth)
+- **Execution:** Pure neural inference on CPU (~180–260 ms latency per image).
 
 ### 2. Optional Fallback Engine: Hugging Face VLM
 - **Module:** [`backend/hf_vlm_engine.py`](backend/hf_vlm_engine.py)
-- **Purpose:** Secondary multimodal vision-language paleographic feature analysis. Accessible via `?engine=vlm`.
+- **Purpose:** Multimodal vision-language paleographic feature analysis. Accessible via `?engine=vlm`.
 
 ### 3. FastAPI REST Backend
 - **Endpoints:**
   - `GET /health` — Operational status, active model, and class list.
-  - `GET /classes` — 5 supported script classes with historical metadata.
+  - `GET /classes` — 6 supported script classes with historical epigraphic dossiers.
   - `POST /predict` — Classify uploaded whole-inscription image.
   - `POST /api/hf-config` — Configure optional Hugging Face VLM token/model.
 
