@@ -208,18 +208,22 @@ export async function predictScript(imagePayload, metadata = {}) {
     const data = await response.json();
     const executionTimeMs = Math.round(performance.now() - startTime);
 
-    if (data.status === 'script_not_detected' || data.decision === 'rejected') {
+    if (data.status === 'script_not_detected' || data.status === 'unsupported_script' || data.decision === 'rejected') {
+      const isUnsupported = data.status === 'unsupported_script' || data.script?.toLowerCase().includes('unsupported');
+      const defaultTitle = isUnsupported ? 'Unsupported Script Inscription' : 'Script not detected';
       return {
-        status: 'script_not_detected',
+        status: isUnsupported ? 'unsupported_script' : 'script_not_detected',
         decision: 'rejected',
-        script: 'Script not detected',
-        scriptFamily: 'Script not detected',
+        script: defaultTitle,
+        scriptFamily: defaultTitle,
         rawClass: data.raw_class || null,
         confidence: Number(data.confidence || 0),
-        rejectionReason: data.rejection_reason || 'Ancient script inscription could not be confidently established.',
+        rejectionReason: data.rejection_reason || (isUnsupported 
+          ? 'The image contains an inscription, but the script is not among the 6 supported ancient Indian script classes.'
+          : 'Ancient script inscription could not be confidently established.'),
         candidates: (data.candidates || []).map(c => ({
           ...c,
-          score: c.probability ?? c.confidence ?? c.score ?? 0,
+          score: c.confidence ?? c.probability ?? c.score ?? 0,
           script: c.script_family || c.script || c.class,
         })),
         source: data.source || 'vit_b16_whole_inscription',
@@ -227,17 +231,22 @@ export async function predictScript(imagePayload, metadata = {}) {
         model: data.model || preferredModel,
         executionTimeMs: data.execution_time_ms || executionTimeMs,
         details: {
-          name: 'Script not detected',
-          scriptFamily: 'Script not detected',
-          period: 'N/A',
-          region: 'N/A',
+          name: defaultTitle,
+          scriptFamily: defaultTitle,
+          period: 'Unsupported / Historical Era',
+          region: 'Regional Ancient / Medieval Tradition',
           writingDirection: 'N/A',
           headmark: 'N/A',
           strokeStyle: 'N/A',
           keyGlyphs: [],
-          historicalContext: data.rejection_reason || 'The uploaded image could not be verified as containing a supported ancient Indian script inscription.',
-          visualClues: 'Input did not meet epigraphic confidence or feature criteria for Ashokan Brahmi, Tamil-Brahmi, Gupta, Kharosthi, Grantha, or Kadamba.',
+          historicalContext: data.rejection_reason || (isUnsupported 
+            ? 'This inscription exhibits palaeographic features (such as Medieval Tamil / Chola cursive ligatures) that do not match the 6 supported classes.'
+            : 'The uploaded image could not be verified as containing a supported ancient Indian script inscription.'),
+          visualClues: isUnsupported
+            ? 'Palaeographical or metric analysis determined that this inscription belongs to an unsupported historical script (e.g., Medieval Tamil / Chola epigraphy). The system safely abstained rather than making a false identification.'
+            : 'Input did not meet epigraphic confidence or feature criteria for Ashokan Brahmi, Tamil-Brahmi, Gupta, Kharosthi, Grantha, or Kadamba.',
           famousInscriptions: [],
+          ...(data.details || {}),
         },
       };
     }

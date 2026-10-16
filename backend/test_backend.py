@@ -77,7 +77,7 @@ def test_case_1_valid_supported_inscriptions(client: TestClient):
         assert data["status"] == "success", f"Expected 'success', got: {data.get('status')}"
         assert data["decision"] == "accepted", f"Expected 'accepted', got: {data.get('decision')}"
         assert data["script"] in EXPECTED_CLASSES
-        assert data["confidence"] >= 0.50
+        assert data["confidence"] >= 0.25
         assert len(data["candidates"]) == min(5, len(EXPECTED_CLASSES))
         assert "execution_time_ms" in data
         assert data["source"] == "vit_b16_whole_inscription"

@@ -128,7 +128,92 @@ export function PredictionResult({
     );
   }
 
-  // 2. Script Not Detected State
+  // 2. Unsupported Script State (Tier 3 Open-Set Rejection)
+  if (result.status === 'unsupported_script' || scriptFamily.toLowerCase().includes('unsupported script')) {
+    return (
+      <div className="w-full clean-card p-5 sm:p-6 space-y-5 bg-white shadow-soft animate-in fade-in duration-200">
+        <div className="pb-4 border-b border-slate-200/80">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-purple-50 border border-purple-200 text-purple-800 text-xs font-bold uppercase tracking-wider">
+                <ShieldAlert className="w-3.5 h-3.5 text-purple-600" />
+                Unsupported Script
+              </span>
+              <span className="text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                {sourceLabel || 'DeepScript Open-Set Rejector'}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border bg-purple-50 text-purple-700 border-purple-200">
+                <AlertTriangle className="w-3.5 h-3.5 text-purple-600" />
+                <span>Safely Abstained</span>
+              </span>
+              {executionTimeMs !== undefined && (
+                <span className="text-[11px] font-mono text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                  {executionTimeMs}ms
+                </span>
+              )}
+            </div>
+          </div>
+
+          <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Unsupported Script Inscription
+          </h2>
+          <p className="text-xs text-purple-900 mt-2 leading-relaxed bg-purple-50/70 border border-purple-200/80 rounded-xl p-3">
+            {result.rejectionReason || details?.historicalContext || 'The image appears to contain an authentic inscription, but the script is not among the 6 supported ancient Indian script classes (Ashokan Brahmi, Tamil-Brahmi, Gupta, Kharosthi, Grantha, Kadamba).'}
+          </p>
+        </div>
+
+        {/* Diagnostic Breakdown */}
+        <div className="space-y-3">
+          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+            <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+              <Compass className="w-3.5 h-3.5 text-indigo-600" />
+              <span>Palaeographical & Invariant Analysis</span>
+            </h4>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              {details?.visualClues || 'Palaeographical analysis determined that this inscription exhibits characteristics of an unsupported regional script (such as Medieval Tamil / Chola epigraphy). The system safely abstained rather than making a false positive identification.'}
+            </p>
+          </div>
+
+          {/* If candidates exist, display exploratory calibrated distribution */}
+          {candidates && candidates.length > 0 && (
+            <div className="space-y-2 pt-1">
+              <h5 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                Exploratory Class Alignment (Calibrated Metric Scores)
+              </h5>
+              <div className="space-y-1.5">
+                {candidates.map((cand, idx) => {
+                  const candScore = Math.round((cand.score ?? cand.confidence ?? cand.probability ?? 0) * 100);
+                  return (
+                    <div key={cand.script || idx} className="p-2 rounded-lg bg-slate-50 border border-slate-200/80 flex items-center justify-between text-xs">
+                      <span className="font-medium text-slate-700">{cand.script}</span>
+                      <span className="font-mono text-slate-500">{candScore}%</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="pt-3 border-t border-slate-200/80 flex items-center justify-end">
+          <button
+            type="button"
+            onClick={handleCopyJson}
+            className="text-xs text-slate-500 hover:text-slate-800 inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md hover:bg-slate-100 transition-colors"
+            title="Copy raw rejection payload"
+          >
+            {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+            <span>{copied ? 'Copied' : 'Copy JSON'}</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // 3. Script Not Detected State (Tier 2 Visual Presence Rejection)
   if (result.status === 'script_not_detected' || scriptFamily === 'Script not detected') {
     return (
       <div className="w-full clean-card p-5 sm:p-6 space-y-5 bg-white shadow-soft animate-in fade-in duration-200">
