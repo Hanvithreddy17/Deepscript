@@ -146,53 +146,5 @@ export const ANCIENT_SCRIPTS = {
     historicalContext:
       'Developed by the chancery of the Kadamba Dynasty of Banavasi, marking the distinct epigraphic foundation for scripts of the Deccan plateau.',
     visualClues: 'Square hollow box head-marks (box-headed characters) with wide lower loops.'
-  },
-
-  'Sharada': {
-    name: 'Sharada',
-    alternateNames: ['Sarada Script', 'Kashmiri Sharada'],
-    period: 'c. 8th – 13th Century CE',
-    region: 'Northwestern Himalayas (Kashmir, Himachal, Punjab)',
-    ancestor: 'Western Gupta / Siddhamatrika',
-    descendants: ['Gurmukhi', 'Takri', 'Dogri'],
-    mediums: ['Birch Bark (Bhurjapatra) Manuscripts', 'Stone Slabs', 'Temple Prashastis'],
-    keyFeatures: [
-      'Individual horizontal top bars with pointed, stiff vertical stems.',
-      'Sharp right-angled joints adapted for pen strokes on birch bark.',
-      'Preserved ancient scientific, mathematical, and philosophical manuscripts.',
-      'Used for Sanskrit and early Kashmiri texts.'
-    ],
-    famousInscriptions: [
-      'Bakhshali Mathematical Manuscript',
-      'Martand Sun Temple Inscriptions (Kashmir)',
-      'Baijnath Temple Prashastis (Himachal Pradesh)'
-    ],
-    historicalContext:
-      'The premier literary and intellectual script of the Northwestern Subcontinent, famous for preserving Kashmiri Sanskrit literature and mathematical works.',
-    visualClues: 'Straight individual top bars with rigid sharp angular drops.'
-  },
-
-  'Vatteluttu': {
-    name: 'Vatteluttu',
-    alternateNames: ['Vattezhuthu', 'Round Script'],
-    period: 'c. 5th – 14th Century CE',
-    region: 'Southern India (Kerala, Southern Tamil Nadu)',
-    ancestor: 'Tamil-Brahmi',
-    descendants: ['Kolezhuthu', 'Influence on Malayalam'],
-    mediums: ['Hero Stones (Viragal)', 'Granite Slabs', 'Copper Plates'],
-    keyFeatures: [
-      'Extremely cursive, rounded letterforms designed for rapid continuous carving.',
-      'Smooth single-stroke flowing circles without sharp corners or boxes.',
-      'Used extensively for civic records, land deeds, and hero memorials.',
-      'Prevalent under early Pandya and Chera administrations.'
-    ],
-    famousInscriptions: [
-      'Thirunatharkunru Hero Stone Inscription',
-      'Quilon Syrian Copper Plates (Kerala)',
-      'Jewish Copper Plate of Bhaskara Ravi Varman (Cochin)'
-    ],
-    historicalContext:
-      'A fluid, everyday cursive script in South India that evolved directly from Tamil-Brahmi for administrative, legal, and memorial recordings.',
-    visualClues: 'Smooth swirling circles, fluid continuous loops, absence of top boxes or wedge headmarks.'
   }
 };
