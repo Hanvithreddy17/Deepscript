@@ -1,0 +1,100 @@
+# DeepScript: Vision Transformer (ViT-B/16) 6-Class Epigraphic Script Training Configuration
+# Preserves ViT-B/16 architecture, embedding projector (768 -> 512 -> 256), and cosine head.
+# Separates Ashokan Brahmi ('brahmi') and Tamil-Brahmi ('tamil_brahmi').
+
+experiment:
+  name: "vit_b16_6class_epigraphic_run"
+  description: "2-stage transfer learning on 6 ancient Indian whole-inscription script classes including Tamil-Brahmi"
+  random_seed: 42
+  device: "auto"
+
+dataset:
+  root_dir: "dataset/whole_inscriptions"
+  num_classes: 6
+  splits:
+    train_ratio: 0.70
+    val_ratio: 0.15
+    test_ratio: 0.15
+    stratified: true
+    random_seed: 42
+
+preprocessing:
+  image_size: [224, 224]
+  interpolation: "bicubic"
+  channels: 3
+  normalization:
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+  augmentation:
+    enabled: true
+    rotation_degrees: 10
+    translate_fraction: 0.04
+    scale_range: [0.95, 1.05]
+    color_jitter:
+      brightness: 0.1
+      contrast: 0.1
+
+model:
+  backbone_name: "vit_b_16"
+  pretrained: true
+  feature_dim: 768
+  embedding_dim: 256
+  projector:
+    type: "mlp"
+    hidden_dim: 512
+    dropout: 0.1
+    l2_normalize: true
+  head:
+    type: "cosine"
+    num_classes: 6
+    initial_scale: 16.0
+
+training:
+  batch_size: 8
+  num_workers: 0
+  criterion: "CrossEntropyLoss"
+  optimizer: "AdamW"
+  scheduler: "CosineAnnealingLR"
+  gradient_clip_norm: 1.0
+
+  # Stage 1: Head Warmup (ViT Backbone Frozen)
+  stage_1_warmup:
+    epochs: 4
+    head_lr: 0.001
+    backbone_lr: 0.0
+    weight_decay: 0.0001
+    freeze_backbone: true
+    max_train_batches: null
+    max_val_batches: null
+
+  # Stage 2: Fine-Tuning (Unfreeze Last 2 Transformer Blocks)
+  stage_2_finetune:
+    epochs: 4
+    unfreeze_blocks: 2
+    head_lr: 0.0002
+    backbone_lr: 0.00002
+    weight_decay: 0.0001
+    max_train_batches: null
+    max_val_batches: null
+
+checkpoint:
+  checkpoint_dir: "checkpoints/six_class_vit"
+  best_checkpoint_name: "best_vit_model.pth"
+  latest_checkpoint_name: "latest_vit_model.pth"
+
+output:
+  results_dir: "results/six_class_vit"
+  training_output_dir: "results/six_class_vit/training"
+  evaluation_output_dir: "results/six_class_vit/evaluation"
+
+evaluation:
+  batch_size: 8
+  top_k: 3
+  metrics:
+    - "top1_accuracy"
+    - "top3_accuracy"
+    - "macro_precision"
+    - "macro_recall"
+    - "macro_f1"
+    - "weighted_f1"
+    - "cross_entropy_loss"

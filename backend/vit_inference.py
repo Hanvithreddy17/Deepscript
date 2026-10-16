@@ -184,9 +184,49 @@ EPIGRAPHIC_DOSSIER_DB: Dict[str, Dict[str, Any]] = {
         "visual_clues": "Right-to-left stroke posture, fluid cursive descenders, diagonal vowel cross-strokes.",
         "descendants": ["Khotanese Cursive Variants", "Kuchean Cursive"],
     },
+    "tamil_brahmi": {
+        "name": "Tamil-Brahmi",
+        "script_family": "Tamil-Brahmi",
+        "period": "c. 3rd Century BCE – 5th Century CE (Sangam Era)",
+        "region": "Southern India (Tamil Nadu, Kerala) and Sri Lanka",
+        "writing_direction": "Left-to-Right",
+        "headmark": "None (Clean, unornamented strokes directly incised into natural rock caverns)",
+        "stroke_style": "Simple, spare geometric lines with specialized Dravidian phonetic adaptations",
+        "key_glyphs": [
+            "Ḻa (ழ - specialized retroflex approximant)",
+            "Ḷa (ள - retroflex lateral)",
+            "Ṟa (ற - alveolar trill)",
+            "Ṉa (ன - alveolar nasal)",
+            "Pulli (virama vowel cancellation dot)",
+        ],
+        "historical_context": (
+            "The foundational script of the ancient Tamil Sangam era. Adapted from early Brahmi "
+            "specifically to record Old Tamil phonology, featuring dedicated characters for unique Dravidian sounds "
+            "and early vowel suppression (pulli). Inscribed on natural cavern beds and rock faces by Jain and Buddhist ascetics, "
+            "merchants, and chieftains of the Pandya, Chera, and Chola lineages."
+        ),
+        "archaeological_sites": [
+            "Mangulam Jain Cavern Inscriptions of Nedunjeliyan (Madurai)",
+            "Sittannavasal Cave Temple (Pudukkottai)",
+            "Arittapatti Inscribed Caverns",
+            "Jambai Rock Inscription of Athiyaman Neduman Anji",
+            "Pugalur Chera Dynasty Inscriptions (Karur)",
+            "Alagarmalai Cavern Beds",
+            "Edakal Cave Rock Carvings (Wayanad)",
+        ],
+        "visual_clues": (
+            "Clean unornamented strokes, absence of headbars or serifs, presence of distinct Dravidian characters (ழ, ள, ற, ன), "
+            "and characteristic horizontal single-line dedicatory formats on cavern drip ledges."
+        ),
+        "descendants": ["Vatteluttu", "Pallava Grantha", "Modern Tamil Script"],
+    },
 }
 
-DEFAULT_CHECKPOINT_PATH = PROJECT_ROOT / "checkpoints" / "whole_inscription_vit" / "best_vit_model.pth"
+SIX_CLASS_CHECKPOINT_PATH = PROJECT_ROOT / "checkpoints" / "six_class_vit" / "best_vit_model.pth"
+FIVE_CLASS_CHECKPOINT_PATH = PROJECT_ROOT / "checkpoints" / "whole_inscription_vit" / "best_vit_model.pth"
+
+# Default to the validated 6-class checkpoint if present, preserving the 5-class checkpoint as fallback
+DEFAULT_CHECKPOINT_PATH = SIX_CLASS_CHECKPOINT_PATH if SIX_CLASS_CHECKPOINT_PATH.exists() else FIVE_CLASS_CHECKPOINT_PATH
 
 
 class ScriptPresenceValidator:
@@ -561,6 +601,13 @@ class ViTInferenceEngine:
             f"in {latency_ms}ms"
         )
 
+        vlm_notes = f"Classified by fine-tuned ViT-B/16 with cosine metric projector. Top confidence: {predicted_confidence*100:.1f}%."
+        if predicted_class == "brahmi" and len(self.classes) == 5:
+            vlm_notes += (
+                " [Regional Caveat: Active 5-class model groups early Brahmi traditions together. "
+                "If this inscription is from a Tamil Nadu / Kerala cavern bed, it represents Tamil-Brahmi.]"
+            )
+
         return {
             "status": "success",
             "decision": "accepted",
@@ -586,7 +633,7 @@ class ViTInferenceEngine:
                 "historicalContext": pred_dossier.get("historical_context", ""),
                 "famousInscriptions": pred_dossier.get("archaeological_sites", []),
                 "visualClues": pred_dossier.get("visual_clues", ""),
-                "vlmNotes": f"Classified by fine-tuned ViT-B/16 with cosine metric projector. Top confidence: {predicted_confidence*100:.1f}%.",
+                "vlmNotes": vlm_notes,
                 "morphologyMetrics": {
                     "top1_probability": round(predicted_confidence, 4),
                     "max_cosine_similarity": round(top_cos_sim, 4),

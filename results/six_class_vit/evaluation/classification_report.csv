@@ -1,0 +1,9 @@
+class_name,precision,recall,f1-score,support
+brahmi,1.0,1.0,1.0,1
+grantha,1.0,1.0,1.0,1
+gupta,1.0,1.0,1.0,1
+kadamba,1.0,1.0,1.0,2
+kharosthi,1.0,1.0,1.0,1
+tamil_brahmi,1.0,1.0,1.0,2
+macro avg,1.0,1.0,1.0,8
+weighted avg,1.0,1.0,1.0,8
