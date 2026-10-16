@@ -236,7 +236,7 @@ export async function predictScript(imagePayload, metadata = {}) {
           strokeStyle: 'N/A',
           keyGlyphs: [],
           historicalContext: data.rejection_reason || 'The uploaded image could not be verified as containing a supported ancient Indian script inscription.',
-          visualClues: 'Input did not meet epigraphic confidence or feature criteria for Ashokan Brahmi, Gupta, Kharosthi, Grantha, or Kadamba.',
+          visualClues: 'Input did not meet epigraphic confidence or feature criteria for Ashokan Brahmi, Tamil-Brahmi, Gupta, Kharosthi, Grantha, or Kadamba.',
           famousInscriptions: [],
         },
       };

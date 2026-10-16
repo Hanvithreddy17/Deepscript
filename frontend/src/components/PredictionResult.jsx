@@ -173,7 +173,7 @@ export function PredictionResult({
               <span>Epigraphic Assessment</span>
             </h4>
             <p className="text-xs text-slate-600 leading-relaxed">
-              {details?.visualClues || 'Input features do not meet canonical characteristics for Ashokan Brahmi, Gupta, Kharosthi, Grantha, or Kadamba inscriptions. The model abstained from making an authoritative prediction.'}
+              {details?.visualClues || 'Input features do not meet canonical characteristics for Ashokan Brahmi, Tamil-Brahmi, Gupta, Kharosthi, Grantha, or Kadamba inscriptions. The model abstained from making an authoritative prediction.'}
             </p>
           </div>
 

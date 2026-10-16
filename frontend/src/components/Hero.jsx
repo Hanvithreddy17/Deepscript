@@ -32,7 +32,7 @@ export function Hero() {
           </div>
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-xs font-medium text-slate-700 shadow-2xs">
             <Layers className="w-3.5 h-3.5 text-indigo-600" />
-            <span>5 MVP Script Classes</span>
+            <span>6 Epigraphic Script Classes</span>
           </div>
           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-200/80 text-xs font-semibold text-emerald-800 shadow-2xs">
             <Zap className="w-3.5 h-3.5 text-emerald-600" />

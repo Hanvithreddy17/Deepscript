@@ -5,17 +5,18 @@ Serves real-time inference for Ancient Indian Script Identification using
 a fine-tuned Vision Transformer (ViT-B/16) on whole-inscription images as the
 primary engine, with open-source Vision-Language Models (Hugging Face) as an optional fallback.
 
-Supported 5-Class MVP Epigraphic Families:
-  1. Brahmi     (Ashokan Brahmi)
-  2. Grantha    (Pallava & Chola Grantha)
-  3. Gupta      (Late Northern Brahmi / Siddhamātṛkā)
-  4. Kadamba    (Box-Headed Western Brahmi)
-  5. Kharosthi  (Gandharan Right-to-Left)
+Supported 6-Class Epigraphic Families:
+  1. Brahmi        (Ashokan Brahmi)
+  2. Grantha       (Pallava & Chola Grantha)
+  3. Gupta         (Late Northern Brahmi / Siddhamātṛkā)
+  4. Kadamba       (Box-Headed Western Brahmi)
+  5. Kharosthi     (Gandharan Right-to-Left)
+  6. Tamil-Brahmi  (Early Southern Brahmi / Sangam Epigraphy)
 
 Endpoints:
   - GET  /              : Root health status
   - GET  /health        : Health status, active ViT model metadata, uptime
-  - GET  /classes       : List of 5 supported MVP Ancient Indian Script Families
+  - GET  /classes       : List of supported Ancient Indian Script Families
   - POST /predict       : Inscription image classification (Default: ViT-B/16)
   - POST /api/hf-config : Update or test Hugging Face token and active VLM model
 """
@@ -61,7 +62,7 @@ logger = logging.getLogger("deepscript.backend")
 state: Dict[str, Any] = {
     "vit_engine": vit_inference_engine,
     "vlm_engine": hf_vlm_engine,
-    "classes": ["brahmi", "grantha", "gupta", "kadamba", "kharosthi"],
+    "classes": ["brahmi", "grantha", "gupta", "kadamba", "kharosthi", "tamil_brahmi"],
     "is_ready": False,
     "vit_ready": False,
     "start_time": time.time(),
@@ -150,7 +151,7 @@ async def health_check() -> Dict[str, Any]:
 
 @app.get("/classes", summary="List of supported ancient Indian script families")
 async def get_supported_classes() -> Dict[str, Any]:
-    """Returns the dictionary and list of all 5 supported MVP ancient Indian script families."""
+    """Returns the dictionary and list of all supported ancient Indian script families."""
     return {
         "count": len(state["classes"]),
         "scripts": state["classes"],

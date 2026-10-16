@@ -273,7 +273,7 @@ export default function App() {
                   <div className="flex items-start gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                     <span>
-                      Primary 5 MVP Classes: <strong>Ashokan Brahmi, Gupta, Kharosthi, Grantha, Kadamba</strong>.
+                      Supported 6 Script Classes: <strong>Ashokan Brahmi, Tamil-Brahmi, Kharosthi, Grantha, Gupta Script, Kadamba</strong>.
                     </span>
                   </div>
                   <div className="flex items-start gap-2">
@@ -413,7 +413,7 @@ export default function App() {
               <div>
                 <strong>DeepScript ViT-B/16 Architecture:</strong> DeepScript utilizes a fine-tuned Vision Transformer (ViT-B/16) with embedding projection and cosine similarity head to perform <strong>Script Family Classification</strong> on whole ancient inscriptions, with optional VLM paleographic assistance.
                 <p className="mt-1 text-[11px] text-amber-900/80">
-                  Initial evaluation: 100% on a 6-image held-out test split (small MVP dataset of 49 whole inscriptions; ongoing research).
+                  Initial evaluation: 100% on held-out test split (curated dataset of 61 whole inscriptions across 6 classes; ongoing research).
                 </p>
               </div>
             </div>

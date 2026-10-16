@@ -5,12 +5,13 @@ Executes real-time, deterministic script family inference on whole ancient
 inscription images using a fine-tuned Vision Transformer (ViT-B/16) with
 embedding projection (768 -> 512 -> 256) and cosine similarity metric head.
 
-Supported 5-Class MVP Epigraphic Families:
-1. Brahmi     (Ashokan Brahmi)
-2. Grantha    (Pallava & Chola Grantha)
-3. Gupta      (Late Northern Brahmi / Siddhamatrika)
-4. Kadamba    (Box-Headed Western Brahmi)
-5. Kharosthi  (Gandharan Right-to-Left)
+Supported 6-Class Epigraphic Families:
+1. Brahmi        (Ashokan Brahmi)
+2. Grantha       (Pallava & Chola Grantha)
+3. Gupta         (Late Northern Brahmi / Siddhamatrika)
+4. Kadamba       (Box-Headed Western Brahmi)
+5. Kharosthi     (Gandharan Right-to-Left)
+6. Tamil-Brahmi  (Early Southern Brahmi / Sangam Epigraphy)
 """
 
 import sys
@@ -41,7 +42,7 @@ from preprocessing import get_eval_transforms
 
 logger = logging.getLogger("deepscript.vit_inference")
 
-# Canonical Epigraphic Details Database for the 5 MVP Script Families
+# Canonical Epigraphic Details Database for the Supported Ancient Script Families
 EPIGRAPHIC_DOSSIER_DB: Dict[str, Dict[str, Any]] = {
     "brahmi": {
         "name": "Ashokan Brahmi",
