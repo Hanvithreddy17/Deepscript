@@ -1,0 +1,1042 @@
+{
+  "timestamp": "2026-10-20 14:41:12",
+  "model_checkpoint": "C:\\Users\\hanvi\\OneDrive\\Desktop\\Deepscript\\Deepscript\\checkpoints\\six_class_vit\\best_vit_model.pth",
+  "classes": [
+    "brahmi",
+    "grantha",
+    "gupta",
+    "kadamba",
+    "kharosthi",
+    "tamil_brahmi"
+  ],
+  "scale": 15.993000030517578,
+  "investigation_objective": "Evaluate whether classical computer vision (morphological gradient, bilateral filtering, CLAHE, horizontal ribbon grouping) can reliably localize inscription regions on whole stone monuments.",
+  "prototype_verdict": "Classical computer vision CANNOT reliably localize ancient unchalked stone inscriptions. High-contrast distractors (modern scratched graffiti, rock fracture edges, lighting shadow boundaries) consistently dominate proposal scores over faint 2,100-year-old weathered glyphs.",
+  "total_evaluated": 5,
+  "evaluations": [
+    {
+      "file": "Sittanavasal_Rock_Bed_Inscription.jpg",
+      "relative_path": "dataset/whole_inscriptions/tamil_brahmi/Sittanavasal_Rock_Bed_Inscription.jpg",
+      "ground_truth": "tamil_brahmi",
+      "site_context": "Sittanavasal Bed #1. Shallow unchalked inscription on headrest; rough bed with modern scratched graffiti below.",
+      "image_dimensions": {
+        "width": 4608,
+        "height": 3456,
+        "aspect_ratio": 1.333
+      },
+      "manual_reference_box": {
+        "x1": 700,
+        "y1": 1250,
+        "x2": 4550,
+        "y2": 1850
+      },
+      "candidate_count": 1,
+      "candidates": [
+        {
+          "box": [
+            0,
+            0,
+            4608,
+            1582
+          ],
+          "width": 4608,
+          "height": 1582,
+          "aspect_ratio": 2.91,
+          "area_fraction": 0.4578,
+          "proposal_score": 86.76,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 1,
+          "spatial_quality": {
+            "iou": 0.1536,
+            "recall_coverage": 0.5533,
+            "precision": 0.1753
+          },
+          "coverage_assessment": "Partial Inscription Coverage"
+        }
+      ],
+      "saved_artifacts": {
+        "diagnostic_image": "results\\automatic_localization_prototype\\diagnostics\\Sittanavasal_Rock_Bed_Inscription_candidate_proposals.png",
+        "top1_crop": "results\\automatic_localization_prototype\\crops\\Sittanavasal_Rock_Bed_Inscription_top1_cand_crop.jpg",
+        "manual_reference_crop": "results\\automatic_localization_prototype\\crops\\Sittanavasal_Rock_Bed_Inscription_manual_ref_crop.jpg"
+      },
+      "full_image_inference": {
+        "predicted_class": "brahmi",
+        "confidence": 0.636949,
+        "cosine_similarity": 0.2555,
+        "class_scores": {
+          "brahmi": {
+            "probability": 0.636949,
+            "cosine_similarity": 0.2555
+          },
+          "grantha": {
+            "probability": 0.001719,
+            "cosine_similarity": -0.11435
+          },
+          "gupta": {
+            "probability": 0.000239,
+            "cosine_similarity": -0.237793
+          },
+          "kadamba": {
+            "probability": 5.1e-05,
+            "cosine_similarity": -0.334316
+          },
+          "kharosthi": {
+            "probability": 0.033954,
+            "cosine_similarity": 0.072189
+          },
+          "tamil_brahmi": {
+            "probability": 0.327088,
+            "cosine_similarity": 0.213829
+          }
+        }
+      },
+      "top1_candidate_inference": {
+        "predicted_class": "grantha",
+        "confidence": 0.370597,
+        "cosine_similarity": 0.111042,
+        "class_scores": {
+          "brahmi": {
+            "probability": 0.082827,
+            "cosine_similarity": 0.017353
+          },
+          "grantha": {
+            "probability": 0.370597,
+            "cosine_similarity": 0.111042
+          },
+          "gupta": {
+            "probability": 0.051821,
+            "cosine_similarity": -0.011969
+          },
+          "kadamba": {
+            "probability": 0.001374,
+            "cosine_similarity": -0.238946
+          },
+          "kharosthi": {
+            "probability": 0.12831,
+            "cosine_similarity": 0.044722
+          },
+          "tamil_brahmi": {
+            "probability": 0.365071,
+            "cosine_similarity": 0.110103
+          }
+        }
+      },
+      "manual_reference_inference": {
+        "predicted_class": "brahmi",
+        "confidence": 0.769602,
+        "cosine_similarity": 0.298565,
+        "class_scores": {
+          "brahmi": {
+            "probability": 0.769602,
+            "cosine_similarity": 0.298565
+          },
+          "grantha": {
+            "probability": 0.003786,
+            "cosine_similarity": -0.033739
+          },
+          "gupta": {
+            "probability": 0.003643,
+            "cosine_similarity": -0.036151
+          },
+          "kadamba": {
+            "probability": 0.000127,
+            "cosine_similarity": -0.245977
+          },
+          "kharosthi": {
+            "probability": 0.000307,
+            "cosine_similarity": -0.190883
+          },
+          "tamil_brahmi": {
+            "probability": 0.222535,
+            "cosine_similarity": 0.220982
+          }
+        }
+      },
+      "shift_analysis_top1_vs_full": {
+        "shift_category": "both_incorrect",
+        "full_prediction": "brahmi",
+        "top1_prediction": "grantha",
+        "coverage_assessment": "Partial Inscription Coverage",
+        "top1_iou": 0.1536
+      }
+    },
+    {
+      "file": "Stone_bed_with_inscription_in_sittanavasal.JPG",
+      "relative_path": "dataset/whole_inscriptions/tamil_brahmi/Stone_bed_with_inscription_in_sittanavasal.JPG",
+      "ground_truth": "tamil_brahmi",
+      "site_context": "Sittanavasal Bed #1. Higher perspective; left inscription edge at frame border; lower bed contains graffiti ('N. Mariyappan').",
+      "image_dimensions": {
+        "width": 4000,
+        "height": 3000,
+        "aspect_ratio": 1.333
+      },
+      "manual_reference_box": {
+        "x1": 0,
+        "y1": 700,
+        "x2": 3600,
+        "y2": 1150
+      },
+      "candidate_count": 3,
+      "candidates": [
+        {
+          "box": [
+            0,
+            2746,
+            3526,
+            3000
+          ],
+          "width": 3526,
+          "height": 254,
+          "aspect_ratio": 13.92,
+          "area_fraction": 0.0745,
+          "proposal_score": 28.14,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 1,
+          "spatial_quality": {
+            "iou": 0.0,
+            "recall_coverage": 0.0,
+            "precision": 0.0
+          },
+          "coverage_assessment": "Non-Inscribed Background / Distractor (Graffiti, Shadow, or Rock Crack)"
+        },
+        {
+          "box": [
+            0,
+            300,
+            2133,
+            500
+          ],
+          "width": 2133,
+          "height": 200,
+          "aspect_ratio": 10.67,
+          "area_fraction": 0.0356,
+          "proposal_score": 24.48,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 2,
+          "spatial_quality": {
+            "iou": 0.0,
+            "recall_coverage": 0.0,
+            "precision": 0.0
+          },
+          "coverage_assessment": "Non-Inscribed Background / Distractor (Graffiti, Shadow, or Rock Crack)"
+        },
+        {
+          "box": [
+            3343,
+            2683,
+            4000,
+            2786
+          ],
+          "width": 657,
+          "height": 103,
+          "aspect_ratio": 6.35,
+          "area_fraction": 0.0057,
+          "proposal_score": 17.9,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 3,
+          "spatial_quality": {
+            "iou": 0.0,
+            "recall_coverage": 0.0,
+            "precision": 0.0
+          },
+          "coverage_assessment": "Non-Inscribed Background / Distractor (Graffiti, Shadow, or Rock Crack)"
+        }
+      ],
+      "saved_artifacts": {
+        "diagnostic_image": "results\\automatic_localization_prototype\\diagnostics\\Stone_bed_with_inscription_in_sittanavasal_candidate_proposals.png",
+        "top1_crop": "results\\automatic_localization_prototype\\crops\\Stone_bed_with_inscription_in_sittanavasal_top1_cand_crop.jpg",
+        "manual_reference_crop": "results\\automatic_localization_prototype\\crops\\Stone_bed_with_inscription_in_sittanavasal_manual_ref_crop.jpg"
+      },
+      "full_image_inference": {
+        "predicted_class": "kharosthi",
+        "confidence": 0.817287,
+        "cosine_similarity": 0.19712,
+        "class_scores": {
+          "brahmi": {
+            "probability": 0.13392,
+            "cosine_similarity": 0.084024
+          },
+          "grantha": {
+            "probability": 0.012028,
+            "cosine_similarity": -0.066669
+          },
+          "gupta": {
+            "probability": 0.000125,
+            "cosine_similarity": -0.35208
+          },
+          "kadamba": {
+            "probability": 0.034679,
+            "cosine_similarity": -0.000458
+          },
+          "kharosthi": {
+            "probability": 0.817287,
+            "cosine_similarity": 0.19712
+          },
+          "tamil_brahmi": {
+            "probability": 0.001961,
+            "cosine_similarity": -0.180083
+          }
+        }
+      },
+      "top1_candidate_inference": {
+        "predicted_class": "tamil_brahmi",
+        "confidence": 0.999964,
+        "cosine_similarity": 0.713571,
+        "class_scores": {
+          "brahmi": {
+            "probability": 3e-06,
+            "cosine_similarity": -0.071946
+          },
+          "grantha": {
+            "probability": 2e-06,
+            "cosine_similarity": -0.121556
+          },
+          "gupta": {
+            "probability": 2.3e-05,
+            "cosine_similarity": 0.045474
+          },
+          "kadamba": {
+            "probability": 6e-06,
+            "cosine_similarity": -0.033959
+          },
+          "kharosthi": {
+            "probability": 2e-06,
+            "cosine_similarity": -0.115334
+          },
+          "tamil_brahmi": {
+            "probability": 0.999964,
+            "cosine_similarity": 0.713571
+          }
+        }
+      },
+      "manual_reference_inference": {
+        "predicted_class": "brahmi",
+        "confidence": 0.721246,
+        "cosine_similarity": 0.292322,
+        "class_scores": {
+          "brahmi": {
+            "probability": 0.721246,
+            "cosine_similarity": 0.292322
+          },
+          "grantha": {
+            "probability": 0.020632,
+            "cosine_similarity": 0.070091
+          },
+          "gupta": {
+            "probability": 0.022129,
+            "cosine_similarity": 0.07447
+          },
+          "kadamba": {
+            "probability": 1.3e-05,
+            "cosine_similarity": -0.391948
+          },
+          "kharosthi": {
+            "probability": 0.000363,
+            "cosine_similarity": -0.182519
+          },
+          "tamil_brahmi": {
+            "probability": 0.235618,
+            "cosine_similarity": 0.222368
+          }
+        }
+      },
+      "shift_analysis_top1_vs_full": {
+        "shift_category": "incorrect_to_correct",
+        "full_prediction": "kharosthi",
+        "top1_prediction": "tamil_brahmi",
+        "coverage_assessment": "Non-Inscribed Background / Distractor (Graffiti, Shadow, or Rock Crack)",
+        "top1_iou": 0.0
+      }
+    },
+    {
+      "file": "Chithannavasal_cave_inscription_1.JPG",
+      "relative_path": "dataset/whole_inscriptions/tamil_brahmi/Chithannavasal_cave_inscription_1.JPG",
+      "ground_truth": "tamil_brahmi",
+      "site_context": "Distant wide-angle showing 2 rock beds and cavern floor. Glyphs only ~25px high.",
+      "image_dimensions": {
+        "width": 3648,
+        "height": 2736,
+        "aspect_ratio": 1.333
+      },
+      "manual_reference_box": {
+        "x1": 500,
+        "y1": 360,
+        "x2": 3100,
+        "y2": 680
+      },
+      "candidate_count": 5,
+      "candidates": [
+        {
+          "box": [
+            30,
+            2243,
+            3647,
+            2736
+          ],
+          "width": 3617,
+          "height": 493,
+          "aspect_ratio": 7.35,
+          "area_fraction": 0.1785,
+          "proposal_score": 27.55,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 1,
+          "spatial_quality": {
+            "iou": 0.0,
+            "recall_coverage": 0.0,
+            "precision": 0.0
+          },
+          "coverage_assessment": "Non-Inscribed Background / Distractor (Graffiti, Shadow, or Rock Crack)"
+        },
+        {
+          "box": [
+            0,
+            270,
+            3647,
+            1592
+          ],
+          "width": 3647,
+          "height": 1322,
+          "aspect_ratio": 2.76,
+          "area_fraction": 0.4833,
+          "proposal_score": 24.79,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 2,
+          "spatial_quality": {
+            "iou": 0.1726,
+            "recall_coverage": 1.0,
+            "precision": 0.1726
+          },
+          "coverage_assessment": "Partial Inscription Coverage"
+        },
+        {
+          "box": [
+            1729,
+            997,
+            2690,
+            1179
+          ],
+          "width": 961,
+          "height": 182,
+          "aspect_ratio": 5.27,
+          "area_fraction": 0.0176,
+          "proposal_score": 24.73,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 3,
+          "spatial_quality": {
+            "iou": 0.0,
+            "recall_coverage": 0.0,
+            "precision": 0.0
+          },
+          "coverage_assessment": "Non-Inscribed Background / Distractor (Graffiti, Shadow, or Rock Crack)"
+        },
+        {
+          "box": [
+            1225,
+            161,
+            2428,
+            267
+          ],
+          "width": 1203,
+          "height": 106,
+          "aspect_ratio": 11.31,
+          "area_fraction": 0.0128,
+          "proposal_score": 24.32,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 4,
+          "spatial_quality": {
+            "iou": 0.0,
+            "recall_coverage": 0.0,
+            "precision": 0.0
+          },
+          "coverage_assessment": "Non-Inscribed Background / Distractor (Graffiti, Shadow, or Rock Crack)"
+        },
+        {
+          "box": [
+            2146,
+            1693,
+            2912,
+            1848
+          ],
+          "width": 766,
+          "height": 155,
+          "aspect_ratio": 4.94,
+          "area_fraction": 0.0119,
+          "proposal_score": 22.08,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 5,
+          "spatial_quality": {
+            "iou": 0.0,
+            "recall_coverage": 0.0,
+            "precision": 0.0
+          },
+          "coverage_assessment": "Non-Inscribed Background / Distractor (Graffiti, Shadow, or Rock Crack)"
+        }
+      ],
+      "saved_artifacts": {
+        "diagnostic_image": "results\\automatic_localization_prototype\\diagnostics\\Chithannavasal_cave_inscription_1_candidate_proposals.png",
+        "top1_crop": "results\\automatic_localization_prototype\\crops\\Chithannavasal_cave_inscription_1_top1_cand_crop.jpg",
+        "manual_reference_crop": "results\\automatic_localization_prototype\\crops\\Chithannavasal_cave_inscription_1_manual_ref_crop.jpg"
+      },
+      "full_image_inference": {
+        "predicted_class": "kharosthi",
+        "confidence": 0.997195,
+        "cosine_similarity": 0.400342,
+        "class_scores": {
+          "brahmi": {
+            "probability": 0.001298,
+            "cosine_similarity": -0.015094
+          },
+          "grantha": {
+            "probability": 0.000586,
+            "cosine_similarity": -0.06482
+          },
+          "gupta": {
+            "probability": 1.9e-05,
+            "cosine_similarity": -0.279965
+          },
+          "kadamba": {
+            "probability": 0.0007,
+            "cosine_similarity": -0.053718
+          },
+          "kharosthi": {
+            "probability": 0.997195,
+            "cosine_similarity": 0.400342
+          },
+          "tamil_brahmi": {
+            "probability": 0.000202,
+            "cosine_similarity": -0.131302
+          }
+        }
+      },
+      "top1_candidate_inference": {
+        "predicted_class": "tamil_brahmi",
+        "confidence": 0.998395,
+        "cosine_similarity": 0.636284,
+        "class_scores": {
+          "brahmi": {
+            "probability": 0.001561,
+            "cosine_similarity": 0.232304
+          },
+          "grantha": {
+            "probability": 1.8e-05,
+            "cosine_similarity": -0.046546
+          },
+          "gupta": {
+            "probability": 2e-06,
+            "cosine_similarity": -0.190865
+          },
+          "kadamba": {
+            "probability": 0.0,
+            "cosine_similarity": -0.376273
+          },
+          "kharosthi": {
+            "probability": 2.4e-05,
+            "cosine_similarity": -0.028997
+          },
+          "tamil_brahmi": {
+            "probability": 0.998395,
+            "cosine_similarity": 0.636284
+          }
+        }
+      },
+      "manual_reference_inference": {
+        "predicted_class": "tamil_brahmi",
+        "confidence": 0.972817,
+        "cosine_similarity": 0.418656,
+        "class_scores": {
+          "brahmi": {
+            "probability": 0.00696,
+            "cosine_similarity": 0.109771
+          },
+          "grantha": {
+            "probability": 0.000269,
+            "cosine_similarity": -0.093659
+          },
+          "gupta": {
+            "probability": 0.019793,
+            "cosine_similarity": 0.175121
+          },
+          "kadamba": {
+            "probability": 1.2e-05,
+            "cosine_similarity": -0.286741
+          },
+          "kharosthi": {
+            "probability": 0.000148,
+            "cosine_similarity": -0.131032
+          },
+          "tamil_brahmi": {
+            "probability": 0.972817,
+            "cosine_similarity": 0.418656
+          }
+        }
+      },
+      "shift_analysis_top1_vs_full": {
+        "shift_category": "incorrect_to_correct",
+        "full_prediction": "kharosthi",
+        "top1_prediction": "tamil_brahmi",
+        "coverage_assessment": "Non-Inscribed Background / Distractor (Graffiti, Shadow, or Rock Crack)",
+        "top1_iou": 0.0
+      }
+    },
+    {
+      "file": "Chithannavasal_cave_inscription_2.JPG",
+      "relative_path": "dataset/whole_inscriptions/tamil_brahmi/Chithannavasal_cave_inscription_2.JPG",
+      "ground_truth": "tamil_brahmi",
+      "site_context": "Upward perspective of Bed #1 headrest. Upper cave overhang shadow crosses left half.",
+      "image_dimensions": {
+        "width": 3648,
+        "height": 2736,
+        "aspect_ratio": 1.333
+      },
+      "manual_reference_box": {
+        "x1": 300,
+        "y1": 1450,
+        "x2": 3500,
+        "y2": 1850
+      },
+      "candidate_count": 5,
+      "candidates": [
+        {
+          "box": [
+            1298,
+            1325,
+            2474,
+            1413
+          ],
+          "width": 1176,
+          "height": 88,
+          "aspect_ratio": 13.34,
+          "area_fraction": 0.0104,
+          "proposal_score": 32.68,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 1,
+          "spatial_quality": {
+            "iou": 0.0,
+            "recall_coverage": 0.0,
+            "precision": 0.0
+          },
+          "coverage_assessment": "Non-Inscribed Background / Distractor (Graffiti, Shadow, or Rock Crack)"
+        },
+        {
+          "box": [
+            0,
+            1407,
+            3647,
+            2736
+          ],
+          "width": 3647,
+          "height": 1329,
+          "aspect_ratio": 2.75,
+          "area_fraction": 0.4856,
+          "proposal_score": 30.55,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 2,
+          "spatial_quality": {
+            "iou": 0.2641,
+            "recall_coverage": 1.0,
+            "precision": 0.2641
+          },
+          "coverage_assessment": "Partial Inscription Coverage"
+        },
+        {
+          "box": [
+            0,
+            583,
+            2425,
+            1343
+          ],
+          "width": 2425,
+          "height": 760,
+          "aspect_ratio": 3.19,
+          "area_fraction": 0.1847,
+          "proposal_score": 29.96,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 3,
+          "spatial_quality": {
+            "iou": 0.0,
+            "recall_coverage": 0.0,
+            "precision": 0.0
+          },
+          "coverage_assessment": "Non-Inscribed Background / Distractor (Graffiti, Shadow, or Rock Crack)"
+        },
+        {
+          "box": [
+            0,
+            0,
+            2416,
+            544
+          ],
+          "width": 2416,
+          "height": 544,
+          "aspect_ratio": 4.44,
+          "area_fraction": 0.1318,
+          "proposal_score": 28.91,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 4,
+          "spatial_quality": {
+            "iou": 0.0,
+            "recall_coverage": 0.0,
+            "precision": 0.0
+          },
+          "coverage_assessment": "Non-Inscribed Background / Distractor (Graffiti, Shadow, or Rock Crack)"
+        },
+        {
+          "box": [
+            2535,
+            699,
+            3647,
+            984
+          ],
+          "width": 1112,
+          "height": 285,
+          "aspect_ratio": 3.89,
+          "area_fraction": 0.0319,
+          "proposal_score": 28.18,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 5,
+          "spatial_quality": {
+            "iou": 0.0,
+            "recall_coverage": 0.0,
+            "precision": 0.0
+          },
+          "coverage_assessment": "Non-Inscribed Background / Distractor (Graffiti, Shadow, or Rock Crack)"
+        }
+      ],
+      "saved_artifacts": {
+        "diagnostic_image": "results\\automatic_localization_prototype\\diagnostics\\Chithannavasal_cave_inscription_2_candidate_proposals.png",
+        "top1_crop": "results\\automatic_localization_prototype\\crops\\Chithannavasal_cave_inscription_2_top1_cand_crop.jpg",
+        "manual_reference_crop": "results\\automatic_localization_prototype\\crops\\Chithannavasal_cave_inscription_2_manual_ref_crop.jpg"
+      },
+      "full_image_inference": {
+        "predicted_class": "tamil_brahmi",
+        "confidence": 0.550583,
+        "cosine_similarity": 0.195943,
+        "class_scores": {
+          "brahmi": {
+            "probability": 0.019743,
+            "cosine_similarity": -0.012158
+          },
+          "grantha": {
+            "probability": 0.012317,
+            "cosine_similarity": -0.041662
+          },
+          "gupta": {
+            "probability": 0.000146,
+            "cosine_similarity": -0.319149
+          },
+          "kadamba": {
+            "probability": 0.009925,
+            "cosine_similarity": -0.055165
+          },
+          "kharosthi": {
+            "probability": 0.407287,
+            "cosine_similarity": 0.177094
+          },
+          "tamil_brahmi": {
+            "probability": 0.550583,
+            "cosine_similarity": 0.195943
+          }
+        }
+      },
+      "top1_candidate_inference": {
+        "predicted_class": "brahmi",
+        "confidence": 0.878558,
+        "cosine_similarity": 0.427341,
+        "class_scores": {
+          "brahmi": {
+            "probability": 0.878558,
+            "cosine_similarity": 0.427341
+          },
+          "grantha": {
+            "probability": 4.4e-05,
+            "cosine_similarity": -0.191147
+          },
+          "gupta": {
+            "probability": 0.000368,
+            "cosine_similarity": -0.059023
+          },
+          "kadamba": {
+            "probability": 6e-06,
+            "cosine_similarity": -0.319403
+          },
+          "kharosthi": {
+            "probability": 0.000143,
+            "cosine_similarity": -0.118184
+          },
+          "tamil_brahmi": {
+            "probability": 0.120882,
+            "cosine_similarity": 0.30332
+          }
+        }
+      },
+      "manual_reference_inference": {
+        "predicted_class": "brahmi",
+        "confidence": 0.821579,
+        "cosine_similarity": 0.410149,
+        "class_scores": {
+          "brahmi": {
+            "probability": 0.821579,
+            "cosine_similarity": 0.410149
+          },
+          "grantha": {
+            "probability": 0.000618,
+            "cosine_similarity": -0.039578
+          },
+          "gupta": {
+            "probability": 6.1e-05,
+            "cosine_similarity": -0.183897
+          },
+          "kadamba": {
+            "probability": 5e-06,
+            "cosine_similarity": -0.344102
+          },
+          "kharosthi": {
+            "probability": 0.0002,
+            "cosine_similarity": -0.110014
+          },
+          "tamil_brahmi": {
+            "probability": 0.177536,
+            "cosine_similarity": 0.314354
+          }
+        }
+      },
+      "shift_analysis_top1_vs_full": {
+        "shift_category": "correct_to_incorrect",
+        "full_prediction": "tamil_brahmi",
+        "top1_prediction": "brahmi",
+        "coverage_assessment": "Non-Inscribed Background / Distractor (Graffiti, Shadow, or Rock Crack)",
+        "top1_iou": 0.0
+      }
+    },
+    {
+      "file": "TBSI_029_original.jpg",
+      "relative_path": "dataset/whole_inscriptions/tamil_brahmi/TBSI_029_original.jpg",
+      "ground_truth": "tamil_brahmi",
+      "site_context": "Control baseline. High-contrast chalked Tamil-Brahmi script on dark rock face.",
+      "image_dimensions": {
+        "width": 2501,
+        "height": 1255,
+        "aspect_ratio": 1.993
+      },
+      "manual_reference_box": {
+        "x1": 100,
+        "y1": 180,
+        "x2": 2400,
+        "y2": 750
+      },
+      "candidate_count": 5,
+      "candidates": [
+        {
+          "box": [
+            1786,
+            354,
+            2186,
+            625
+          ],
+          "width": 400,
+          "height": 271,
+          "aspect_ratio": 1.48,
+          "area_fraction": 0.0346,
+          "proposal_score": 17.98,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 1,
+          "spatial_quality": {
+            "iou": 0.0827,
+            "recall_coverage": 0.0827,
+            "precision": 1.0
+          },
+          "coverage_assessment": "Fragmentary Glyph Fragment"
+        },
+        {
+          "box": [
+            1323,
+            298,
+            1806,
+            508
+          ],
+          "width": 483,
+          "height": 210,
+          "aspect_ratio": 2.3,
+          "area_fraction": 0.0324,
+          "proposal_score": 16.83,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 2,
+          "spatial_quality": {
+            "iou": 0.0774,
+            "recall_coverage": 0.0774,
+            "precision": 1.0
+          },
+          "coverage_assessment": "Fragmentary Glyph Fragment"
+        },
+        {
+          "box": [
+            266,
+            360,
+            683,
+            489
+          ],
+          "width": 417,
+          "height": 129,
+          "aspect_ratio": 3.23,
+          "area_fraction": 0.0172,
+          "proposal_score": 16.65,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 3,
+          "spatial_quality": {
+            "iou": 0.041,
+            "recall_coverage": 0.041,
+            "precision": 1.0
+          },
+          "coverage_assessment": "Non-Inscribed Background / Distractor (Graffiti, Shadow, or Rock Crack)"
+        },
+        {
+          "box": [
+            1640,
+            746,
+            2121,
+            894
+          ],
+          "width": 481,
+          "height": 148,
+          "aspect_ratio": 3.25,
+          "area_fraction": 0.0227,
+          "proposal_score": 15.11,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 4,
+          "spatial_quality": {
+            "iou": 0.0014,
+            "recall_coverage": 0.0015,
+            "precision": 0.027
+          },
+          "coverage_assessment": "Non-Inscribed Background / Distractor (Graffiti, Shadow, or Rock Crack)"
+        },
+        {
+          "box": [
+            333,
+            946,
+            716,
+            1031
+          ],
+          "width": 383,
+          "height": 85,
+          "aspect_ratio": 4.49,
+          "area_fraction": 0.0104,
+          "proposal_score": 13.28,
+          "detection_method": "classical_cv_morphology_gradient",
+          "candidate_rank": 5,
+          "spatial_quality": {
+            "iou": 0.0,
+            "recall_coverage": 0.0,
+            "precision": 0.0
+          },
+          "coverage_assessment": "Non-Inscribed Background / Distractor (Graffiti, Shadow, or Rock Crack)"
+        }
+      ],
+      "saved_artifacts": {
+        "diagnostic_image": "results\\automatic_localization_prototype\\diagnostics\\TBSI_029_original_candidate_proposals.png",
+        "top1_crop": "results\\automatic_localization_prototype\\crops\\TBSI_029_original_top1_cand_crop.jpg",
+        "manual_reference_crop": "results\\automatic_localization_prototype\\crops\\TBSI_029_original_manual_ref_crop.jpg"
+      },
+      "full_image_inference": {
+        "predicted_class": "tamil_brahmi",
+        "confidence": 0.99876,
+        "cosine_similarity": 0.556762,
+        "class_scores": {
+          "brahmi": {
+            "probability": 0.000174,
+            "cosine_similarity": 0.015748
+          },
+          "grantha": {
+            "probability": 5e-05,
+            "cosine_similarity": -0.062388
+          },
+          "gupta": {
+            "probability": 1.3e-05,
+            "cosine_similarity": -0.146883
+          },
+          "kadamba": {
+            "probability": 5e-06,
+            "cosine_similarity": -0.207433
+          },
+          "kharosthi": {
+            "probability": 0.000997,
+            "cosine_similarity": 0.124747
+          },
+          "tamil_brahmi": {
+            "probability": 0.99876,
+            "cosine_similarity": 0.556762
+          }
+        }
+      },
+      "top1_candidate_inference": {
+        "predicted_class": "tamil_brahmi",
+        "confidence": 0.862572,
+        "cosine_similarity": 0.410057,
+        "class_scores": {
+          "brahmi": {
+            "probability": 0.133024,
+            "cosine_similarity": 0.293169
+          },
+          "grantha": {
+            "probability": 3.8e-05,
+            "cosine_similarity": -0.216957
+          },
+          "gupta": {
+            "probability": 0.000109,
+            "cosine_similarity": -0.151124
+          },
+          "kadamba": {
+            "probability": 7e-06,
+            "cosine_similarity": -0.322251
+          },
+          "kharosthi": {
+            "probability": 0.00425,
+            "cosine_similarity": 0.077852
+          },
+          "tamil_brahmi": {
+            "probability": 0.862572,
+            "cosine_similarity": 0.410057
+          }
+        }
+      },
+      "manual_reference_inference": {
+        "predicted_class": "tamil_brahmi",
+        "confidence": 0.987577,
+        "cosine_similarity": 0.611224,
+        "class_scores": {
+          "brahmi": {
+            "probability": 0.012381,
+            "cosine_similarity": 0.337411
+          },
+          "grantha": {
+            "probability": 5e-06,
+            "cosine_similarity": -0.15171
+          },
+          "gupta": {
+            "probability": 3.3e-05,
+            "cosine_similarity": -0.032979
+          },
+          "kadamba": {
+            "probability": 2e-06,
+            "cosine_similarity": -0.20225
+          },
+          "kharosthi": {
+            "probability": 1e-06,
+            "cosine_similarity": -0.228814
+          },
+          "tamil_brahmi": {
+            "probability": 0.987577,
+            "cosine_similarity": 0.611224
+          }
+        }
+      },
+      "shift_analysis_top1_vs_full": {
+        "shift_category": "both_correct",
+        "full_prediction": "tamil_brahmi",
+        "top1_prediction": "tamil_brahmi",
+        "coverage_assessment": "Fragmentary Glyph Fragment",
+        "top1_iou": 0.0827
+      }
+    }
+  ]
+}

@@ -1,0 +1,2698 @@
+{
+  "experiment_title": "DeepScript Pretrained Deep-Learning Inscription Localization Prototype Audit",
+  "timestamp": "2026-10-20T09:56:25Z",
+  "detector_model": {
+    "name": "Clova AI CRAFT (Character Region Awareness for Text Detection)",
+    "weights": "craft_mlt_25k.pth (ICDAR MLT pretrained)",
+    "license": "Apache 2.0",
+    "framework": "EasyOCR 1.7.2 / PyTorch",
+    "architecture": "VGG-16 backbone with U-Net skip connections producing 2D Region and Affinity heatmaps"
+  },
+  "production_checkpoint_audit": {
+    "path": "checkpoints\\six_class_vit\\best_vit_model.pth",
+    "sha256": "6efa33c8a11389f64b8fa5040a7de6c4cf8042fb5359889ca4a23f5653fdaa5c",
+    "matches_expected": true,
+    "status": "UNTOUCHED & READ-ONLY"
+  },
+  "aggregate_comparison": {
+    "classical_cv_mean_iou": 0.0473,
+    "craft_top1_mean_iou": 0.1206,
+    "craft_best_iou_mean": 0.1242,
+    "iou_improvement_best_vs_classical": 0.0769
+  },
+  "results": [
+    {
+      "file": "Sittanavasal_Rock_Bed_Inscription.jpg",
+      "relative_path": "dataset/whole_inscriptions/tamil_brahmi/Sittanavasal_Rock_Bed_Inscription.jpg",
+      "ground_truth": "tamil_brahmi",
+      "image_dimensions": {
+        "width": 4608,
+        "height": 3456
+      },
+      "manual_reference_box": [
+        700,
+        1250,
+        4550,
+        1850
+      ],
+      "classical_baseline": {
+        "top1_box": [
+          0,
+          0,
+          4608,
+          1582
+        ],
+        "iou": 0.1536,
+        "recall": 0.5532,
+        "precision": 0.1754,
+        "physical_content": "Cave ceiling rock + upper headrest edge",
+        "classifier_prediction": "grantha (37.1%)"
+      },
+      "craft_detection": {
+        "total_candidates": 5,
+        "detection_time_seconds": 14.0,
+        "top1_candidate": {
+          "box": [
+            826,
+            1384,
+            3487,
+            1932
+          ],
+          "box_type": "horizontal_line",
+          "spatial_metrics": {
+            "iou": 0.4905,
+            "recall_coverage": 0.5368,
+            "precision": 0.8504,
+            "intersection_area": 1240026,
+            "candidate_area": 1458228,
+            "reference_area": 2310000
+          },
+          "physical_content": "Major headrest inscription band: captures majority of ancient Tamil-Brahmi glyphs.",
+          "prediction": {
+            "predicted_class": "tamil_brahmi",
+            "confidence": 0.790575,
+            "cosine_similarity": 0.322429,
+            "class_scores": {
+              "brahmi": {
+                "probability": 0.206298,
+                "cosine_similarity": 0.238428
+              },
+              "grantha": {
+                "probability": 0.001495,
+                "cosine_similarity": -0.069651
+              },
+              "gupta": {
+                "probability": 0.000903,
+                "cosine_similarity": -0.101166
+              },
+              "kadamba": {
+                "probability": 6.6e-05,
+                "cosine_similarity": -0.264815
+              },
+              "kharosthi": {
+                "probability": 0.000662,
+                "cosine_similarity": -0.120581
+              },
+              "tamil_brahmi": {
+                "probability": 0.790575,
+                "cosine_similarity": 0.322429
+              }
+            }
+          },
+          "crop_path": "results\\pretrained_detector_prototype\\crops\\Sittanavasal_Rock_Bed_Inscription_craft_top1_crop.jpg"
+        },
+        "best_iou_candidate": {
+          "box": [
+            826,
+            1384,
+            3487,
+            1932
+          ],
+          "box_type": "horizontal_line",
+          "spatial_metrics": {
+            "iou": 0.4905,
+            "recall_coverage": 0.5368,
+            "precision": 0.8504,
+            "intersection_area": 1240026,
+            "candidate_area": 1458228,
+            "reference_area": 2310000
+          },
+          "physical_content": "Major headrest inscription band: captures majority of ancient Tamil-Brahmi glyphs.",
+          "prediction": {
+            "predicted_class": "tamil_brahmi",
+            "confidence": 0.790575,
+            "cosine_similarity": 0.322429,
+            "class_scores": {
+              "brahmi": {
+                "probability": 0.206298,
+                "cosine_similarity": 0.238428
+              },
+              "grantha": {
+                "probability": 0.001495,
+                "cosine_similarity": -0.069651
+              },
+              "gupta": {
+                "probability": 0.000903,
+                "cosine_similarity": -0.101166
+              },
+              "kadamba": {
+                "probability": 6.6e-05,
+                "cosine_similarity": -0.264815
+              },
+              "kharosthi": {
+                "probability": 0.000662,
+                "cosine_similarity": -0.120581
+              },
+              "tamil_brahmi": {
+                "probability": 0.790575,
+                "cosine_similarity": 0.322429
+              }
+            }
+          },
+          "crop_path": "results\\pretrained_detector_prototype\\crops\\Sittanavasal_Rock_Bed_Inscription_craft_top1_crop.jpg"
+        },
+        "all_candidates": [
+          {
+            "box": [
+              826,
+              1384,
+              3487,
+              1932
+            ],
+            "box_type": "horizontal_line",
+            "width": 2661,
+            "height": 548,
+            "aspect_ratio": 4.86,
+            "area": 1458228,
+            "area_fraction": 0.0916,
+            "proposal_score": 5863.77,
+            "candidate_rank": 1,
+            "spatial_metrics": {
+              "iou": 0.4905,
+              "recall_coverage": 0.5368,
+              "precision": 0.8504,
+              "intersection_area": 1240026,
+              "candidate_area": 1458228,
+              "reference_area": 2310000
+            },
+            "physical_content_assessment": "Major headrest inscription band: captures majority of ancient Tamil-Brahmi glyphs."
+          },
+          {
+            "box": [
+              3256,
+              2363,
+              3967,
+              2953
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                3372.5772772976247,
+                2363.0038849907883
+              ],
+              [
+                3967.261667671944,
+                2787.228370287808
+              ],
+              [
+                3849.4227227023753,
+                2952.9961150092117
+              ],
+              [
+                3255.738332328056,
+                2528.771629712192
+              ]
+            ],
+            "width": 711,
+            "height": 590,
+            "aspect_ratio": 1.21,
+            "area": 419490,
+            "area_fraction": 0.0263,
+            "proposal_score": 780.51,
+            "candidate_rank": 2,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 419490,
+              "reference_area": 2310000
+            },
+            "physical_content_assessment": "Cavern floor / lower rock bed: contains rock cracks, chisel scars, or modern visitor graffiti."
+          },
+          {
+            "box": [
+              2844,
+              2158,
+              3351,
+              2535
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                2929.4067892999733,
+                2158.0087994091054
+              ],
+              [
+                3350.654100584646,
+                2386.2964435729145
+              ],
+              [
+                3265.5932107000267,
+                2534.9912005908946
+              ],
+              [
+                2844.345899415354,
+                2305.7035564270855
+              ]
+            ],
+            "width": 507,
+            "height": 377,
+            "aspect_ratio": 1.34,
+            "area": 191139,
+            "area_fraction": 0.012,
+            "proposal_score": 587.95,
+            "candidate_rank": 3,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 191139,
+              "reference_area": 2310000
+            },
+            "physical_content_assessment": "Cavern floor / lower rock bed: contains rock cracks, chisel scars, or modern visitor graffiti."
+          },
+          {
+            "box": [
+              2790,
+              2305,
+              3361,
+              2846
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                2934.4684138010953,
+                2305.005434873552
+              ],
+              [
+                3361.111672540739,
+                2671.2723462598547
+              ],
+              [
+                3216.5315861989047,
+                2845.994565126448
+              ],
+              [
+                2789.888327459261,
+                2479.7276537401453
+              ]
+            ],
+            "width": 571,
+            "height": 541,
+            "aspect_ratio": 1.06,
+            "area": 308911,
+            "area_fraction": 0.0194,
+            "proposal_score": 586.62,
+            "candidate_rank": 4,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 308911,
+              "reference_area": 2310000
+            },
+            "physical_content_assessment": "Cavern floor / lower rock bed: contains rock cracks, chisel scars, or modern visitor graffiti."
+          },
+          {
+            "box": [
+              3493,
+              1549,
+              3566,
+              1636
+            ],
+            "box_type": "horizontal_line",
+            "width": 73,
+            "height": 87,
+            "aspect_ratio": 0.84,
+            "area": 6351,
+            "area_fraction": 0.0004,
+            "proposal_score": 66.87,
+            "candidate_rank": 5,
+            "spatial_metrics": {
+              "iou": 0.0027,
+              "recall_coverage": 0.0027,
+              "precision": 1.0,
+              "intersection_area": 6351,
+              "candidate_area": 6351,
+              "reference_area": 2310000
+            },
+            "physical_content_assessment": "Fragmentary snippet of ancient inscription: captures ancient glyphs with high precision inside reference band."
+          }
+        ]
+      },
+      "classification_eval": {
+        "full_image": {
+          "predicted_class": "brahmi",
+          "confidence": 0.636949,
+          "cosine_similarity": 0.2555,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.636949,
+              "cosine_similarity": 0.2555
+            },
+            "grantha": {
+              "probability": 0.001719,
+              "cosine_similarity": -0.11435
+            },
+            "gupta": {
+              "probability": 0.000239,
+              "cosine_similarity": -0.237793
+            },
+            "kadamba": {
+              "probability": 5.1e-05,
+              "cosine_similarity": -0.334316
+            },
+            "kharosthi": {
+              "probability": 0.033954,
+              "cosine_similarity": 0.072189
+            },
+            "tamil_brahmi": {
+              "probability": 0.327088,
+              "cosine_similarity": 0.213828
+            }
+          }
+        },
+        "manual_reference_crop": {
+          "predicted_class": "brahmi",
+          "confidence": 0.769602,
+          "cosine_similarity": 0.298565,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.769602,
+              "cosine_similarity": 0.298565
+            },
+            "grantha": {
+              "probability": 0.003786,
+              "cosine_similarity": -0.033739
+            },
+            "gupta": {
+              "probability": 0.003643,
+              "cosine_similarity": -0.036151
+            },
+            "kadamba": {
+              "probability": 0.000127,
+              "cosine_similarity": -0.245977
+            },
+            "kharosthi": {
+              "probability": 0.000307,
+              "cosine_similarity": -0.190883
+            },
+            "tamil_brahmi": {
+              "probability": 0.222535,
+              "cosine_similarity": 0.220982
+            }
+          }
+        },
+        "craft_top1_crop": {
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.790575,
+          "cosine_similarity": 0.322429,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.206298,
+              "cosine_similarity": 0.238428
+            },
+            "grantha": {
+              "probability": 0.001495,
+              "cosine_similarity": -0.069651
+            },
+            "gupta": {
+              "probability": 0.000903,
+              "cosine_similarity": -0.101166
+            },
+            "kadamba": {
+              "probability": 6.6e-05,
+              "cosine_similarity": -0.264815
+            },
+            "kharosthi": {
+              "probability": 0.000662,
+              "cosine_similarity": -0.120581
+            },
+            "tamil_brahmi": {
+              "probability": 0.790575,
+              "cosine_similarity": 0.322429
+            }
+          }
+        },
+        "craft_best_iou_crop": {
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.790575,
+          "cosine_similarity": 0.322429,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.206298,
+              "cosine_similarity": 0.238428
+            },
+            "grantha": {
+              "probability": 0.001495,
+              "cosine_similarity": -0.069651
+            },
+            "gupta": {
+              "probability": 0.000903,
+              "cosine_similarity": -0.101166
+            },
+            "kadamba": {
+              "probability": 6.6e-05,
+              "cosine_similarity": -0.264815
+            },
+            "kharosthi": {
+              "probability": 0.000662,
+              "cosine_similarity": -0.120581
+            },
+            "tamil_brahmi": {
+              "probability": 0.790575,
+              "cosine_similarity": 0.322429
+            }
+          }
+        }
+      },
+      "diagnostic_image": "results\\pretrained_detector_prototype\\diagnostics\\Sittanavasal_Rock_Bed_Inscription_craft_candidates.png"
+    },
+    {
+      "file": "Stone_bed_with_inscription_in_sittanavasal.JPG",
+      "relative_path": "dataset/whole_inscriptions/tamil_brahmi/Stone_bed_with_inscription_in_sittanavasal.JPG",
+      "ground_truth": "tamil_brahmi",
+      "image_dimensions": {
+        "width": 4000,
+        "height": 3000
+      },
+      "manual_reference_box": [
+        0,
+        700,
+        3600,
+        1150
+      ],
+      "classical_baseline": {
+        "top1_box": [
+          0,
+          2746,
+          3526,
+          3000
+        ],
+        "iou": 0.0,
+        "recall": 0.0,
+        "precision": 0.0,
+        "physical_content": "Modern scratched graffiti on bed floor ('N. Mariyappan')",
+        "classifier_prediction": "tamil_brahmi (99.9%) [SEVERE HALLUCINATION]"
+      },
+      "craft_detection": {
+        "total_candidates": 17,
+        "detection_time_seconds": 14.53,
+        "top1_candidate": {
+          "box": [
+            224,
+            900,
+            762,
+            1052
+          ],
+          "box_type": "horizontal_line",
+          "spatial_metrics": {
+            "iou": 0.0505,
+            "recall_coverage": 0.0505,
+            "precision": 1.0,
+            "intersection_area": 81776,
+            "candidate_area": 81776,
+            "reference_area": 1620000
+          },
+          "physical_content": "Fragmentary snippet of ancient inscription: captures ancient glyphs with high precision inside reference band.",
+          "prediction": {
+            "predicted_class": "grantha",
+            "confidence": 0.740104,
+            "cosine_similarity": 0.206494,
+            "class_scores": {
+              "brahmi": {
+                "probability": 0.046877,
+                "cosine_similarity": 0.033965
+              },
+              "grantha": {
+                "probability": 0.740104,
+                "cosine_similarity": 0.206494
+              },
+              "gupta": {
+                "probability": 0.001021,
+                "cosine_similarity": -0.205298
+              },
+              "kadamba": {
+                "probability": 0.066205,
+                "cosine_similarity": 0.055551
+              },
+              "kharosthi": {
+                "probability": 0.13202,
+                "cosine_similarity": 0.098708
+              },
+              "tamil_brahmi": {
+                "probability": 0.013773,
+                "cosine_similarity": -0.042622
+              }
+            }
+          },
+          "crop_path": "results\\pretrained_detector_prototype\\crops\\Stone_bed_with_inscription_in_sittanavasal_craft_top1_crop.jpg"
+        },
+        "best_iou_candidate": {
+          "box": [
+            224,
+            900,
+            762,
+            1052
+          ],
+          "box_type": "horizontal_line",
+          "spatial_metrics": {
+            "iou": 0.0505,
+            "recall_coverage": 0.0505,
+            "precision": 1.0,
+            "intersection_area": 81776,
+            "candidate_area": 81776,
+            "reference_area": 1620000
+          },
+          "physical_content": "Fragmentary snippet of ancient inscription: captures ancient glyphs with high precision inside reference band.",
+          "prediction": {
+            "predicted_class": "grantha",
+            "confidence": 0.740104,
+            "cosine_similarity": 0.206494,
+            "class_scores": {
+              "brahmi": {
+                "probability": 0.046877,
+                "cosine_similarity": 0.033965
+              },
+              "grantha": {
+                "probability": 0.740104,
+                "cosine_similarity": 0.206494
+              },
+              "gupta": {
+                "probability": 0.001021,
+                "cosine_similarity": -0.205298
+              },
+              "kadamba": {
+                "probability": 0.066205,
+                "cosine_similarity": 0.055551
+              },
+              "kharosthi": {
+                "probability": 0.13202,
+                "cosine_similarity": 0.098708
+              },
+              "tamil_brahmi": {
+                "probability": 0.013773,
+                "cosine_similarity": -0.042622
+              }
+            }
+          },
+          "crop_path": "results\\pretrained_detector_prototype\\crops\\Stone_bed_with_inscription_in_sittanavasal_craft_top1_crop.jpg"
+        },
+        "all_candidates": [
+          {
+            "box": [
+              224,
+              900,
+              762,
+              1052
+            ],
+            "box_type": "horizontal_line",
+            "width": 538,
+            "height": 152,
+            "aspect_ratio": 3.54,
+            "area": 81776,
+            "area_fraction": 0.0068,
+            "proposal_score": 1012.17,
+            "candidate_rank": 1,
+            "spatial_metrics": {
+              "iou": 0.0505,
+              "recall_coverage": 0.0505,
+              "precision": 1.0,
+              "intersection_area": 81776,
+              "candidate_area": 81776,
+              "reference_area": 1620000
+            },
+            "physical_content_assessment": "Fragmentary snippet of ancient inscription: captures ancient glyphs with high precision inside reference band."
+          },
+          {
+            "box": [
+              1559,
+              1319,
+              2010,
+              1560
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                1594.5479738283734,
+                1319.0102216070543
+              ],
+              [
+                2009.8022922063585,
+                1481.0213470488325
+              ],
+              [
+                1974.4520261716266,
+                1559.9897783929457
+              ],
+              [
+                1559.1977077936415,
+                1397.9786529511675
+              ]
+            ],
+            "width": 451,
+            "height": 241,
+            "aspect_ratio": 1.87,
+            "area": 108691,
+            "area_fraction": 0.0091,
+            "proposal_score": 616.96,
+            "candidate_rank": 2,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 108691,
+              "reference_area": 1620000
+            },
+            "physical_content_assessment": "Lower stone bed: contains modern scratched graffiti or rough rock fracture lines."
+          },
+          {
+            "box": [
+              2266,
+              1919,
+              2487,
+              2027
+            ],
+            "box_type": "horizontal_line",
+            "width": 221,
+            "height": 108,
+            "aspect_ratio": 2.05,
+            "area": 23868,
+            "area_fraction": 0.002,
+            "proposal_score": 316.14,
+            "candidate_rank": 3,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 23868,
+              "reference_area": 1620000
+            },
+            "physical_content_assessment": "Lower stone bed: contains modern scratched graffiti or rough rock fracture lines."
+          },
+          {
+            "box": [
+              1499,
+              1405,
+              1742,
+              1552
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                1527.0275986508948,
+                1405.0394634060065
+              ],
+              [
+                1741.7751674024598,
+                1454.687980829654
+              ],
+              [
+                1713.9724013491052,
+                1551.9605365939935
+              ],
+              [
+                1499.2248325975402,
+                1502.312019170346
+              ]
+            ],
+            "width": 243,
+            "height": 147,
+            "aspect_ratio": 1.65,
+            "area": 35721,
+            "area_fraction": 0.003,
+            "proposal_score": 312.43,
+            "candidate_rank": 4,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 35721,
+              "reference_area": 1620000
+            },
+            "physical_content_assessment": "Lower stone bed: contains modern scratched graffiti or rough rock fracture lines."
+          },
+          {
+            "box": [
+              2061,
+              1184,
+              2273,
+              1309
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                2084.3719130657264,
+                1184.0282350295643
+              ],
+              [
+                2272.989222472438,
+                1251.6117098626423
+              ],
+              [
+                2250.6280869342736,
+                1308.9717649704357
+              ],
+              [
+                2061.010777527562,
+                1241.3882901373577
+              ]
+            ],
+            "width": 212,
+            "height": 125,
+            "aspect_ratio": 1.7,
+            "area": 26500,
+            "area_fraction": 0.0022,
+            "proposal_score": 276.09,
+            "candidate_rank": 5,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 26500,
+              "reference_area": 1620000
+            },
+            "physical_content_assessment": "Lower stone bed: contains modern scratched graffiti or rough rock fracture lines."
+          },
+          {
+            "box": [
+              751,
+              1572,
+              885,
+              1615
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                750.5423042384429,
+                1588.27961296691
+              ],
+              [
+                882.8483385986341,
+                1572.0582106246452
+              ],
+              [
+                885.4576957615571,
+                1598.72038703309
+              ],
+              [
+                753.1516614013659,
+                1614.9417893753548
+              ]
+            ],
+            "width": 134,
+            "height": 43,
+            "aspect_ratio": 3.12,
+            "area": 5762,
+            "area_fraction": 0.0005,
+            "proposal_score": 236.55,
+            "candidate_rank": 6,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 5762,
+              "reference_area": 1620000
+            },
+            "physical_content_assessment": "Lower stone bed: contains modern scratched graffiti or rough rock fracture lines."
+          },
+          {
+            "box": [
+              291,
+              1567,
+              420,
+              1623
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                290.7639320225002,
+                1580.5278640450003
+              ],
+              [
+                417.55589376472716,
+                1566.939943688993
+              ],
+              [
+                420.2360679774998,
+                1609.4721359549997
+              ],
+              [
+                293.44410623527284,
+                1623.060056311007
+              ]
+            ],
+            "width": 129,
+            "height": 56,
+            "aspect_ratio": 2.3,
+            "area": 7224,
+            "area_fraction": 0.0006,
+            "proposal_score": 195.79,
+            "candidate_rank": 7,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 7224,
+              "reference_area": 1620000
+            },
+            "physical_content_assessment": "Lower stone bed: contains modern scratched graffiti or rough rock fracture lines."
+          },
+          {
+            "box": [
+              1392,
+              1386,
+              1522,
+              1448
+            ],
+            "box_type": "horizontal_line",
+            "width": 130,
+            "height": 62,
+            "aspect_ratio": 2.1,
+            "area": 8060,
+            "area_fraction": 0.0007,
+            "proposal_score": 188.24,
+            "candidate_rank": 8,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 8060,
+              "reference_area": 1620000
+            },
+            "physical_content_assessment": "Lower stone bed: contains modern scratched graffiti or rough rock fracture lines."
+          },
+          {
+            "box": [
+              2280,
+              2018,
+              2481,
+              2272
+            ],
+            "box_type": "horizontal_line",
+            "width": 201,
+            "height": 254,
+            "aspect_ratio": 0.79,
+            "area": 51054,
+            "area_fraction": 0.0043,
+            "proposal_score": 178.8,
+            "candidate_rank": 9,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 51054,
+              "reference_area": 1620000
+            },
+            "physical_content_assessment": "Cavern floor / lower rock bed: contains rock cracks, chisel scars, or modern visitor graffiti."
+          },
+          {
+            "box": [
+              266,
+              1536,
+              381,
+              1589
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                266.13701426866953,
+                1549.460327110472
+              ],
+              [
+                377.5988324474645,
+                1536.2540317829132
+              ],
+              [
+                380.86298573133047,
+                1575.539672889528
+              ],
+              [
+                269.4011675525355,
+                1588.7459682170868
+              ]
+            ],
+            "width": 115,
+            "height": 53,
+            "aspect_ratio": 2.17,
+            "area": 6095,
+            "area_fraction": 0.0005,
+            "proposal_score": 169.4,
+            "candidate_rank": 10,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 6095,
+              "reference_area": 1620000
+            },
+            "physical_content_assessment": "Lower stone bed: contains modern scratched graffiti or rough rock fracture lines."
+          },
+          {
+            "box": [
+              2253,
+              1266,
+              2380,
+              1338
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                2266.203837805877,
+                1266.0637943964368
+              ],
+              [
+                2379.993438317383,
+                1298.7439262401342
+              ],
+              [
+                2366.796162194123,
+                1337.9362056035632
+              ],
+              [
+                2253.006561682617,
+                1305.2560737598658
+              ]
+            ],
+            "width": 127,
+            "height": 72,
+            "aspect_ratio": 1.76,
+            "area": 9144,
+            "area_fraction": 0.0008,
+            "proposal_score": 168.67,
+            "candidate_rank": 11,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 9144,
+              "reference_area": 1620000
+            },
+            "physical_content_assessment": "Lower stone bed: contains modern scratched graffiti or rough rock fracture lines."
+          },
+          {
+            "box": [
+              176,
+              1560,
+              282,
+              1616
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                176.21456992734423,
+                1588.8858279709377
+              ],
+              [
+                274.5671959507418,
+                1560.4477419832724
+              ],
+              [
+                281.7854300726558,
+                1587.1141720290623
+              ],
+              [
+                183.43280404925824,
+                1615.5522580167276
+              ]
+            ],
+            "width": 106,
+            "height": 56,
+            "aspect_ratio": 1.89,
+            "area": 5936,
+            "area_fraction": 0.0005,
+            "proposal_score": 145.84,
+            "candidate_rank": 12,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 5936,
+              "reference_area": 1620000
+            },
+            "physical_content_assessment": "Lower stone bed: contains modern scratched graffiti or rough rock fracture lines."
+          },
+          {
+            "box": [
+              2348,
+              2245,
+              2467,
+              2348
+            ],
+            "box_type": "horizontal_line",
+            "width": 119,
+            "height": 103,
+            "aspect_ratio": 1.16,
+            "area": 12257,
+            "area_fraction": 0.001,
+            "proposal_score": 127.91,
+            "candidate_rank": 13,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 12257,
+              "reference_area": 1620000
+            },
+            "physical_content_assessment": "Cavern floor / lower rock bed: contains rock cracks, chisel scars, or modern visitor graffiti."
+          },
+          {
+            "box": [
+              1949,
+              1517,
+              2032,
+              1566
+            ],
+            "box_type": "horizontal_line",
+            "width": 83,
+            "height": 49,
+            "aspect_ratio": 1.69,
+            "area": 4067,
+            "area_fraction": 0.0003,
+            "proposal_score": 108.02,
+            "candidate_rank": 14,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 4067,
+              "reference_area": 1620000
+            },
+            "physical_content_assessment": "Lower stone bed: contains modern scratched graffiti or rough rock fracture lines."
+          },
+          {
+            "box": [
+              1687,
+              1503,
+              1777,
+              1581
+            ],
+            "box_type": "horizontal_line",
+            "width": 90,
+            "height": 78,
+            "aspect_ratio": 1.15,
+            "area": 7020,
+            "area_fraction": 0.0006,
+            "proposal_score": 96.68,
+            "candidate_rank": 15,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 7020,
+              "reference_area": 1620000
+            },
+            "physical_content_assessment": "Lower stone bed: contains modern scratched graffiti or rough rock fracture lines."
+          },
+          {
+            "box": [
+              2420,
+              2351,
+              2501,
+              2414
+            ],
+            "box_type": "horizontal_line",
+            "width": 81,
+            "height": 63,
+            "aspect_ratio": 1.29,
+            "area": 5103,
+            "area_fraction": 0.0004,
+            "proposal_score": 91.85,
+            "candidate_rank": 16,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 5103,
+              "reference_area": 1620000
+            },
+            "physical_content_assessment": "Cavern floor / lower rock bed: contains rock cracks, chisel scars, or modern visitor graffiti."
+          },
+          {
+            "box": [
+              2116,
+              1266,
+              2152,
+              1295
+            ],
+            "box_type": "horizontal_line",
+            "width": 36,
+            "height": 29,
+            "aspect_ratio": 1.24,
+            "area": 1044,
+            "area_fraction": 0.0001,
+            "proposal_score": 40.11,
+            "candidate_rank": 17,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 1044,
+              "reference_area": 1620000
+            },
+            "physical_content_assessment": "Lower stone bed: contains modern scratched graffiti or rough rock fracture lines."
+          }
+        ]
+      },
+      "classification_eval": {
+        "full_image": {
+          "predicted_class": "kharosthi",
+          "confidence": 0.817287,
+          "cosine_similarity": 0.197119,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.13392,
+              "cosine_similarity": 0.084024
+            },
+            "grantha": {
+              "probability": 0.012028,
+              "cosine_similarity": -0.066669
+            },
+            "gupta": {
+              "probability": 0.000125,
+              "cosine_similarity": -0.35208
+            },
+            "kadamba": {
+              "probability": 0.034679,
+              "cosine_similarity": -0.000458
+            },
+            "kharosthi": {
+              "probability": 0.817287,
+              "cosine_similarity": 0.197119
+            },
+            "tamil_brahmi": {
+              "probability": 0.001961,
+              "cosine_similarity": -0.180083
+            }
+          }
+        },
+        "manual_reference_crop": {
+          "predicted_class": "brahmi",
+          "confidence": 0.721246,
+          "cosine_similarity": 0.292321,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.721246,
+              "cosine_similarity": 0.292321
+            },
+            "grantha": {
+              "probability": 0.020632,
+              "cosine_similarity": 0.070091
+            },
+            "gupta": {
+              "probability": 0.022129,
+              "cosine_similarity": 0.07447
+            },
+            "kadamba": {
+              "probability": 1.3e-05,
+              "cosine_similarity": -0.391947
+            },
+            "kharosthi": {
+              "probability": 0.000363,
+              "cosine_similarity": -0.182519
+            },
+            "tamil_brahmi": {
+              "probability": 0.235618,
+              "cosine_similarity": 0.222368
+            }
+          }
+        },
+        "craft_top1_crop": {
+          "predicted_class": "grantha",
+          "confidence": 0.740104,
+          "cosine_similarity": 0.206494,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.046877,
+              "cosine_similarity": 0.033965
+            },
+            "grantha": {
+              "probability": 0.740104,
+              "cosine_similarity": 0.206494
+            },
+            "gupta": {
+              "probability": 0.001021,
+              "cosine_similarity": -0.205298
+            },
+            "kadamba": {
+              "probability": 0.066205,
+              "cosine_similarity": 0.055551
+            },
+            "kharosthi": {
+              "probability": 0.13202,
+              "cosine_similarity": 0.098708
+            },
+            "tamil_brahmi": {
+              "probability": 0.013773,
+              "cosine_similarity": -0.042622
+            }
+          }
+        },
+        "craft_best_iou_crop": {
+          "predicted_class": "grantha",
+          "confidence": 0.740104,
+          "cosine_similarity": 0.206494,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.046877,
+              "cosine_similarity": 0.033965
+            },
+            "grantha": {
+              "probability": 0.740104,
+              "cosine_similarity": 0.206494
+            },
+            "gupta": {
+              "probability": 0.001021,
+              "cosine_similarity": -0.205298
+            },
+            "kadamba": {
+              "probability": 0.066205,
+              "cosine_similarity": 0.055551
+            },
+            "kharosthi": {
+              "probability": 0.13202,
+              "cosine_similarity": 0.098708
+            },
+            "tamil_brahmi": {
+              "probability": 0.013773,
+              "cosine_similarity": -0.042622
+            }
+          }
+        }
+      },
+      "diagnostic_image": "results\\pretrained_detector_prototype\\diagnostics\\Stone_bed_with_inscription_in_sittanavasal_craft_candidates.png"
+    },
+    {
+      "file": "Chithannavasal_cave_inscription_1.JPG",
+      "relative_path": "dataset/whole_inscriptions/tamil_brahmi/Chithannavasal_cave_inscription_1.JPG",
+      "ground_truth": "tamil_brahmi",
+      "image_dimensions": {
+        "width": 3648,
+        "height": 2736
+      },
+      "manual_reference_box": [
+        500,
+        360,
+        3100,
+        680
+      ],
+      "classical_baseline": {
+        "top1_box": [
+          30,
+          2243,
+          3647,
+          2736
+        ],
+        "iou": 0.0,
+        "recall": 0.0,
+        "precision": 0.0,
+        "physical_content": "Cavern floor rock fissure / crack",
+        "classifier_prediction": "tamil_brahmi (99.8%) [SEVERE HALLUCINATION]"
+      },
+      "craft_detection": {
+        "total_candidates": 7,
+        "detection_time_seconds": 16.68,
+        "top1_candidate": {
+          "box": [
+            1504,
+            495,
+            1935,
+            567
+          ],
+          "box_type": "horizontal_line",
+          "spatial_metrics": {
+            "iou": 0.0373,
+            "recall_coverage": 0.0373,
+            "precision": 1.0,
+            "intersection_area": 31032,
+            "candidate_area": 31032,
+            "reference_area": 832000
+          },
+          "physical_content": "Fragmentary snippet of ancient inscription: captures ancient glyphs with high precision inside reference band.",
+          "prediction": {
+            "predicted_class": "tamil_brahmi",
+            "confidence": 0.999679,
+            "cosine_similarity": 0.596132,
+            "class_scores": {
+              "brahmi": {
+                "probability": 0.000186,
+                "cosine_similarity": 0.058996
+              },
+              "grantha": {
+                "probability": 9.7e-05,
+                "cosine_similarity": 0.018366
+              },
+              "gupta": {
+                "probability": 1.2e-05,
+                "cosine_similarity": -0.114137
+              },
+              "kadamba": {
+                "probability": 1.8e-05,
+                "cosine_similarity": -0.086164
+              },
+              "kharosthi": {
+                "probability": 8e-06,
+                "cosine_similarity": -0.134327
+              },
+              "tamil_brahmi": {
+                "probability": 0.999679,
+                "cosine_similarity": 0.596132
+              }
+            }
+          },
+          "crop_path": "results\\pretrained_detector_prototype\\crops\\Chithannavasal_cave_inscription_1_craft_top1_crop.jpg"
+        },
+        "best_iou_candidate": {
+          "box": [
+            1504,
+            495,
+            1935,
+            567
+          ],
+          "box_type": "horizontal_line",
+          "spatial_metrics": {
+            "iou": 0.0373,
+            "recall_coverage": 0.0373,
+            "precision": 1.0,
+            "intersection_area": 31032,
+            "candidate_area": 31032,
+            "reference_area": 832000
+          },
+          "physical_content": "Fragmentary snippet of ancient inscription: captures ancient glyphs with high precision inside reference band.",
+          "prediction": {
+            "predicted_class": "tamil_brahmi",
+            "confidence": 0.999679,
+            "cosine_similarity": 0.596132,
+            "class_scores": {
+              "brahmi": {
+                "probability": 0.000186,
+                "cosine_similarity": 0.058996
+              },
+              "grantha": {
+                "probability": 9.7e-05,
+                "cosine_similarity": 0.018366
+              },
+              "gupta": {
+                "probability": 1.2e-05,
+                "cosine_similarity": -0.114137
+              },
+              "kadamba": {
+                "probability": 1.8e-05,
+                "cosine_similarity": -0.086164
+              },
+              "kharosthi": {
+                "probability": 8e-06,
+                "cosine_similarity": -0.134327
+              },
+              "tamil_brahmi": {
+                "probability": 0.999679,
+                "cosine_similarity": 0.596132
+              }
+            }
+          },
+          "crop_path": "results\\pretrained_detector_prototype\\crops\\Chithannavasal_cave_inscription_1_craft_top1_crop.jpg"
+        },
+        "all_candidates": [
+          {
+            "box": [
+              1504,
+              495,
+              1935,
+              567
+            ],
+            "box_type": "horizontal_line",
+            "width": 431,
+            "height": 72,
+            "aspect_ratio": 5.99,
+            "area": 31032,
+            "area_fraction": 0.0031,
+            "proposal_score": 1054.51,
+            "candidate_rank": 1,
+            "spatial_metrics": {
+              "iou": 0.0373,
+              "recall_coverage": 0.0373,
+              "precision": 1.0,
+              "intersection_area": 31032,
+              "candidate_area": 31032,
+              "reference_area": 832000
+            },
+            "physical_content_assessment": "Fragmentary snippet of ancient inscription: captures ancient glyphs with high precision inside reference band."
+          },
+          {
+            "box": [
+              0,
+              1920,
+              465,
+              2049
+            ],
+            "box_type": "horizontal_line",
+            "width": 465,
+            "height": 129,
+            "aspect_ratio": 3.6,
+            "area": 59985,
+            "area_fraction": 0.006,
+            "proposal_score": 882.85,
+            "candidate_rank": 2,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 59985,
+              "reference_area": 832000
+            },
+            "physical_content_assessment": "Lower stone bed: contains modern scratched graffiti or rough rock fracture lines."
+          },
+          {
+            "box": [
+              379,
+              1421,
+              861,
+              1601
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                404.1576182653336,
+                1421.0273212861375
+              ],
+              [
+                860.9755615444434,
+                1496.2032549928851
+              ],
+              [
+                835.8423817346664,
+                1600.9726787138625
+              ],
+              [
+                379.02443845555666,
+                1525.7967450071149
+              ]
+            ],
+            "width": 482,
+            "height": 180,
+            "aspect_ratio": 2.68,
+            "area": 86760,
+            "area_fraction": 0.0087,
+            "proposal_score": 788.74,
+            "candidate_rank": 3,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 86760,
+              "reference_area": 832000
+            },
+            "physical_content_assessment": "Lower stone bed: contains modern scratched graffiti or rough rock fracture lines."
+          },
+          {
+            "box": [
+              0,
+              2011,
+              321,
+              2249
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                52.22421449831127,
+                2011.0188186652122
+              ],
+              [
+                320.98668884960927,
+                2123.347482087771
+              ],
+              [
+                263.77578550168874,
+                2248.981181334788
+              ],
+              [
+                -4.986688849609239,
+                2136.652517912229
+              ]
+            ],
+            "width": 321,
+            "height": 238,
+            "aspect_ratio": 1.35,
+            "area": 76398,
+            "area_fraction": 0.0077,
+            "proposal_score": 372.79,
+            "candidate_rank": 4,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 76398,
+              "reference_area": 832000
+            },
+            "physical_content_assessment": "Cavern floor / lower rock bed: contains rock cracks, chisel scars, or modern visitor graffiti."
+          },
+          {
+            "box": [
+              403,
+              2062,
+              565,
+              2150
+            ],
+            "box_type": "horizontal_line",
+            "width": 162,
+            "height": 88,
+            "aspect_ratio": 1.84,
+            "area": 14256,
+            "area_fraction": 0.0014,
+            "proposal_score": 219.8,
+            "candidate_rank": 5,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 14256,
+              "reference_area": 832000
+            },
+            "physical_content_assessment": "Cavern floor / lower rock bed: contains rock cracks, chisel scars, or modern visitor graffiti."
+          },
+          {
+            "box": [
+              2681,
+              1709,
+              2814,
+              1903
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                2707.1581526436685,
+                1709.0253338848959
+              ],
+              [
+                2813.73646298337,
+                1723.0604289599542
+              ],
+              [
+                2788.8418473563315,
+                1902.9746661151041
+              ],
+              [
+                2681.26353701663,
+                1888.9395710400458
+              ]
+            ],
+            "width": 133,
+            "height": 194,
+            "aspect_ratio": 0.69,
+            "area": 25802,
+            "area_fraction": 0.0026,
+            "proposal_score": 110.12,
+            "candidate_rank": 6,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 25802,
+              "reference_area": 832000
+            },
+            "physical_content_assessment": "Lower stone bed: contains modern scratched graffiti or rough rock fracture lines."
+          },
+          {
+            "box": [
+              858,
+              1032,
+              925,
+              1105
+            ],
+            "box_type": "horizontal_line",
+            "width": 67,
+            "height": 73,
+            "aspect_ratio": 0.92,
+            "area": 4891,
+            "area_fraction": 0.0005,
+            "proposal_score": 64.19,
+            "candidate_rank": 7,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 4891,
+              "reference_area": 832000
+            },
+            "physical_content_assessment": "Unrelated rock surface texture, granite fracture, or lighting boundary."
+          }
+        ]
+      },
+      "classification_eval": {
+        "full_image": {
+          "predicted_class": "kharosthi",
+          "confidence": 0.997195,
+          "cosine_similarity": 0.400341,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.001298,
+              "cosine_similarity": -0.015094
+            },
+            "grantha": {
+              "probability": 0.000586,
+              "cosine_similarity": -0.06482
+            },
+            "gupta": {
+              "probability": 1.9e-05,
+              "cosine_similarity": -0.279964
+            },
+            "kadamba": {
+              "probability": 0.0007,
+              "cosine_similarity": -0.053718
+            },
+            "kharosthi": {
+              "probability": 0.997195,
+              "cosine_similarity": 0.400341
+            },
+            "tamil_brahmi": {
+              "probability": 0.000202,
+              "cosine_similarity": -0.131302
+            }
+          }
+        },
+        "manual_reference_crop": {
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.972817,
+          "cosine_similarity": 0.418655,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.00696,
+              "cosine_similarity": 0.109771
+            },
+            "grantha": {
+              "probability": 0.000269,
+              "cosine_similarity": -0.093659
+            },
+            "gupta": {
+              "probability": 0.019793,
+              "cosine_similarity": 0.175121
+            },
+            "kadamba": {
+              "probability": 1.2e-05,
+              "cosine_similarity": -0.286741
+            },
+            "kharosthi": {
+              "probability": 0.000148,
+              "cosine_similarity": -0.131032
+            },
+            "tamil_brahmi": {
+              "probability": 0.972817,
+              "cosine_similarity": 0.418655
+            }
+          }
+        },
+        "craft_top1_crop": {
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.999679,
+          "cosine_similarity": 0.596132,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.000186,
+              "cosine_similarity": 0.058996
+            },
+            "grantha": {
+              "probability": 9.7e-05,
+              "cosine_similarity": 0.018366
+            },
+            "gupta": {
+              "probability": 1.2e-05,
+              "cosine_similarity": -0.114137
+            },
+            "kadamba": {
+              "probability": 1.8e-05,
+              "cosine_similarity": -0.086164
+            },
+            "kharosthi": {
+              "probability": 8e-06,
+              "cosine_similarity": -0.134327
+            },
+            "tamil_brahmi": {
+              "probability": 0.999679,
+              "cosine_similarity": 0.596132
+            }
+          }
+        },
+        "craft_best_iou_crop": {
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.999679,
+          "cosine_similarity": 0.596132,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.000186,
+              "cosine_similarity": 0.058996
+            },
+            "grantha": {
+              "probability": 9.7e-05,
+              "cosine_similarity": 0.018366
+            },
+            "gupta": {
+              "probability": 1.2e-05,
+              "cosine_similarity": -0.114137
+            },
+            "kadamba": {
+              "probability": 1.8e-05,
+              "cosine_similarity": -0.086164
+            },
+            "kharosthi": {
+              "probability": 8e-06,
+              "cosine_similarity": -0.134327
+            },
+            "tamil_brahmi": {
+              "probability": 0.999679,
+              "cosine_similarity": 0.596132
+            }
+          }
+        }
+      },
+      "diagnostic_image": "results\\pretrained_detector_prototype\\diagnostics\\Chithannavasal_cave_inscription_1_craft_candidates.png"
+    },
+    {
+      "file": "Chithannavasal_cave_inscription_2.JPG",
+      "relative_path": "dataset/whole_inscriptions/tamil_brahmi/Chithannavasal_cave_inscription_2.JPG",
+      "ground_truth": "tamil_brahmi",
+      "image_dimensions": {
+        "width": 3648,
+        "height": 2736
+      },
+      "manual_reference_box": [
+        300,
+        1450,
+        3500,
+        1850
+      ],
+      "classical_baseline": {
+        "top1_box": [
+          1298,
+          1325,
+          2474,
+          1413
+        ],
+        "iou": 0.0,
+        "recall": 0.0,
+        "precision": 0.0,
+        "physical_content": "Overhang rock shadow boundary",
+        "classifier_prediction": "brahmi (87.9%)"
+      },
+      "craft_detection": {
+        "total_candidates": 11,
+        "detection_time_seconds": 17.24,
+        "top1_candidate": {
+          "box": [
+            418,
+            2591,
+            920,
+            2736
+          ],
+          "box_type": "horizontal_line",
+          "spatial_metrics": {
+            "iou": 0.0,
+            "recall_coverage": 0.0,
+            "precision": 0.0,
+            "intersection_area": 0,
+            "candidate_area": 72790,
+            "reference_area": 1280000
+          },
+          "physical_content": "Cavern floor / lower rock bed: contains rock cracks, chisel scars, or modern visitor graffiti.",
+          "prediction": {
+            "predicted_class": "brahmi",
+            "confidence": 0.93045,
+            "cosine_similarity": 0.40001,
+            "class_scores": {
+              "brahmi": {
+                "probability": 0.93045,
+                "cosine_similarity": 0.40001
+              },
+              "grantha": {
+                "probability": 0.013067,
+                "cosine_similarity": 0.133296
+              },
+              "gupta": {
+                "probability": 2e-06,
+                "cosine_similarity": -0.433715
+              },
+              "kadamba": {
+                "probability": 0.003669,
+                "cosine_similarity": 0.053882
+              },
+              "kharosthi": {
+                "probability": 1.1e-05,
+                "cosine_similarity": -0.307061
+              },
+              "tamil_brahmi": {
+                "probability": 0.0528,
+                "cosine_similarity": 0.22061
+              }
+            }
+          },
+          "crop_path": "results\\pretrained_detector_prototype\\crops\\Chithannavasal_cave_inscription_2_craft_top1_crop.jpg"
+        },
+        "best_iou_candidate": {
+          "box": [
+            1508,
+            1625,
+            1729,
+            1729
+          ],
+          "box_type": "horizontal_line",
+          "spatial_metrics": {
+            "iou": 0.018,
+            "recall_coverage": 0.018,
+            "precision": 1.0,
+            "intersection_area": 22984,
+            "candidate_area": 22984,
+            "reference_area": 1280000
+          },
+          "physical_content": "Fragmentary snippet of ancient inscription: captures ancient glyphs with high precision inside reference band.",
+          "prediction": {
+            "predicted_class": "brahmi",
+            "confidence": 0.37574,
+            "cosine_similarity": 0.123943,
+            "class_scores": {
+              "brahmi": {
+                "probability": 0.37574,
+                "cosine_similarity": 0.123943
+              },
+              "grantha": {
+                "probability": 0.105316,
+                "cosine_similarity": 0.044413
+              },
+              "gupta": {
+                "probability": 0.248394,
+                "cosine_similarity": 0.098064
+              },
+              "kadamba": {
+                "probability": 0.001103,
+                "cosine_similarity": -0.240624
+              },
+              "kharosthi": {
+                "probability": 0.197804,
+                "cosine_similarity": 0.083825
+              },
+              "tamil_brahmi": {
+                "probability": 0.071642,
+                "cosine_similarity": 0.020322
+              }
+            }
+          },
+          "crop_path": "results\\pretrained_detector_prototype\\crops\\Chithannavasal_cave_inscription_2_craft_best_iou_crop.jpg"
+        },
+        "all_candidates": [
+          {
+            "box": [
+              418,
+              2591,
+              920,
+              2736
+            ],
+            "box_type": "horizontal_line",
+            "width": 502,
+            "height": 145,
+            "aspect_ratio": 3.46,
+            "area": 72790,
+            "area_fraction": 0.0073,
+            "proposal_score": 934.05,
+            "candidate_rank": 1,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 72790,
+              "reference_area": 1280000
+            },
+            "physical_content_assessment": "Cavern floor / lower rock bed: contains rock cracks, chisel scars, or modern visitor graffiti."
+          },
+          {
+            "box": [
+              1508,
+              1625,
+              1729,
+              1729
+            ],
+            "box_type": "horizontal_line",
+            "width": 221,
+            "height": 104,
+            "aspect_ratio": 2.12,
+            "area": 22984,
+            "area_fraction": 0.0023,
+            "proposal_score": 322.16,
+            "candidate_rank": 2,
+            "spatial_metrics": {
+              "iou": 0.018,
+              "recall_coverage": 0.018,
+              "precision": 1.0,
+              "intersection_area": 22984,
+              "candidate_area": 22984,
+              "reference_area": 1280000
+            },
+            "physical_content_assessment": "Fragmentary snippet of ancient inscription: captures ancient glyphs with high precision inside reference band."
+          },
+          {
+            "box": [
+              2381,
+              1875,
+              2552,
+              1997
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                2405.456785523745,
+                1875.0246407611937
+              ],
+              [
+                2551.867353966579,
+                1951.7453456926812
+              ],
+              [
+                2526.543214476255,
+                1996.9753592388063
+              ],
+              [
+                2381.132646033421,
+                1920.2546543073188
+              ]
+            ],
+            "width": 171,
+            "height": 122,
+            "aspect_ratio": 1.4,
+            "area": 20862,
+            "area_fraction": 0.0021,
+            "proposal_score": 202.45,
+            "candidate_rank": 3,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 20862,
+              "reference_area": 1280000
+            },
+            "physical_content_assessment": "Unrelated rock surface texture, granite fracture, or lighting boundary."
+          },
+          {
+            "box": [
+              2268,
+              1845,
+              2354,
+              1907
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                2282.2716429592706,
+                1845.0668719800622
+              ],
+              [
+                2353.9970446985253,
+                1874.8462675115952
+              ],
+              [
+                2339.7283570407294,
+                1906.9331280199378
+              ],
+              [
+                2268.0029553014747,
+                1878.1537324884048
+              ]
+            ],
+            "width": 86,
+            "height": 62,
+            "aspect_ratio": 1.39,
+            "area": 5332,
+            "area_fraction": 0.0005,
+            "proposal_score": 101.29,
+            "candidate_rank": 4,
+            "spatial_metrics": {
+              "iou": 0.0003,
+              "recall_coverage": 0.0003,
+              "precision": 0.0806,
+              "intersection_area": 430,
+              "candidate_area": 5332,
+              "reference_area": 1280000
+            },
+            "physical_content_assessment": "Large background area overlapping inscription boundary: mostly rock surface / shadows."
+          },
+          {
+            "box": [
+              2571,
+              2160,
+              2670,
+              2356
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                2571.409171983386,
+                2173.019414147463
+              ],
+              [
+                2638.6405835414052,
+                2160.1507918069656
+              ],
+              [
+                2669.590828016614,
+                2342.980585852537
+              ],
+              [
+                2602.3594164585948,
+                2355.8492081930344
+              ]
+            ],
+            "width": 99,
+            "height": 196,
+            "aspect_ratio": 0.51,
+            "area": 19404,
+            "area_fraction": 0.0019,
+            "proposal_score": 70.36,
+            "candidate_rank": 5,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 19404,
+              "reference_area": 1280000
+            },
+            "physical_content_assessment": "Cavern floor / lower rock bed: contains rock cracks, chisel scars, or modern visitor graffiti."
+          },
+          {
+            "box": [
+              1519,
+              1976,
+              1564,
+              1996
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                1519.1425070742876,
+                1982.4855042445724
+              ],
+              [
+                1561.8898174628127,
+                1975.5436833524038
+              ],
+              [
+                1563.8574929257124,
+                1989.5144957554276
+              ],
+              [
+                1521.1101825371873,
+                1996.4563166475962
+              ]
+            ],
+            "width": 45,
+            "height": 20,
+            "aspect_ratio": 2.25,
+            "area": 900,
+            "area_fraction": 0.0001,
+            "proposal_score": 67.5,
+            "candidate_rank": 6,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 900,
+              "reference_area": 1280000
+            },
+            "physical_content_assessment": "Unrelated rock surface texture, granite fracture, or lighting boundary."
+          },
+          {
+            "box": [
+              2602,
+              1775,
+              2655,
+              1809
+            ],
+            "box_type": "free_polygon",
+            "polygon_pts": [
+              [
+                2607.367544467966,
+                1775.102633403899
+              ],
+              [
+                2654.9798989873225,
+                1788.7171572875254
+              ],
+              [
+                2648.632455532034,
+                1808.897366596101
+              ],
+              [
+                2602.0201010126775,
+                1796.2828427124746
+              ]
+            ],
+            "width": 53,
+            "height": 34,
+            "aspect_ratio": 1.56,
+            "area": 1802,
+            "area_fraction": 0.0002,
+            "proposal_score": 66.17,
+            "candidate_rank": 7,
+            "spatial_metrics": {
+              "iou": 0.0014,
+              "recall_coverage": 0.0014,
+              "precision": 1.0,
+              "intersection_area": 1802,
+              "candidate_area": 1802,
+              "reference_area": 1280000
+            },
+            "physical_content_assessment": "Fragmentary snippet of ancient inscription: captures ancient glyphs with high precision inside reference band."
+          },
+          {
+            "box": [
+              926,
+              2186,
+              993,
+              2262
+            ],
+            "box_type": "horizontal_line",
+            "width": 67,
+            "height": 76,
+            "aspect_ratio": 0.88,
+            "area": 5092,
+            "area_fraction": 0.0005,
+            "proposal_score": 62.91,
+            "candidate_rank": 8,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 5092,
+              "reference_area": 1280000
+            },
+            "physical_content_assessment": "Cavern floor / lower rock bed: contains rock cracks, chisel scars, or modern visitor graffiti."
+          },
+          {
+            "box": [
+              3130,
+              756,
+              3171,
+              788
+            ],
+            "box_type": "horizontal_line",
+            "width": 41,
+            "height": 32,
+            "aspect_ratio": 1.28,
+            "area": 1312,
+            "area_fraction": 0.0001,
+            "proposal_score": 46.41,
+            "candidate_rank": 9,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 1312,
+              "reference_area": 1280000
+            },
+            "physical_content_assessment": "Upper cavern ceiling / overhang shadow: devoid of inscription glyphs."
+          },
+          {
+            "box": [
+              2226,
+              1844,
+              2259,
+              1868
+            ],
+            "box_type": "horizontal_line",
+            "width": 33,
+            "height": 24,
+            "aspect_ratio": 1.38,
+            "area": 792,
+            "area_fraction": 0.0001,
+            "proposal_score": 38.7,
+            "candidate_rank": 10,
+            "spatial_metrics": {
+              "iou": 0.0002,
+              "recall_coverage": 0.0002,
+              "precision": 0.25,
+              "intersection_area": 198,
+              "candidate_area": 792,
+              "reference_area": 1280000
+            },
+            "physical_content_assessment": "Unrelated rock surface texture, granite fracture, or lighting boundary."
+          },
+          {
+            "box": [
+              1532,
+              1996,
+              1554,
+              2010
+            ],
+            "box_type": "horizontal_line",
+            "width": 22,
+            "height": 14,
+            "aspect_ratio": 1.57,
+            "area": 308,
+            "area_fraction": 0.0,
+            "proposal_score": 27.58,
+            "candidate_rank": 11,
+            "spatial_metrics": {
+              "iou": 0.0,
+              "recall_coverage": 0.0,
+              "precision": 0.0,
+              "intersection_area": 0,
+              "candidate_area": 308,
+              "reference_area": 1280000
+            },
+            "physical_content_assessment": "Unrelated rock surface texture, granite fracture, or lighting boundary."
+          }
+        ]
+      },
+      "classification_eval": {
+        "full_image": {
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.550583,
+          "cosine_similarity": 0.195943,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.019743,
+              "cosine_similarity": -0.012158
+            },
+            "grantha": {
+              "probability": 0.012317,
+              "cosine_similarity": -0.041661
+            },
+            "gupta": {
+              "probability": 0.000146,
+              "cosine_similarity": -0.319148
+            },
+            "kadamba": {
+              "probability": 0.009925,
+              "cosine_similarity": -0.055165
+            },
+            "kharosthi": {
+              "probability": 0.407287,
+              "cosine_similarity": 0.177094
+            },
+            "tamil_brahmi": {
+              "probability": 0.550583,
+              "cosine_similarity": 0.195943
+            }
+          }
+        },
+        "manual_reference_crop": {
+          "predicted_class": "brahmi",
+          "confidence": 0.821579,
+          "cosine_similarity": 0.410149,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.821579,
+              "cosine_similarity": 0.410149
+            },
+            "grantha": {
+              "probability": 0.000618,
+              "cosine_similarity": -0.039578
+            },
+            "gupta": {
+              "probability": 6.1e-05,
+              "cosine_similarity": -0.183896
+            },
+            "kadamba": {
+              "probability": 5e-06,
+              "cosine_similarity": -0.344101
+            },
+            "kharosthi": {
+              "probability": 0.0002,
+              "cosine_similarity": -0.110014
+            },
+            "tamil_brahmi": {
+              "probability": 0.177536,
+              "cosine_similarity": 0.314353
+            }
+          }
+        },
+        "craft_top1_crop": {
+          "predicted_class": "brahmi",
+          "confidence": 0.93045,
+          "cosine_similarity": 0.40001,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.93045,
+              "cosine_similarity": 0.40001
+            },
+            "grantha": {
+              "probability": 0.013067,
+              "cosine_similarity": 0.133296
+            },
+            "gupta": {
+              "probability": 2e-06,
+              "cosine_similarity": -0.433715
+            },
+            "kadamba": {
+              "probability": 0.003669,
+              "cosine_similarity": 0.053882
+            },
+            "kharosthi": {
+              "probability": 1.1e-05,
+              "cosine_similarity": -0.307061
+            },
+            "tamil_brahmi": {
+              "probability": 0.0528,
+              "cosine_similarity": 0.22061
+            }
+          }
+        },
+        "craft_best_iou_crop": {
+          "predicted_class": "brahmi",
+          "confidence": 0.37574,
+          "cosine_similarity": 0.123943,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.37574,
+              "cosine_similarity": 0.123943
+            },
+            "grantha": {
+              "probability": 0.105316,
+              "cosine_similarity": 0.044413
+            },
+            "gupta": {
+              "probability": 0.248394,
+              "cosine_similarity": 0.098064
+            },
+            "kadamba": {
+              "probability": 0.001103,
+              "cosine_similarity": -0.240624
+            },
+            "kharosthi": {
+              "probability": 0.197804,
+              "cosine_similarity": 0.083825
+            },
+            "tamil_brahmi": {
+              "probability": 0.071642,
+              "cosine_similarity": 0.020322
+            }
+          }
+        }
+      },
+      "diagnostic_image": "results\\pretrained_detector_prototype\\diagnostics\\Chithannavasal_cave_inscription_2_craft_candidates.png"
+    },
+    {
+      "file": "TBSI_029_original.jpg",
+      "relative_path": "dataset/whole_inscriptions/tamil_brahmi/TBSI_029_original.jpg",
+      "ground_truth": "tamil_brahmi",
+      "image_dimensions": {
+        "width": 2501,
+        "height": 1255
+      },
+      "manual_reference_box": [
+        100,
+        180,
+        2400,
+        750
+      ],
+      "classical_baseline": {
+        "top1_box": [
+          1786,
+          354,
+          2186,
+          625
+        ],
+        "iou": 0.0827,
+        "recall": 0.0827,
+        "precision": 1.0,
+        "physical_content": "Fragmentary 2-glyph snippet of chalked line",
+        "classifier_prediction": "tamil_brahmi (86.3%)"
+      },
+      "craft_detection": {
+        "total_candidates": 1,
+        "detection_time_seconds": 10.47,
+        "top1_candidate": {
+          "box": [
+            1486,
+            316,
+            1678,
+            484
+          ],
+          "box_type": "horizontal_line",
+          "spatial_metrics": {
+            "iou": 0.0246,
+            "recall_coverage": 0.0246,
+            "precision": 1.0,
+            "intersection_area": 32256,
+            "candidate_area": 32256,
+            "reference_area": 1311000
+          },
+          "physical_content": "Fragmentary snippet of ancient inscription: captures ancient glyphs with high precision inside reference band.",
+          "prediction": {
+            "predicted_class": "tamil_brahmi",
+            "confidence": 0.999585,
+            "cosine_similarity": 0.598187,
+            "class_scores": {
+              "brahmi": {
+                "probability": 0.000301,
+                "cosine_similarity": 0.091153
+              },
+              "grantha": {
+                "probability": 3.5e-05,
+                "cosine_similarity": -0.042959
+              },
+              "gupta": {
+                "probability": 5e-06,
+                "cosine_similarity": -0.165545
+              },
+              "kadamba": {
+                "probability": 4e-06,
+                "cosine_similarity": -0.187231
+              },
+              "kharosthi": {
+                "probability": 7.1e-05,
+                "cosine_similarity": 0.000489
+              },
+              "tamil_brahmi": {
+                "probability": 0.999585,
+                "cosine_similarity": 0.598187
+              }
+            }
+          },
+          "crop_path": "results\\pretrained_detector_prototype\\crops\\TBSI_029_original_craft_top1_crop.jpg"
+        },
+        "best_iou_candidate": {
+          "box": [
+            1486,
+            316,
+            1678,
+            484
+          ],
+          "box_type": "horizontal_line",
+          "spatial_metrics": {
+            "iou": 0.0246,
+            "recall_coverage": 0.0246,
+            "precision": 1.0,
+            "intersection_area": 32256,
+            "candidate_area": 32256,
+            "reference_area": 1311000
+          },
+          "physical_content": "Fragmentary snippet of ancient inscription: captures ancient glyphs with high precision inside reference band.",
+          "prediction": {
+            "predicted_class": "tamil_brahmi",
+            "confidence": 0.999585,
+            "cosine_similarity": 0.598187,
+            "class_scores": {
+              "brahmi": {
+                "probability": 0.000301,
+                "cosine_similarity": 0.091153
+              },
+              "grantha": {
+                "probability": 3.5e-05,
+                "cosine_similarity": -0.042959
+              },
+              "gupta": {
+                "probability": 5e-06,
+                "cosine_similarity": -0.165545
+              },
+              "kadamba": {
+                "probability": 4e-06,
+                "cosine_similarity": -0.187231
+              },
+              "kharosthi": {
+                "probability": 7.1e-05,
+                "cosine_similarity": 0.000489
+              },
+              "tamil_brahmi": {
+                "probability": 0.999585,
+                "cosine_similarity": 0.598187
+              }
+            }
+          },
+          "crop_path": "results\\pretrained_detector_prototype\\crops\\TBSI_029_original_craft_top1_crop.jpg"
+        },
+        "all_candidates": [
+          {
+            "box": [
+              1486,
+              316,
+              1678,
+              484
+            ],
+            "box_type": "horizontal_line",
+            "width": 192,
+            "height": 168,
+            "aspect_ratio": 1.14,
+            "area": 32256,
+            "area_fraction": 0.0103,
+            "proposal_score": 205.26,
+            "candidate_rank": 1,
+            "spatial_metrics": {
+              "iou": 0.0246,
+              "recall_coverage": 0.0246,
+              "precision": 1.0,
+              "intersection_area": 32256,
+              "candidate_area": 32256,
+              "reference_area": 1311000
+            },
+            "physical_content_assessment": "Fragmentary snippet of ancient inscription: captures ancient glyphs with high precision inside reference band."
+          }
+        ]
+      },
+      "classification_eval": {
+        "full_image": {
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.99876,
+          "cosine_similarity": 0.556761,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.000174,
+              "cosine_similarity": 0.015748
+            },
+            "grantha": {
+              "probability": 5e-05,
+              "cosine_similarity": -0.062388
+            },
+            "gupta": {
+              "probability": 1.3e-05,
+              "cosine_similarity": -0.146883
+            },
+            "kadamba": {
+              "probability": 5e-06,
+              "cosine_similarity": -0.207433
+            },
+            "kharosthi": {
+              "probability": 0.000997,
+              "cosine_similarity": 0.124747
+            },
+            "tamil_brahmi": {
+              "probability": 0.99876,
+              "cosine_similarity": 0.556761
+            }
+          }
+        },
+        "manual_reference_crop": {
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.987577,
+          "cosine_similarity": 0.611223,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.012381,
+              "cosine_similarity": 0.33741
+            },
+            "grantha": {
+              "probability": 5e-06,
+              "cosine_similarity": -0.151709
+            },
+            "gupta": {
+              "probability": 3.3e-05,
+              "cosine_similarity": -0.032979
+            },
+            "kadamba": {
+              "probability": 2e-06,
+              "cosine_similarity": -0.202249
+            },
+            "kharosthi": {
+              "probability": 1e-06,
+              "cosine_similarity": -0.228813
+            },
+            "tamil_brahmi": {
+              "probability": 0.987577,
+              "cosine_similarity": 0.611223
+            }
+          }
+        },
+        "craft_top1_crop": {
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.999585,
+          "cosine_similarity": 0.598187,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.000301,
+              "cosine_similarity": 0.091153
+            },
+            "grantha": {
+              "probability": 3.5e-05,
+              "cosine_similarity": -0.042959
+            },
+            "gupta": {
+              "probability": 5e-06,
+              "cosine_similarity": -0.165545
+            },
+            "kadamba": {
+              "probability": 4e-06,
+              "cosine_similarity": -0.187231
+            },
+            "kharosthi": {
+              "probability": 7.1e-05,
+              "cosine_similarity": 0.000489
+            },
+            "tamil_brahmi": {
+              "probability": 0.999585,
+              "cosine_similarity": 0.598187
+            }
+          }
+        },
+        "craft_best_iou_crop": {
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.999585,
+          "cosine_similarity": 0.598187,
+          "class_scores": {
+            "brahmi": {
+              "probability": 0.000301,
+              "cosine_similarity": 0.091153
+            },
+            "grantha": {
+              "probability": 3.5e-05,
+              "cosine_similarity": -0.042959
+            },
+            "gupta": {
+              "probability": 5e-06,
+              "cosine_similarity": -0.165545
+            },
+            "kadamba": {
+              "probability": 4e-06,
+              "cosine_similarity": -0.187231
+            },
+            "kharosthi": {
+              "probability": 7.1e-05,
+              "cosine_similarity": 0.000489
+            },
+            "tamil_brahmi": {
+              "probability": 0.999585,
+              "cosine_similarity": 0.598187
+            }
+          }
+        }
+      },
+      "diagnostic_image": "results\\pretrained_detector_prototype\\diagnostics\\TBSI_029_original_craft_candidates.png"
+    }
+  ],
+  "critical_safety_warning": "CRITICAL WARNING: High downstream classifier confidence does NOT validate localization accuracy. Downstream ViT-B/16 assigns high confidence (>90%) to both genuine inscriptions and non-inscribed rock textures / modern scratches. Spatial IoU and epigraphic stroke verification must be evaluated independently from classification probability."
+}
