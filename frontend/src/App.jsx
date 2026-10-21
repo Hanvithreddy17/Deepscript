@@ -241,6 +241,7 @@ export default function App() {
               <div id="results-view" className="space-y-6">
                 <PredictionResult
                   result={predictionResult}
+                  specimenName={selectedImage?.name}
                   onOpenDetails={(scriptData) => setSelectedScriptForModal(scriptData)}
                 />
               </div>

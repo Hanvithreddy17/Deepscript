@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, Trash2, History, Clock, ChevronRight, Sparkles } from 'lucide-react';
+import { getCleanBasename } from '../utils/formatters';
 
 export function HistoryDrawer({
   isOpen,
@@ -61,7 +62,7 @@ export function HistoryDrawer({
                 history.map((item) => {
                   const confPct = Math.round((item?.result?.confidence ?? 0) * 100);
                   const scriptTitle = item?.result?.details?.scriptFamily || item?.result?.script || 'Unknown Script';
-                  const imageName = item?.image?.name || 'Specimen';
+                  const imageName = getCleanBasename(item?.image?.name) || 'Specimen';
                   const imageUrl = item?.image?.url || '';
                   const timestamp = item?.timestamp || '';
 
