@@ -56,8 +56,10 @@ Thumbs.db
 
 # Logs & Debug Output
 *.log
-logs/
+/logs/
 *.log.*
+!experiments/**/logs/
+!experiments/**/logs/**
 
 # ML Model Checkpoints & Saved Weights
 *.pt
@@ -71,18 +73,33 @@ logs/
 checkpoints/
 saved_models/
 
-# Training & Experiment Outputs (Allow structured results/)
+# Training & Experiment Outputs (Allow structured results/ and experiments/)
 runs/
 wandb/
 mlruns/
 outputs/
-experiments/
+experiments/**/extracted_images/
+experiments/**/checkpoints/
+experiments/**/crops/
+experiments/**/*contact_sheet*.png
+experiments/**/*.pth
+experiments/**/*.pt
+experimentsfaculty_failurefaculty_tamil_brahmi.png.png
+experiments/faculty_failure/*preview*.png
+experiments/faculty_failure/*grid*.png
+experiments/faculty_failure/*visualization*.png
+results/**/crops/
+results/**/diagnostics/
+results/**/visualizations/
+results/pretrained_detector_prototype/*.png
+dataset/raw_intake/
 
 # Large / Raw Datasets & Archives
 dataset/raw/
 dataset/processed/
 dataset/data/
 dataset/tiles_cache/
+dataset/raw_intake/
 *.zip
 *.tar
 *.tar.gz
@@ -91,10 +108,12 @@ dataset/tiles_cache/
 *.rar
 *.parquet
 
-# Generic data CSVs ignored, but allow results and dataset metadata CSVs
+# Generic data CSVs ignored, but allow results, experiments, and dataset metadata CSVs
 *.csv
 !results/**/*.csv
 !results/*.csv
+!experiments/**/*.csv
+!experiments/*.csv
 !dataset/metadata.csv
 !dataset/*.csv
 
