@@ -1,0 +1,546 @@
+{
+  "title": "DeepScript Faculty Failure ROI Crop Evaluation Report",
+  "timestamp": "2026-10-20T10:37:04Z",
+  "checkpoint": {
+    "path": "checkpoints\\six_class_vit\\best_vit_model.pth",
+    "sha256": "6efa33c8a11389f64b8fa5040a7de6c4cf8042fb5359889ca4a23f5653fdaa5c",
+    "classes": [
+      "brahmi",
+      "grantha",
+      "gupta",
+      "kadamba",
+      "kharosthi",
+      "tamil_brahmi"
+    ]
+  },
+  "original_whole_image": {
+    "dimensions": {
+      "width": 741,
+      "height": 372,
+      "aspect_ratio": 1.99
+    },
+    "top1_class": "brahmi",
+    "top1_probability": 1.0,
+    "top1_cosine": 0.6553,
+    "candidates": [
+      {
+        "class": "brahmi",
+        "script": "brahmi",
+        "script_family": "Ashokan Brahmi",
+        "confidence": 0.6553,
+        "probability": 1.0,
+        "cosine_similarity": 0.6553
+      },
+      {
+        "class": "grantha",
+        "script": "grantha",
+        "script_family": "Grantha Script (Pallava & Chola Grantha)",
+        "confidence": 0.0,
+        "probability": 0.0,
+        "cosine_similarity": -0.035
+      },
+      {
+        "class": "kharosthi",
+        "script": "kharosthi",
+        "script_family": "Kharosthi",
+        "confidence": 0.0,
+        "probability": 0.0,
+        "cosine_similarity": -0.1685
+      },
+      {
+        "class": "gupta",
+        "script": "gupta",
+        "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+        "confidence": 0.0,
+        "probability": 0.0,
+        "cosine_similarity": -0.2364
+      },
+      {
+        "class": "tamil_brahmi",
+        "script": "tamil_brahmi",
+        "script_family": "Tamil-Brahmi",
+        "confidence": 0.0,
+        "probability": 0.0,
+        "cosine_similarity": -0.2424
+      }
+    ]
+  },
+  "primary_approved_crop": {
+    "id": "candidate_c_primary",
+    "name": "Primary Approved Crop: Candidate C (Central Core Block, Lines 2-5)",
+    "description": "Excludes top stone ledge and bottom margin; contains 4 lines of clear horizontal glyphs.",
+    "box": [
+      20,
+      65,
+      720,
+      275
+    ],
+    "dimensions": {
+      "width": 700,
+      "height": 210,
+      "aspect_ratio": 3.33
+    },
+    "crop_path": "experiments\\faculty_failure\\crops\\candidate_c_primary.png",
+    "prediction": {
+      "top1_class": "brahmi",
+      "top1_probability": 1.0,
+      "top1_cosine": 0.669,
+      "brahmi_probability": 1.0,
+      "brahmi_cosine": 0.669,
+      "tamil_brahmi_probability": 0.0,
+      "tamil_brahmi_cosine": 0.0,
+      "all_candidates": [
+        {
+          "class": "brahmi",
+          "script": "brahmi",
+          "script_family": "Ashokan Brahmi",
+          "confidence": 0.669,
+          "probability": 1.0,
+          "cosine_similarity": 0.669
+        },
+        {
+          "class": "grantha",
+          "script": "grantha",
+          "script_family": "Grantha Script (Pallava & Chola Grantha)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": -0.0605
+        },
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": -0.1466
+        },
+        {
+          "class": "kadamba",
+          "script": "kadamba",
+          "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": -0.2251
+        },
+        {
+          "class": "gupta",
+          "script": "gupta",
+          "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": -0.2885
+        }
+      ]
+    }
+  },
+  "boundary_variations": [
+    {
+      "id": "variation_1_expanded",
+      "name": "Variation 1: Slightly Expanded (+15px padding)",
+      "description": "Expands Candidate C boundary by 15px in all directions to test border tolerance.",
+      "box": [
+        5,
+        50,
+        735,
+        290
+      ],
+      "dimensions": {
+        "width": 730,
+        "height": 240,
+        "aspect_ratio": 3.04
+      },
+      "crop_path": "experiments\\faculty_failure\\crops\\variation_1_expanded.png",
+      "prediction": {
+        "top1_class": "brahmi",
+        "top1_probability": 1.0,
+        "top1_cosine": 0.6717,
+        "brahmi_probability": 1.0,
+        "brahmi_cosine": 0.6717,
+        "tamil_brahmi_probability": 0.0,
+        "tamil_brahmi_cosine": 0.0,
+        "all_candidates": [
+          {
+            "class": "brahmi",
+            "script": "brahmi",
+            "script_family": "Ashokan Brahmi",
+            "confidence": 0.6717,
+            "probability": 1.0,
+            "cosine_similarity": 0.6717
+          },
+          {
+            "class": "grantha",
+            "script": "grantha",
+            "script_family": "Grantha Script (Pallava & Chola Grantha)",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.0466
+          },
+          {
+            "class": "kharosthi",
+            "script": "kharosthi",
+            "script_family": "Kharosthi",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.1699
+          },
+          {
+            "class": "kadamba",
+            "script": "kadamba",
+            "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.2282
+          },
+          {
+            "class": "gupta",
+            "script": "gupta",
+            "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.2784
+          }
+        ]
+      }
+    },
+    {
+      "id": "variation_2_tighter",
+      "name": "Variation 2: Slightly Tighter (-15px inset)",
+      "description": "Insets Candidate C boundary by 15px to isolate only interior character stems.",
+      "box": [
+        35,
+        80,
+        705,
+        260
+      ],
+      "dimensions": {
+        "width": 670,
+        "height": 180,
+        "aspect_ratio": 3.72
+      },
+      "crop_path": "experiments\\faculty_failure\\crops\\variation_2_tighter.png",
+      "prediction": {
+        "top1_class": "brahmi",
+        "top1_probability": 1.0,
+        "top1_cosine": 0.6569,
+        "brahmi_probability": 1.0,
+        "brahmi_cosine": 0.6569,
+        "tamil_brahmi_probability": 0.0,
+        "tamil_brahmi_cosine": -0.2981,
+        "all_candidates": [
+          {
+            "class": "brahmi",
+            "script": "brahmi",
+            "script_family": "Ashokan Brahmi",
+            "confidence": 0.6569,
+            "probability": 1.0,
+            "cosine_similarity": 0.6569
+          },
+          {
+            "class": "grantha",
+            "script": "grantha",
+            "script_family": "Grantha Script (Pallava & Chola Grantha)",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.0477
+          },
+          {
+            "class": "kharosthi",
+            "script": "kharosthi",
+            "script_family": "Kharosthi",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.1342
+          },
+          {
+            "class": "kadamba",
+            "script": "kadamba",
+            "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.2151
+          },
+          {
+            "class": "tamil_brahmi",
+            "script": "tamil_brahmi",
+            "script_family": "Tamil-Brahmi",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.2981
+          }
+        ]
+      }
+    },
+    {
+      "id": "variation_3_upper_lines",
+      "name": "Variation 3: Upper Text Section (Lines 1-4)",
+      "description": "Candidate B rectangle capturing the top four engraved lines.",
+      "box": [
+        10,
+        20,
+        730,
+        220
+      ],
+      "dimensions": {
+        "width": 720,
+        "height": 200,
+        "aspect_ratio": 3.6
+      },
+      "crop_path": "experiments\\faculty_failure\\crops\\variation_3_upper_lines.png",
+      "prediction": {
+        "top1_class": "brahmi",
+        "top1_probability": 1.0,
+        "top1_cosine": 0.6646,
+        "brahmi_probability": 1.0,
+        "brahmi_cosine": 0.6646,
+        "tamil_brahmi_probability": 0.0,
+        "tamil_brahmi_cosine": -0.2847,
+        "all_candidates": [
+          {
+            "class": "brahmi",
+            "script": "brahmi",
+            "script_family": "Ashokan Brahmi",
+            "confidence": 0.6646,
+            "probability": 1.0,
+            "cosine_similarity": 0.6646
+          },
+          {
+            "class": "grantha",
+            "script": "grantha",
+            "script_family": "Grantha Script (Pallava & Chola Grantha)",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.0585
+          },
+          {
+            "class": "kharosthi",
+            "script": "kharosthi",
+            "script_family": "Kharosthi",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.1341
+          },
+          {
+            "class": "kadamba",
+            "script": "kadamba",
+            "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.2454
+          },
+          {
+            "class": "tamil_brahmi",
+            "script": "tamil_brahmi",
+            "script_family": "Tamil-Brahmi",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.2847
+          }
+        ]
+      }
+    },
+    {
+      "id": "variation_4_lower_lines",
+      "name": "Variation 4: Lower Text Section (Lines 3-6)",
+      "description": "Captures the lower-middle lines including the honorific formula.",
+      "box": [
+        15,
+        120,
+        725,
+        320
+      ],
+      "dimensions": {
+        "width": 710,
+        "height": 200,
+        "aspect_ratio": 3.55
+      },
+      "crop_path": "experiments\\faculty_failure\\crops\\variation_4_lower_lines.png",
+      "prediction": {
+        "top1_class": "brahmi",
+        "top1_probability": 1.0,
+        "top1_cosine": 0.6439,
+        "brahmi_probability": 1.0,
+        "brahmi_cosine": 0.6439,
+        "tamil_brahmi_probability": 0.0,
+        "tamil_brahmi_cosine": 0.0,
+        "all_candidates": [
+          {
+            "class": "brahmi",
+            "script": "brahmi",
+            "script_family": "Ashokan Brahmi",
+            "confidence": 0.6439,
+            "probability": 1.0,
+            "cosine_similarity": 0.6439
+          },
+          {
+            "class": "grantha",
+            "script": "grantha",
+            "script_family": "Grantha Script (Pallava & Chola Grantha)",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.0406
+          },
+          {
+            "class": "kharosthi",
+            "script": "kharosthi",
+            "script_family": "Kharosthi",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.1454
+          },
+          {
+            "class": "kadamba",
+            "script": "kadamba",
+            "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.1928
+          },
+          {
+            "class": "gupta",
+            "script": "gupta",
+            "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.3033
+          }
+        ]
+      }
+    },
+    {
+      "id": "variation_5_single_ribbon",
+      "name": "Variation 5: Single Line Ribbon (Line 3)",
+      "description": "Candidate E rectangle isolating a single horizontal text band (AR = 11.08).",
+      "box": [
+        10,
+        115,
+        730,
+        180
+      ],
+      "dimensions": {
+        "width": 720,
+        "height": 65,
+        "aspect_ratio": 11.08
+      },
+      "crop_path": "experiments\\faculty_failure\\crops\\variation_5_single_ribbon.png",
+      "prediction": {
+        "top1_class": "brahmi",
+        "top1_probability": 0.7973,
+        "top1_cosine": 0.2552,
+        "brahmi_probability": 0.7973,
+        "brahmi_cosine": 0.2552,
+        "tamil_brahmi_probability": 0.03,
+        "tamil_brahmi_cosine": 0.0501,
+        "all_candidates": [
+          {
+            "class": "brahmi",
+            "script": "brahmi",
+            "script_family": "Ashokan Brahmi",
+            "confidence": 0.2552,
+            "probability": 0.7973,
+            "cosine_similarity": 0.2552
+          },
+          {
+            "class": "kharosthi",
+            "script": "kharosthi",
+            "script_family": "Kharosthi",
+            "confidence": 0.1579,
+            "probability": 0.1683,
+            "cosine_similarity": 0.1579
+          },
+          {
+            "class": "tamil_brahmi",
+            "script": "tamil_brahmi",
+            "script_family": "Tamil-Brahmi",
+            "confidence": 0.03,
+            "probability": 0.03,
+            "cosine_similarity": 0.0501
+          },
+          {
+            "class": "grantha",
+            "script": "grantha",
+            "script_family": "Grantha Script (Pallava & Chola Grantha)",
+            "confidence": 0.0,
+            "probability": 0.0026,
+            "cosine_similarity": -0.1031
+          },
+          {
+            "class": "kadamba",
+            "script": "kadamba",
+            "script_family": "Kadamba Script (Box-Headed Western Brahmi)",
+            "confidence": 0.0,
+            "probability": 0.0017,
+            "cosine_similarity": -0.1304
+          }
+        ]
+      }
+    },
+    {
+      "id": "variation_6_full_field",
+      "name": "Variation 6: Full Text Field (Lines 1-7)",
+      "description": "Candidate A rectangle capturing all 7 lines while omitting the top rock molding.",
+      "box": [
+        10,
+        20,
+        730,
+        365
+      ],
+      "dimensions": {
+        "width": 720,
+        "height": 345,
+        "aspect_ratio": 2.09
+      },
+      "crop_path": "experiments\\faculty_failure\\crops\\variation_6_full_field.png",
+      "prediction": {
+        "top1_class": "brahmi",
+        "top1_probability": 1.0,
+        "top1_cosine": 0.652,
+        "brahmi_probability": 1.0,
+        "brahmi_cosine": 0.652,
+        "tamil_brahmi_probability": 0.0,
+        "tamil_brahmi_cosine": -0.2694,
+        "all_candidates": [
+          {
+            "class": "brahmi",
+            "script": "brahmi",
+            "script_family": "Ashokan Brahmi",
+            "confidence": 0.652,
+            "probability": 1.0,
+            "cosine_similarity": 0.652
+          },
+          {
+            "class": "grantha",
+            "script": "grantha",
+            "script_family": "Grantha Script (Pallava & Chola Grantha)",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.0242
+          },
+          {
+            "class": "kharosthi",
+            "script": "kharosthi",
+            "script_family": "Kharosthi",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.1609
+          },
+          {
+            "class": "tamil_brahmi",
+            "script": "tamil_brahmi",
+            "script_family": "Tamil-Brahmi",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.2694
+          },
+          {
+            "class": "gupta",
+            "script": "gupta",
+            "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+            "confidence": 0.0,
+            "probability": 0.0,
+            "cosine_similarity": -0.2707
+          }
+        ]
+      }
+    }
+  ]
+}

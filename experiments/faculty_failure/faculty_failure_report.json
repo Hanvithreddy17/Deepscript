@@ -1,0 +1,231 @@
+{
+  "timestamp": "2026-10-20T10:29:51Z",
+  "target_image": "C:\\Users\\hanvi\\OneDrive\\Desktop\\Deepscript\\Deepscript\\experiments\\faculty_failure\\faculty_tamil_brahmi.png",
+  "dimensions": {
+    "width": 741,
+    "height": 372,
+    "aspect_ratio": 1.99
+  },
+  "checkpoint": {
+    "path": "C:\\Users\\hanvi\\OneDrive\\Desktop\\Deepscript\\Deepscript\\checkpoints\\six_class_vit\\best_vit_model.pth",
+    "sha256": "6efa33c8a11389f64b8fa5040a7de6c4cf8042fb5359889ca4a23f5653fdaa5c",
+    "classes": [
+      "brahmi",
+      "grantha",
+      "gupta",
+      "kadamba",
+      "kharosthi",
+      "tamil_brahmi"
+    ]
+  },
+  "predictions": {
+    "mode_a_production": {
+      "status": "success",
+      "decision": "accepted",
+      "rejection_reason": null,
+      "script": "brahmi",
+      "script_family": "Ashokan Brahmi",
+      "raw_class": "brahmi",
+      "confidence": 0.6553,
+      "candidates": [
+        {
+          "class": "brahmi",
+          "script": "brahmi",
+          "script_family": "Ashokan Brahmi",
+          "confidence": 0.6553,
+          "probability": 1.0,
+          "cosine_similarity": 0.6553
+        },
+        {
+          "class": "grantha",
+          "script": "grantha",
+          "script_family": "Grantha Script (Pallava & Chola Grantha)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": -0.035
+        },
+        {
+          "class": "kharosthi",
+          "script": "kharosthi",
+          "script_family": "Kharosthi",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": -0.1685
+        },
+        {
+          "class": "gupta",
+          "script": "gupta",
+          "script_family": "Gupta Script (Late Northern Brahmi / Siddham\u0101t\u1e5bk\u0101)",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": -0.2364
+        },
+        {
+          "class": "tamil_brahmi",
+          "script": "tamil_brahmi",
+          "script_family": "Tamil-Brahmi",
+          "confidence": 0.0,
+          "probability": 0.0,
+          "cosine_similarity": -0.2424
+        }
+      ],
+      "execution_time_ms": 678.26,
+      "model": "vit_b_16_whole_inscription",
+      "source": "vit_b16_whole_inscription",
+      "source_label": "DeepScript ViT-B/16 (Whole-Inscription Classifier)",
+      "details": {
+        "name": "Ashokan Brahmi",
+        "scriptFamily": "Ashokan Brahmi",
+        "period": "c. 3rd Century BCE (Mauryan Era)",
+        "region": "Pan-Indian (Girnar, Delhi-Topra, Lumbini, Maski, Sarnath)",
+        "writingDirection": "Left-to-Right",
+        "headmark": "None (Clean geometric perpendicular tops, no wedges or headbars)",
+        "strokeStyle": "Standardized geometric lines, perpendicular stems, and crisp circular arcs",
+        "keyGlyphs": [
+          "Ka (+ Greek cross shape)",
+          "Ma (circle over crescent/base)",
+          "Ya (inverted tuning fork)",
+          "Ra (straight vertical line)",
+          "Ba (square box)"
+        ],
+        "historicalContext": "Monumental imperial script of Emperor Ashoka's Major and Minor Rock Edicts. Foundational ancestor to virtually all modern Indian and Southeast Asian scripts.",
+        "famousInscriptions": [
+          "Girnar Major Rock Edict (Gujarat)",
+          "Delhi-Topra Ashokan Pillar Inscription",
+          "Lumbini Rummindei Pillar Inscription",
+          "Maski Minor Rock Edict"
+        ],
+        "visualClues": "Pure geometric symmetry, cross-shaped 'Ka', circle-based 'Ma' and 'Tha', total absence of wedge headmarks or top horizontal bars.",
+        "vlmNotes": "Classified by fine-tuned ViT-B/16 with cosine metric projector. Calibrated confidence: 65.5% (Cosine alignment: 0.655, Margin: 0.690).",
+        "morphologyMetrics": {
+          "top1_probability": 1.0,
+          "max_cosine_similarity": 0.6553,
+          "classification_margin": 0.6904,
+          "calibrated_confidence": 0.6553,
+          "embedding_dim": 256,
+          "backbone": "vit_b_16",
+          "palaeography_metrics": {
+            "evaluated_class": "brahmi",
+            "status": "passed"
+          }
+        }
+      },
+      "image_details": {
+        "original_filename": "faculty_tamil_brahmi.png",
+        "dimensions": "741x372"
+      }
+    },
+    "mode_b_direct_224": {
+      "predicted_class": "brahmi",
+      "confidence": 0.999981,
+      "cosine_similarity": 0.657198,
+      "margin": 0.696723,
+      "top_indices": [
+        0,
+        1,
+        4,
+        5,
+        2,
+        3
+      ],
+      "class_scores": {
+        "brahmi": {
+          "probability": 0.999981,
+          "cosine_similarity": 0.657198
+        },
+        "grantha": {
+          "probability": 1.4e-05,
+          "cosine_similarity": -0.039525
+        },
+        "gupta": {
+          "probability": 1e-06,
+          "cosine_similarity": -0.212895
+        },
+        "kadamba": {
+          "probability": 0.0,
+          "cosine_similarity": -0.343142
+        },
+        "kharosthi": {
+          "probability": 2e-06,
+          "cosine_similarity": -0.153591
+        },
+        "tamil_brahmi": {
+          "probability": 1e-06,
+          "cosine_similarity": -0.181708
+        }
+      }
+    },
+    "mode_c_letterbox": {
+      "predicted_class": "brahmi",
+      "confidence": 0.999618,
+      "cosine_similarity": 0.506176,
+      "margin": 0.530665,
+      "top_indices": [
+        0,
+        1,
+        4,
+        3,
+        2,
+        5
+      ],
+      "class_scores": {
+        "brahmi": {
+          "probability": 0.999618,
+          "cosine_similarity": 0.506176
+        },
+        "grantha": {
+          "probability": 0.000206,
+          "cosine_similarity": -0.024489
+        },
+        "gupta": {
+          "probability": 2e-06,
+          "cosine_similarity": -0.325564
+        },
+        "kadamba": {
+          "probability": 3.9e-05,
+          "cosine_similarity": -0.128321
+        },
+        "kharosthi": {
+          "probability": 0.000134,
+          "cosine_similarity": -0.05156
+        },
+        "tamil_brahmi": {
+          "probability": 1e-06,
+          "cosine_similarity": -0.356492
+        }
+      }
+    },
+    "mode_d_multi_tile": {
+      "num_tiles": 3,
+      "predicted_class": "brahmi",
+      "confidence": 0.999981,
+      "cosine_similarity": 0.655331,
+      "class_scores": {
+        "brahmi": {
+          "probability": 0.999981,
+          "cosine_similarity": 0.655331
+        },
+        "grantha": {
+          "probability": 1.6e-05,
+          "cosine_similarity": -0.035036
+        },
+        "gupta": {
+          "probability": 1e-06,
+          "cosine_similarity": -0.236426
+        },
+        "kadamba": {
+          "probability": 0.0,
+          "cosine_similarity": -0.286312
+        },
+        "kharosthi": {
+          "probability": 2e-06,
+          "cosine_similarity": -0.168514
+        },
+        "tamil_brahmi": {
+          "probability": 1e-06,
+          "cosine_similarity": -0.242383
+        }
+      }
+    }
+  }
+}
