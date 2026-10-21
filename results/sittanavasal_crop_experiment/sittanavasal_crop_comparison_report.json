@@ -1,0 +1,825 @@
+{
+  "timestamp": "2026-10-18 13:03:14",
+  "model_checkpoint": "checkpoints\\six_class_vit\\best_vit_model.pth",
+  "classes": [
+    "brahmi",
+    "grantha",
+    "gupta",
+    "kadamba",
+    "kharosthi",
+    "tamil_brahmi"
+  ],
+  "note": "Non-destructive preprocessing comparison. The four Sittanavasal captures depict the same physical monument and must not be treated as independent generalization samples.",
+  "evaluations": [
+    {
+      "file": "Sittanavasal_Rock_Bed_Inscription.jpg",
+      "ground_truth": "tamil_brahmi",
+      "original_dimensions": {
+        "width": 4608,
+        "height": 3456,
+        "aspect_ratio": 1.333
+      },
+      "crop_spec": {
+        "box": {
+          "x1": 700,
+          "y1": 1250,
+          "x2": 4550,
+          "y2": 1850
+        },
+        "dimensions": {
+          "width": 3850,
+          "height": 600,
+          "aspect_ratio": 6.417
+        },
+        "area_fraction": 0.1451,
+        "saved_crop_file": "results\\sittanavasal_crop_experiment\\crops\\Sittanavasal_Rock_Bed_Inscription_crop.jpg",
+        "selection_rationale": "Isolates the polished headrest ridge running across Bed #1 at Ezhadippattam. Excludes upper dark bedrock floor and lower bed surface containing modern scratched graffiti.",
+        "uncertainty_flags": [
+          "Left boundary starts at X=700 where the initial 'Eruminatu...' glyph appears faint.",
+          "Right boundary ends at X=4550 where glyph grooves blend into weathered granite.",
+          "Glare along white quartz ridge creates localized highlight blowout."
+        ]
+      },
+      "inference_results": {
+        "full_image_whole": {
+          "predicted_class": "brahmi",
+          "confidence": 0.6369,
+          "cosine_similarity": 0.2555,
+          "correct": false,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.6369,
+              "cosine": 0.2555
+            },
+            "grantha": {
+              "prob": 0.0017,
+              "cosine": -0.1144
+            },
+            "gupta": {
+              "prob": 0.0002,
+              "cosine": -0.2378
+            },
+            "kadamba": {
+              "prob": 0.0001,
+              "cosine": -0.3343
+            },
+            "kharosthi": {
+              "prob": 0.034,
+              "cosine": 0.0722
+            },
+            "tamil_brahmi": {
+              "prob": 0.3271,
+              "cosine": 0.2138
+            }
+          }
+        },
+        "full_image_tiled": {
+          "tiles_count": 1,
+          "predicted_class": "brahmi",
+          "confidence": 0.6369,
+          "cosine_similarity": 0.2555,
+          "correct": false,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.6369,
+              "cosine": 0.2555
+            },
+            "grantha": {
+              "prob": 0.0017,
+              "cosine": -0.1144
+            },
+            "gupta": {
+              "prob": 0.0002,
+              "cosine": -0.2378
+            },
+            "kadamba": {
+              "prob": 0.0001,
+              "cosine": -0.3343
+            },
+            "kharosthi": {
+              "prob": 0.034,
+              "cosine": 0.0722
+            },
+            "tamil_brahmi": {
+              "prob": 0.3271,
+              "cosine": 0.2138
+            }
+          }
+        },
+        "crop_whole_resized": {
+          "predicted_class": "brahmi",
+          "confidence": 0.7696,
+          "cosine_similarity": 0.2986,
+          "correct": false,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.7696,
+              "cosine": 0.2986
+            },
+            "grantha": {
+              "prob": 0.0038,
+              "cosine": -0.0337
+            },
+            "gupta": {
+              "prob": 0.0036,
+              "cosine": -0.0362
+            },
+            "kadamba": {
+              "prob": 0.0001,
+              "cosine": -0.246
+            },
+            "kharosthi": {
+              "prob": 0.0003,
+              "cosine": -0.1909
+            },
+            "tamil_brahmi": {
+              "prob": 0.2225,
+              "cosine": 0.221
+            }
+          }
+        },
+        "crop_tiled_aggregated": {
+          "tiles_count": 5,
+          "predicted_class": "brahmi",
+          "confidence": 0.5559,
+          "cosine_similarity": 0.2349,
+          "correct": false,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.5559,
+              "cosine": 0.2349
+            },
+            "grantha": {
+              "prob": 0.0125,
+              "cosine": -0.0026
+            },
+            "gupta": {
+              "prob": 0.0011,
+              "cosine": -0.1532
+            },
+            "kadamba": {
+              "prob": 0.0012,
+              "cosine": -0.1501
+            },
+            "kharosthi": {
+              "prob": 0.0044,
+              "cosine": -0.068
+            },
+            "tamil_brahmi": {
+              "prob": 0.425,
+              "cosine": 0.2181
+            }
+          }
+        }
+      }
+    },
+    {
+      "file": "Stone_bed_with_inscription_in_sittanavasal.JPG",
+      "ground_truth": "tamil_brahmi",
+      "original_dimensions": {
+        "width": 4000,
+        "height": 3000,
+        "aspect_ratio": 1.333
+      },
+      "crop_spec": {
+        "box": {
+          "x1": 0,
+          "y1": 700,
+          "x2": 3600,
+          "y2": 1150
+        },
+        "dimensions": {
+          "width": 3600,
+          "height": 450,
+          "aspect_ratio": 8.0
+        },
+        "area_fraction": 0.135,
+        "saved_crop_file": "results\\sittanavasal_crop_experiment\\crops\\Stone_bed_with_inscription_in_sittanavasal_crop.jpg",
+        "selection_rationale": "Isolates the headrest ridge of Bed #1 in a higher-angle, wider perspective. Excludes lower bed body containing graffiti ('M.S. ... N. Mariyappan') and upper rock ledge.",
+        "uncertainty_flags": [
+          "Left edge of inscription is partially cut off at frame boundary (X=0).",
+          "A white piece of litter/paper is present on the right headrest ledge around X=3100-3300.",
+          "Lower image sharpness compared to other captures (Laplacian variance 810 vs 2879)."
+        ]
+      },
+      "inference_results": {
+        "full_image_whole": {
+          "predicted_class": "kharosthi",
+          "confidence": 0.8173,
+          "cosine_similarity": 0.1971,
+          "correct": false,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.1339,
+              "cosine": 0.084
+            },
+            "grantha": {
+              "prob": 0.012,
+              "cosine": -0.0667
+            },
+            "gupta": {
+              "prob": 0.0001,
+              "cosine": -0.3521
+            },
+            "kadamba": {
+              "prob": 0.0347,
+              "cosine": -0.0005
+            },
+            "kharosthi": {
+              "prob": 0.8173,
+              "cosine": 0.1971
+            },
+            "tamil_brahmi": {
+              "prob": 0.002,
+              "cosine": -0.1801
+            }
+          }
+        },
+        "full_image_tiled": {
+          "tiles_count": 1,
+          "predicted_class": "kharosthi",
+          "confidence": 0.8173,
+          "cosine_similarity": 0.1971,
+          "correct": false,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.1339,
+              "cosine": 0.084
+            },
+            "grantha": {
+              "prob": 0.012,
+              "cosine": -0.0667
+            },
+            "gupta": {
+              "prob": 0.0001,
+              "cosine": -0.3521
+            },
+            "kadamba": {
+              "prob": 0.0347,
+              "cosine": -0.0005
+            },
+            "kharosthi": {
+              "prob": 0.8173,
+              "cosine": 0.1971
+            },
+            "tamil_brahmi": {
+              "prob": 0.002,
+              "cosine": -0.1801
+            }
+          }
+        },
+        "crop_whole_resized": {
+          "predicted_class": "brahmi",
+          "confidence": 0.7212,
+          "cosine_similarity": 0.2923,
+          "correct": false,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.7212,
+              "cosine": 0.2923
+            },
+            "grantha": {
+              "prob": 0.0206,
+              "cosine": 0.0701
+            },
+            "gupta": {
+              "prob": 0.0221,
+              "cosine": 0.0745
+            },
+            "kadamba": {
+              "prob": 0.0,
+              "cosine": -0.3919
+            },
+            "kharosthi": {
+              "prob": 0.0004,
+              "cosine": -0.1825
+            },
+            "tamil_brahmi": {
+              "prob": 0.2356,
+              "cosine": 0.2224
+            }
+          }
+        },
+        "crop_tiled_aggregated": {
+          "tiles_count": 5,
+          "predicted_class": "kharosthi",
+          "confidence": 0.7013,
+          "cosine_similarity": 0.1937,
+          "correct": false,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.0819,
+              "cosine": 0.0594
+            },
+            "grantha": {
+              "prob": 0.0246,
+              "cosine": -0.0157
+            },
+            "gupta": {
+              "prob": 0.0122,
+              "cosine": -0.0598
+            },
+            "kadamba": {
+              "prob": 0.001,
+              "cosine": -0.2158
+            },
+            "kharosthi": {
+              "prob": 0.7013,
+              "cosine": 0.1937
+            },
+            "tamil_brahmi": {
+              "prob": 0.179,
+              "cosine": 0.1082
+            }
+          }
+        }
+      }
+    },
+    {
+      "file": "Chithannavasal_cave_inscription_1.JPG",
+      "ground_truth": "tamil_brahmi",
+      "original_dimensions": {
+        "width": 3648,
+        "height": 2736,
+        "aspect_ratio": 1.333
+      },
+      "crop_spec": {
+        "box": {
+          "x1": 500,
+          "y1": 360,
+          "x2": 3100,
+          "y2": 680
+        },
+        "dimensions": {
+          "width": 2600,
+          "height": 320,
+          "aspect_ratio": 8.125
+        },
+        "area_fraction": 0.0834,
+        "saved_crop_file": "results\\sittanavasal_crop_experiment\\crops\\Chithannavasal_cave_inscription_1_crop.jpg",
+        "selection_rationale": "Isolates the headrest ridge of the upper bed (Bed #1) from an extreme wide-angle photograph that captures two adjacent beds. Excludes the lower second bed and cave floor.",
+        "uncertainty_flags": [
+          "Extreme camera distance: glyphs are only ~20-30 pixels tall in native resolution.",
+          "Severe resolution loss and motion/compression blur along the inscription ridge.",
+          "White paper litter visible on upper right headrest."
+        ]
+      },
+      "inference_results": {
+        "full_image_whole": {
+          "predicted_class": "kharosthi",
+          "confidence": 0.9972,
+          "cosine_similarity": 0.4003,
+          "correct": false,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.0013,
+              "cosine": -0.0151
+            },
+            "grantha": {
+              "prob": 0.0006,
+              "cosine": -0.0648
+            },
+            "gupta": {
+              "prob": 0.0,
+              "cosine": -0.28
+            },
+            "kadamba": {
+              "prob": 0.0007,
+              "cosine": -0.0537
+            },
+            "kharosthi": {
+              "prob": 0.9972,
+              "cosine": 0.4003
+            },
+            "tamil_brahmi": {
+              "prob": 0.0002,
+              "cosine": -0.1313
+            }
+          }
+        },
+        "full_image_tiled": {
+          "tiles_count": 1,
+          "predicted_class": "kharosthi",
+          "confidence": 0.9972,
+          "cosine_similarity": 0.4003,
+          "correct": false,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.0013,
+              "cosine": -0.0151
+            },
+            "grantha": {
+              "prob": 0.0006,
+              "cosine": -0.0648
+            },
+            "gupta": {
+              "prob": 0.0,
+              "cosine": -0.28
+            },
+            "kadamba": {
+              "prob": 0.0007,
+              "cosine": -0.0537
+            },
+            "kharosthi": {
+              "prob": 0.9972,
+              "cosine": 0.4003
+            },
+            "tamil_brahmi": {
+              "prob": 0.0002,
+              "cosine": -0.1313
+            }
+          }
+        },
+        "crop_whole_resized": {
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.9728,
+          "cosine_similarity": 0.4187,
+          "correct": true,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.007,
+              "cosine": 0.1098
+            },
+            "grantha": {
+              "prob": 0.0003,
+              "cosine": -0.0937
+            },
+            "gupta": {
+              "prob": 0.0198,
+              "cosine": 0.1751
+            },
+            "kadamba": {
+              "prob": 0.0,
+              "cosine": -0.2867
+            },
+            "kharosthi": {
+              "prob": 0.0001,
+              "cosine": -0.131
+            },
+            "tamil_brahmi": {
+              "prob": 0.9728,
+              "cosine": 0.4187
+            }
+          }
+        },
+        "crop_tiled_aggregated": {
+          "tiles_count": 5,
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.9729,
+          "cosine_similarity": 0.4161,
+          "correct": true,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.0262,
+              "cosine": 0.1902
+            },
+            "grantha": {
+              "prob": 0.0001,
+              "cosine": -0.1848
+            },
+            "gupta": {
+              "prob": 0.0003,
+              "cosine": -0.0934
+            },
+            "kadamba": {
+              "prob": 0.0001,
+              "cosine": -0.1487
+            },
+            "kharosthi": {
+              "prob": 0.0004,
+              "cosine": -0.0739
+            },
+            "tamil_brahmi": {
+              "prob": 0.9729,
+              "cosine": 0.4161
+            }
+          }
+        }
+      }
+    },
+    {
+      "file": "Chithannavasal_cave_inscription_2.JPG",
+      "ground_truth": "tamil_brahmi",
+      "original_dimensions": {
+        "width": 3648,
+        "height": 2736,
+        "aspect_ratio": 1.333
+      },
+      "crop_spec": {
+        "box": {
+          "x1": 300,
+          "y1": 1450,
+          "x2": 3500,
+          "y2": 1850
+        },
+        "dimensions": {
+          "width": 3200,
+          "height": 400,
+          "aspect_ratio": 8.0
+        },
+        "area_fraction": 0.1282,
+        "saved_crop_file": "results\\sittanavasal_crop_experiment\\crops\\Chithannavasal_cave_inscription_2_crop.jpg",
+        "selection_rationale": "Isolates the headrest of Bed #1 from an upward-angled perspective. Excludes the upper cave overhang rock face and lower bed floor with graffiti.",
+        "uncertainty_flags": [
+          "Incline distortion: camera angle introduces geometric perspective tilt.",
+          "Shadow cast from upper rock overhang partially darkens the left side of the ridge.",
+          "Boundary between headrest ridge and bed floor has gradual contour transition."
+        ]
+      },
+      "inference_results": {
+        "full_image_whole": {
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.5506,
+          "cosine_similarity": 0.1959,
+          "correct": true,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.0197,
+              "cosine": -0.0122
+            },
+            "grantha": {
+              "prob": 0.0123,
+              "cosine": -0.0417
+            },
+            "gupta": {
+              "prob": 0.0001,
+              "cosine": -0.3191
+            },
+            "kadamba": {
+              "prob": 0.0099,
+              "cosine": -0.0552
+            },
+            "kharosthi": {
+              "prob": 0.4073,
+              "cosine": 0.1771
+            },
+            "tamil_brahmi": {
+              "prob": 0.5506,
+              "cosine": 0.1959
+            }
+          }
+        },
+        "full_image_tiled": {
+          "tiles_count": 1,
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.5506,
+          "cosine_similarity": 0.1959,
+          "correct": true,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.0197,
+              "cosine": -0.0122
+            },
+            "grantha": {
+              "prob": 0.0123,
+              "cosine": -0.0417
+            },
+            "gupta": {
+              "prob": 0.0001,
+              "cosine": -0.3191
+            },
+            "kadamba": {
+              "prob": 0.0099,
+              "cosine": -0.0552
+            },
+            "kharosthi": {
+              "prob": 0.4073,
+              "cosine": 0.1771
+            },
+            "tamil_brahmi": {
+              "prob": 0.5506,
+              "cosine": 0.1959
+            }
+          }
+        },
+        "crop_whole_resized": {
+          "predicted_class": "brahmi",
+          "confidence": 0.8216,
+          "cosine_similarity": 0.4101,
+          "correct": false,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.8216,
+              "cosine": 0.4101
+            },
+            "grantha": {
+              "prob": 0.0006,
+              "cosine": -0.0396
+            },
+            "gupta": {
+              "prob": 0.0001,
+              "cosine": -0.1839
+            },
+            "kadamba": {
+              "prob": 0.0,
+              "cosine": -0.3441
+            },
+            "kharosthi": {
+              "prob": 0.0002,
+              "cosine": -0.11
+            },
+            "tamil_brahmi": {
+              "prob": 0.1775,
+              "cosine": 0.3144
+            }
+          }
+        },
+        "crop_tiled_aggregated": {
+          "tiles_count": 5,
+          "predicted_class": "brahmi",
+          "confidence": 0.5522,
+          "cosine_similarity": 0.2528,
+          "correct": false,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.5522,
+              "cosine": 0.2528
+            },
+            "grantha": {
+              "prob": 0.0032,
+              "cosine": -0.0684
+            },
+            "gupta": {
+              "prob": 0.0011,
+              "cosine": -0.1362
+            },
+            "kadamba": {
+              "prob": 0.0001,
+              "cosine": -0.3215
+            },
+            "kharosthi": {
+              "prob": 0.0342,
+              "cosine": 0.0788
+            },
+            "tamil_brahmi": {
+              "prob": 0.4093,
+              "cosine": 0.2341
+            }
+          }
+        }
+      }
+    },
+    {
+      "file": "TBSI_029_original.jpg",
+      "ground_truth": "tamil_brahmi",
+      "original_dimensions": {
+        "width": 2501,
+        "height": 1255,
+        "aspect_ratio": 1.993
+      },
+      "crop_spec": {
+        "box": {
+          "x1": 100,
+          "y1": 180,
+          "x2": 2400,
+          "y2": 750
+        },
+        "dimensions": {
+          "width": 2300,
+          "height": 570,
+          "aspect_ratio": 4.035
+        },
+        "area_fraction": 0.4177,
+        "saved_crop_file": "results\\sittanavasal_crop_experiment\\crops\\TBSI_029_original_crop.jpg",
+        "selection_rationale": "Tightens the bounding box around the chalk-highlighted epigraphic ribbon on the rock face, removing non-inscribed upper rock margin and lower dark cave shadow.",
+        "uncertainty_flags": [
+          "Already an epigraphically cropped baseline from Mendeley TBSI dataset.",
+          "Faint chalk markings and weathered stroke tails extend slightly below Y=750.",
+          "Provides positive control demonstrating behavior on high-contrast chalked script."
+        ]
+      },
+      "inference_results": {
+        "full_image_whole": {
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.9988,
+          "cosine_similarity": 0.5568,
+          "correct": true,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.0002,
+              "cosine": 0.0157
+            },
+            "grantha": {
+              "prob": 0.0001,
+              "cosine": -0.0624
+            },
+            "gupta": {
+              "prob": 0.0,
+              "cosine": -0.1469
+            },
+            "kadamba": {
+              "prob": 0.0,
+              "cosine": -0.2074
+            },
+            "kharosthi": {
+              "prob": 0.001,
+              "cosine": 0.1247
+            },
+            "tamil_brahmi": {
+              "prob": 0.9988,
+              "cosine": 0.5568
+            }
+          }
+        },
+        "full_image_tiled": {
+          "tiles_count": 3,
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.9995,
+          "cosine_similarity": 0.5918,
+          "correct": true,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.0004,
+              "cosine": 0.1016
+            },
+            "grantha": {
+              "prob": 0.0,
+              "cosine": -0.0805
+            },
+            "gupta": {
+              "prob": 0.0,
+              "cosine": -0.137
+            },
+            "kadamba": {
+              "prob": 0.0,
+              "cosine": -0.2404
+            },
+            "kharosthi": {
+              "prob": 0.0001,
+              "cosine": 0.0017
+            },
+            "tamil_brahmi": {
+              "prob": 0.9995,
+              "cosine": 0.5918
+            }
+          }
+        },
+        "crop_whole_resized": {
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.9876,
+          "cosine_similarity": 0.6112,
+          "correct": true,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.0124,
+              "cosine": 0.3374
+            },
+            "grantha": {
+              "prob": 0.0,
+              "cosine": -0.1517
+            },
+            "gupta": {
+              "prob": 0.0,
+              "cosine": -0.033
+            },
+            "kadamba": {
+              "prob": 0.0,
+              "cosine": -0.2022
+            },
+            "kharosthi": {
+              "prob": 0.0,
+              "cosine": -0.2288
+            },
+            "tamil_brahmi": {
+              "prob": 0.9876,
+              "cosine": 0.6112
+            }
+          }
+        },
+        "crop_tiled_aggregated": {
+          "tiles_count": 5,
+          "predicted_class": "tamil_brahmi",
+          "confidence": 0.9913,
+          "cosine_similarity": 0.5653,
+          "correct": true,
+          "class_scores": {
+            "brahmi": {
+              "prob": 0.0087,
+              "cosine": 0.2689
+            },
+            "grantha": {
+              "prob": 0.0,
+              "cosine": -0.1396
+            },
+            "gupta": {
+              "prob": 0.0,
+              "cosine": -0.0721
+            },
+            "kadamba": {
+              "prob": 0.0,
+              "cosine": -0.2851
+            },
+            "kharosthi": {
+              "prob": 0.0,
+              "cosine": -0.0941
+            },
+            "tamil_brahmi": {
+              "prob": 0.9913,
+              "cosine": 0.5653
+            }
+          }
+        }
+      }
+    }
+  ]
+}
