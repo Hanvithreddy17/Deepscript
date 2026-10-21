@@ -1,0 +1,320 @@
+{
+  "benchmark_title": "DeepScript Frozen Checkpoint Site-Disjoint Tamil-Brahmi Evaluation Manifest",
+  "audit_version": "2.0-final",
+  "audit_date": "2026-10-21",
+  "target_checkpoint": {
+    "relative_path": "checkpoints/six_class_vit/best_vit_model.pth",
+    "verified_sha256": "6efa33c8a11389f64b8fa5040a7de6c4cf8042fb5359889ca4a23f5653fdaa5c",
+    "trained_timestamp": "2026-10-16 12:46:46",
+    "architecture": "ViT-B/16 + MLP Projector (768->512->256) + Learned Cosine Metric Head (scale=15.9930)",
+    "training_samples_count": 42,
+    "validation_samples_count": 11,
+    "original_test_samples_count": 8
+  },
+  "benchmark_characterization": {
+    "evaluation_type": "Tamil-Brahmi Sensitivity / Recall Benchmark on Authenticated Unseen Stone Monuments",
+    "target_ground_truth_class": "tamil_brahmi",
+    "classes_in_inference_engine": [
+      "brahmi",
+      "grantha",
+      "gupta",
+      "kadamba",
+      "kharosthi",
+      "tamil_brahmi"
+    ],
+    "metric_scope": "Evaluates Tamil-Brahmi true positive identification, out-of-distribution confusion to other 5 ancient scripts, and per-site consistency. Does NOT claim multi-class macro accuracy from a single-class test corpus."
+  },
+  "monument_and_site_summary": {
+    "total_unique_archaeological_sites": 6,
+    "site_names": [
+      "Sittanavasal (Sittannavasal)",
+      "Vikkiramangalam",
+      "Varichiyur",
+      "Tondur",
+      "Marukaltalai",
+      "Mudalaikulam"
+    ],
+    "total_distinct_physical_inscriptions": 13,
+    "total_photographic_captures": 17,
+    "cross_set_overlap_warning": "Sittanavasal Bed #1 is represented in BOTH Set A (4 in-repo captures) and Set B (1 archive capture). It is counted as ONE archaeological site and ONE physical inscription across the combined benchmark."
+  },
+  "test_subsets": {
+    "set_a_in_repository_stone_captures": {
+      "subset_name": "Set A: In-Repository Sittanavasal Stone Captures",
+      "location": "dataset/whole_inscriptions/tamil_brahmi/",
+      "unique_sites_count": 1,
+      "distinct_inscriptions_count": 1,
+      "captures_count": 4,
+      "physical_monument": "Ezhadippattam Cavern, Bed #1 (1st c. BCE), Sittanavasal, Pudukkottai District, Tamil Nadu",
+      "epigraphic_reference": "I. Mahadevan, Early Tamil Epigraphy (2003) No. 8; TNDA Tamil-Brahmi Inscriptions, p. 32",
+      "inscription_text": "Eruminatu kumul-ur piranta kavuti iten ci-kavutan palli",
+      "training_exposure": "0% (Ingested Oct 18; 0% exposure to Oct 16 training/validation split; Pudukkottai district completely absent from train/val)",
+      "specimens": [
+        {
+          "specimen_id": "SET_A_01",
+          "filename": "Sittanavasal_Rock_Bed_Inscription.jpg",
+          "file_path": "dataset/whole_inscriptions/tamil_brahmi/Sittanavasal_Rock_Bed_Inscription.jpg",
+          "view_description": "Full-bed frontal view showing inscribed headrest ridge, bed floor, and natural granite texture",
+          "resolution": "2304x3072",
+          "aspect_ratio": 0.75,
+          "file_sha256": "5c9e223ca874ae876f11370ecf0f0814bb60db26ba35e40632a7620bc12cb849",
+          "ground_truth": "tamil_brahmi",
+          "ground_truth_status": "VERIFIED"
+        },
+        {
+          "specimen_id": "SET_A_02",
+          "filename": "Stone_bed_with_inscription_in_sittanavasal.JPG",
+          "file_path": "dataset/whole_inscriptions/tamil_brahmi/Stone_bed_with_inscription_in_sittanavasal.JPG",
+          "view_description": "Wide high-angle perspective isolating ascetic bed headrest with ambient daylight",
+          "resolution": "4000x3000",
+          "aspect_ratio": 1.33,
+          "file_sha256": "249d3c52e8006bf22b512c1b48b61c8f1e563bc7551fa56cce87b1c1dff6bf61",
+          "ground_truth": "tamil_brahmi",
+          "ground_truth_status": "VERIFIED"
+        },
+        {
+          "specimen_id": "SET_A_03",
+          "filename": "Chithannavasal_cave_inscription_1.JPG",
+          "file_path": "dataset/whole_inscriptions/tamil_brahmi/Chithannavasal_cave_inscription_1.JPG",
+          "view_description": "Extreme wide cavern shot capturing Bed #1 and adjacent uncarved bed ledge",
+          "resolution": "4000x3000",
+          "aspect_ratio": 1.33,
+          "file_sha256": "94917646545ee7ca8951e70c5625bf23ea6e6ec163f458e0a30b77e8a9346fbb",
+          "ground_truth": "tamil_brahmi",
+          "ground_truth_status": "VERIFIED"
+        },
+        {
+          "specimen_id": "SET_A_04",
+          "filename": "Chithannavasal_cave_inscription_2.JPG",
+          "file_path": "dataset/whole_inscriptions/tamil_brahmi/Chithannavasal_cave_inscription_2.JPG",
+          "view_description": "Upward raking-light perspective capturing carved stroke relief and chisel grooves",
+          "resolution": "4000x3000",
+          "aspect_ratio": 1.33,
+          "file_sha256": "4b613da82d3345ea5f0612140be0543666f2c6e61fecab1b7454f0aebc727801",
+          "ground_truth": "tamil_brahmi",
+          "ground_truth_status": "VERIFIED"
+        }
+      ]
+    },
+    "set_b_archive_unseen_stone_inscriptions": {
+      "subset_name": "Set B: TBSI v2 Archive External Stone Inscriptions",
+      "location": "C:\\Users\\hanvi\\Downloads\\Tamil Brahmi Stone Inscription.zip (Original Images/)",
+      "unique_sites_count": 6,
+      "distinct_inscriptions_count": 13,
+      "captures_count": 13,
+      "training_exposure": "0% (Completely unextracted external benchmark; zero presence in project workspace or training sets; zero site overlap with train/val)",
+      "inscriptions_by_monument_group": [
+        {
+          "monument_group": "Sittannavasal Cavern Bed #1 (Pudukkottai)",
+          "site": "Sittannavasal",
+          "district": "Pudukkottai",
+          "monument_type": "Stone Bed",
+          "period": "ca. 1st Century BCE",
+          "inscriptions_count": 1,
+          "overlap_flag": "SAME PHYSICAL MONUMENT AS SET A (Bed #1 at Ezhadippattam)",
+          "specimens": [
+            {
+              "specimen_id": "SET_B_01",
+              "archive_filename": "TBSI_075_original.jpg",
+              "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_075_original.jpg",
+              "resolution": "2497x1011",
+              "aspect_ratio": 2.47,
+              "inscription_length_cm": 215,
+              "number_of_lines": 1,
+              "epigraphic_reference": "I. Mahadevan (2003) No. 8; TNDA Archives",
+              "ground_truth": "tamil_brahmi",
+              "ground_truth_status": "VERIFIED"
+            }
+          ]
+        },
+        {
+          "monument_group": "Vikkiramangalam Cavern Drip Ledges (Madurai)",
+          "site": "Vikkiramangalam",
+          "district": "Madurai",
+          "monument_type": "Cave drip ledges",
+          "period": "ca. 2nd Century BCE",
+          "inscriptions_count": 6,
+          "epigraphic_reference": "I. Mahadevan (2003) Nos. 35-40; TNDA Archives",
+          "specimens": [
+            {
+              "specimen_id": "SET_B_02",
+              "archive_filename": "TBSI_088_original.jpg",
+              "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_088_original.jpg",
+              "resolution": "2500x828",
+              "aspect_ratio": 3.02,
+              "inscription_length_cm": 67,
+              "number_of_lines": 1,
+              "ground_truth": "tamil_brahmi",
+              "ground_truth_status": "VERIFIED"
+            },
+            {
+              "specimen_id": "SET_B_03",
+              "archive_filename": "TBSI_089_original.jpg",
+              "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_089_original.jpg",
+              "resolution": "2499x829",
+              "aspect_ratio": 3.01,
+              "inscription_length_cm": 173,
+              "number_of_lines": 1,
+              "ground_truth": "tamil_brahmi",
+              "ground_truth_status": "VERIFIED"
+            },
+            {
+              "specimen_id": "SET_B_04",
+              "archive_filename": "TBSI_090_original.jpg",
+              "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_090_original.jpg",
+              "resolution": "2499x1449",
+              "aspect_ratio": 1.72,
+              "inscription_length_cm": 102,
+              "number_of_lines": 1,
+              "ground_truth": "tamil_brahmi",
+              "ground_truth_status": "VERIFIED"
+            },
+            {
+              "specimen_id": "SET_B_05",
+              "archive_filename": "TBSI_091_original.jpg",
+              "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_091_original.jpg",
+              "resolution": "2498x1355",
+              "aspect_ratio": 1.84,
+              "inscription_length_cm": 36,
+              "number_of_lines": 1,
+              "ground_truth": "tamil_brahmi",
+              "ground_truth_status": "VERIFIED"
+            },
+            {
+              "specimen_id": "SET_B_06",
+              "archive_filename": "TBSI_092_original.jpg",
+              "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_092_original.jpg",
+              "resolution": "2499x1086",
+              "aspect_ratio": 2.30,
+              "inscription_length_cm": 32,
+              "number_of_lines": 1,
+              "ground_truth": "tamil_brahmi",
+              "ground_truth_status": "VERIFIED"
+            },
+            {
+              "specimen_id": "SET_B_07",
+              "archive_filename": "TBSI_093_original.jpg",
+              "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_093_original.jpg",
+              "resolution": "2499x923",
+              "aspect_ratio": 2.71,
+              "inscription_length_cm": 24,
+              "number_of_lines": 1,
+              "ground_truth": "tamil_brahmi",
+              "ground_truth_status": "VERIFIED"
+            }
+          ]
+        },
+        {
+          "monument_group": "Varichiyur Cavern Drip Ledges (Madurai)",
+          "site": "Varichiyur",
+          "district": "Madurai",
+          "monument_type": "Cave drip ledges",
+          "period": "ca. 2nd Century BCE",
+          "inscriptions_count": 3,
+          "epigraphic_reference": "I. Mahadevan (2003) Nos. 28-30; TNDA Archives",
+          "specimens": [
+            {
+              "specimen_id": "SET_B_08",
+              "archive_filename": "TBSI_085_original.jpg",
+              "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_085_original.jpg",
+              "resolution": "2500x911",
+              "aspect_ratio": 2.74,
+              "inscription_length_cm": 54,
+              "number_of_lines": 1,
+              "ground_truth": "tamil_brahmi",
+              "ground_truth_status": "VERIFIED"
+            },
+            {
+              "specimen_id": "SET_B_09",
+              "archive_filename": "TBSI_086_original.jpg",
+              "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_086_original.jpg",
+              "resolution": "2498x765",
+              "aspect_ratio": 3.27,
+              "inscription_length_cm": 158,
+              "number_of_lines": 1,
+              "ground_truth": "tamil_brahmi",
+              "ground_truth_status": "VERIFIED"
+            },
+            {
+              "specimen_id": "SET_B_10",
+              "archive_filename": "TBSI_087_original.jpg",
+              "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_087_original.jpg",
+              "resolution": "2500x1087",
+              "aspect_ratio": 2.30,
+              "inscription_length_cm": 162,
+              "number_of_lines": 1,
+              "ground_truth": "tamil_brahmi",
+              "ground_truth_status": "VERIFIED"
+            }
+          ]
+        },
+        {
+          "monument_group": "Tondur Rock Face Epigraph (Villupuram)",
+          "site": "Tondur",
+          "district": "Villupuram",
+          "monument_type": "Natural rock face",
+          "period": "ca. 3rd Century CE",
+          "inscriptions_count": 1,
+          "epigraphic_reference": "I. Mahadevan (2003) No. 78; TNDA Archives",
+          "specimens": [
+            {
+              "specimen_id": "SET_B_11",
+              "archive_filename": "TBSI_084_original.jpg",
+              "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_084_original.jpg",
+              "resolution": "2500x787",
+              "aspect_ratio": 3.18,
+              "inscription_length_cm": "111, 102",
+              "number_of_lines": 2,
+              "ground_truth": "tamil_brahmi",
+              "ground_truth_status": "VERIFIED"
+            }
+          ]
+        },
+        {
+          "monument_group": "Marukaltalai Monumental Cavern Drip Ledge (Tirunelveli)",
+          "site": "Marukaltalai",
+          "district": "Tirunelveli",
+          "monument_type": "Cave drip ledge",
+          "period": "ca. 2nd Century BCE",
+          "inscriptions_count": 1,
+          "epigraphic_reference": "I. Mahadevan (2003) No. 1; TNDA Archives",
+          "specimens": [
+            {
+              "specimen_id": "SET_B_12",
+              "archive_filename": "TBSI_044_original.jpg",
+              "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_044_original.jpg",
+              "resolution": "2501x650",
+              "aspect_ratio": 3.85,
+              "inscription_length_cm": 426,
+              "number_of_lines": 1,
+              "ground_truth": "tamil_brahmi",
+              "ground_truth_status": "VERIFIED"
+            }
+          ]
+        },
+        {
+          "monument_group": "Mudalaikulam Cavern Epigraph (Madurai)",
+          "site": "Mudalaikulam",
+          "district": "Madurai",
+          "monument_type": "Cave drip ledge",
+          "period": "ca. 2nd Century BCE",
+          "inscriptions_count": 1,
+          "epigraphic_reference": "I. Mahadevan (2003) No. 34; TNDA Archives",
+          "specimens": [
+            {
+              "specimen_id": "SET_B_13",
+              "archive_filename": "TBSI_055_original.jpg",
+              "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_055_original.jpg",
+              "resolution": "2498x1101",
+              "aspect_ratio": 2.27,
+              "inscription_length_cm": 164,
+              "number_of_lines": 1,
+              "ground_truth": "tamil_brahmi",
+              "ground_truth_status": "VERIFIED"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

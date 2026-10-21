@@ -1,0 +1,236 @@
+{
+  "audit_title": "DeepScript Frozen Checkpoint Evaluation Manifest",
+  "checkpoint_target": {
+    "relative_path": "checkpoints/six_class_vit/best_vit_model.pth",
+    "expected_sha256": "6efa33c8a11389f64b8fa5040a7de6c4cf8042fb5359889ca4a23f5653fdaa5c",
+    "trained_timestamp": "2026-10-16 12:46:46",
+    "model_architecture": "Vision Transformer (ViT-B/16) + MLP Projector (768->512->256) + Cosine Head"
+  },
+  "leakage_audit_and_resolutions": {
+    "inconsistency_1_site_counts": {
+      "issue": "Prior report text header stated '19 Train Sites' and '8 Test Sites', while enumerating 20 train and 7 test sites.",
+      "resolution": "Reconciled against archaeological metadata: Exactly 20 Train sites, 4 Validation sites, and 7 Test sites (20 + 4 + 7 = 31 total sites)."
+    },
+    "inconsistency_2_kongarpuliyankulam_contamination": {
+      "specimen": "dataset/whole_inscriptions/tamil_brahmi/TBSI_029_original.jpg",
+      "site": "Kongarpuliyankulam, Madurai",
+      "issue": "Marked 'test' in dataset/metadata.csv on Oct 18, but reconstructed stratified split proves it was one of the 8 Tamil-Brahmi samples in the TRAINING set of best_vit_model.pth on Oct 16.",
+      "verdict": "REJECTED FROM ZERO-LEAKAGE EVALUATION. Cannot be evaluated as an unseen test specimen without violating zero-leakage constraints."
+    },
+    "inconsistency_3_image_availability": {
+      "in_repository_unseen_specimens": "4 Wikimedia stone photographs from Sittanavasal currently reside in dataset/whole_inscriptions/tamil_brahmi/. (Added Oct 18, never seen by Oct 16 model).",
+      "extended_external_unseen_specimens": "13 original photographs across 6 completely unseen sites (Vikkiramangalam [6], Varichiyur [3], Tondur [1], Marukaltalai [1], Mudalaikulam [1], Sittannavasal [1]) reside in the local Downloads/Tamil Brahmi Stone Inscription.zip archive."
+    }
+  },
+  "proposed_evaluation_sets": {
+    "primary_in_repo_test_set": {
+      "description": "Authenticated real stone Tamil-Brahmi whole-inscription photographs physically residing in dataset/whole_inscriptions/tamil_brahmi/ from genuinely unseen sites.",
+      "specimens": [
+        {
+          "manifest_id": "TEST_TB_001",
+          "image_path": "dataset/whole_inscriptions/tamil_brahmi/Sittanavasal_Rock_Bed_Inscription.jpg",
+          "site": "Sittanavasal (Ezhadippattam)",
+          "district": "Pudukkottai",
+          "state": "Tamil Nadu",
+          "monument_type": "Cavern Jain stone bed",
+          "period": "ca. 1st Century BCE",
+          "dimensions": "2304x3072",
+          "aspect_ratio": 0.75,
+          "verified_ground_truth": "tamil_brahmi",
+          "epigraphic_reference": "I. Mahadevan, Early Tamil Epigraphy; Tamil Virtual Academy",
+          "training_exposure": "0% (Site and image completely absent from Oct 16 training/validation data)"
+        },
+        {
+          "manifest_id": "TEST_TB_002",
+          "image_path": "dataset/whole_inscriptions/tamil_brahmi/Stone_bed_with_inscription_in_sittanavasal.JPG",
+          "site": "Sittanavasal (Ezhadippattam)",
+          "district": "Pudukkottai",
+          "state": "Tamil Nadu",
+          "monument_type": "Cavern Jain stone bed headrest",
+          "period": "ca. 1st Century BCE",
+          "dimensions": "4000x3000",
+          "aspect_ratio": 1.33,
+          "verified_ground_truth": "tamil_brahmi",
+          "epigraphic_reference": "I. Mahadevan, Early Tamil Epigraphy; Wikimedia Commons / Ganeshk",
+          "training_exposure": "0% (Site and image completely absent from Oct 16 training/validation data)"
+        },
+        {
+          "manifest_id": "TEST_TB_003",
+          "image_path": "dataset/whole_inscriptions/tamil_brahmi/Chithannavasal_cave_inscription_1.JPG",
+          "site": "Sittanavasal (Ezhadippattam)",
+          "district": "Pudukkottai",
+          "state": "Tamil Nadu",
+          "monument_type": "Cavern stone bed angle 1",
+          "period": "ca. 1st Century BCE",
+          "dimensions": "4000x3000",
+          "aspect_ratio": 1.33,
+          "verified_ground_truth": "tamil_brahmi",
+          "epigraphic_reference": "I. Mahadevan, Early Tamil Epigraphy; Wikimedia Commons / S. Shanmugaraj",
+          "training_exposure": "0% (Site and image completely absent from Oct 16 training/validation data)"
+        },
+        {
+          "manifest_id": "TEST_TB_004",
+          "image_path": "dataset/whole_inscriptions/tamil_brahmi/Chithannavasal_cave_inscription_2.JPG",
+          "site": "Sittanavasal (Ezhadippattam)",
+          "district": "Pudukkottai",
+          "state": "Tamil Nadu",
+          "monument_type": "Cavern stone bed angle 2",
+          "period": "ca. 1st Century BCE",
+          "dimensions": "4000x3000",
+          "aspect_ratio": 1.33,
+          "verified_ground_truth": "tamil_brahmi",
+          "epigraphic_reference": "I. Mahadevan, Early Tamil Epigraphy; Wikimedia Commons / S. Shanmugaraj",
+          "training_exposure": "0% (Site and image completely absent from Oct 16 training/validation data)"
+        }
+      ]
+    },
+    "extended_external_test_set": {
+      "description": "Authentic stone Tamil-Brahmi whole inscriptions from the downloaded Mendeley TBSI v2 master archive (C:\\Users\\hanvi\\Downloads\\Tamil Brahmi Stone Inscription.zip) across 6 completely unseen archaeological sites.",
+      "specimens": [
+        {
+          "manifest_id": "EXT_TB_001",
+          "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_088_original.jpg",
+          "site": "Vikkiramangalam",
+          "district": "Madurai",
+          "monument_type": "Cave drip ledge",
+          "period": "ca. 2nd Century BCE",
+          "dimensions": "2500x828",
+          "verified_ground_truth": "tamil_brahmi",
+          "training_exposure": "0% (Site completely unseen in training)"
+        },
+        {
+          "manifest_id": "EXT_TB_002",
+          "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_089_original.jpg",
+          "site": "Vikkiramangalam",
+          "district": "Madurai",
+          "monument_type": "Cave drip ledge",
+          "period": "ca. 2nd Century BCE",
+          "dimensions": "2499x829",
+          "verified_ground_truth": "tamil_brahmi",
+          "training_exposure": "0% (Site completely unseen in training)"
+        },
+        {
+          "manifest_id": "EXT_TB_003",
+          "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_090_original.jpg",
+          "site": "Vikkiramangalam",
+          "district": "Madurai",
+          "monument_type": "Cave drip ledge",
+          "period": "ca. 2nd Century BCE",
+          "dimensions": "2499x1449",
+          "verified_ground_truth": "tamil_brahmi",
+          "training_exposure": "0% (Site completely unseen in training)"
+        },
+        {
+          "manifest_id": "EXT_TB_004",
+          "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_091_original.jpg",
+          "site": "Vikkiramangalam",
+          "district": "Madurai",
+          "monument_type": "Cave drip ledge",
+          "period": "ca. 2nd Century BCE",
+          "dimensions": "2498x1355",
+          "verified_ground_truth": "tamil_brahmi",
+          "training_exposure": "0% (Site completely unseen in training)"
+        },
+        {
+          "manifest_id": "EXT_TB_005",
+          "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_092_original.jpg",
+          "site": "Vikkiramangalam",
+          "district": "Madurai",
+          "monument_type": "Cave drip ledge",
+          "period": "ca. 2nd Century BCE",
+          "dimensions": "2499x1086",
+          "verified_ground_truth": "tamil_brahmi",
+          "training_exposure": "0% (Site completely unseen in training)"
+        },
+        {
+          "manifest_id": "EXT_TB_006",
+          "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_093_original.jpg",
+          "site": "Vikkiramangalam",
+          "district": "Madurai",
+          "monument_type": "Cave drip ledge",
+          "period": "ca. 2nd Century BCE",
+          "dimensions": "2499x923",
+          "verified_ground_truth": "tamil_brahmi",
+          "training_exposure": "0% (Site completely unseen in training)"
+        },
+        {
+          "manifest_id": "EXT_TB_007",
+          "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_085_original.jpg",
+          "site": "Varichiyur",
+          "district": "Madurai",
+          "monument_type": "Cave drip ledge",
+          "period": "ca. 2nd Century BCE",
+          "dimensions": "2500x911",
+          "verified_ground_truth": "tamil_brahmi",
+          "training_exposure": "0% (Site completely unseen in training)"
+        },
+        {
+          "manifest_id": "EXT_TB_008",
+          "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_086_original.jpg",
+          "site": "Varichiyur",
+          "district": "Madurai",
+          "monument_type": "Cave drip ledge",
+          "period": "ca. 2nd Century BCE",
+          "dimensions": "2498x765",
+          "verified_ground_truth": "tamil_brahmi",
+          "training_exposure": "0% (Site completely unseen in training)"
+        },
+        {
+          "manifest_id": "EXT_TB_009",
+          "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_087_original.jpg",
+          "site": "Varichiyur",
+          "district": "Madurai",
+          "monument_type": "Cave drip ledge",
+          "period": "ca. 2nd Century BCE",
+          "dimensions": "2500x1087",
+          "verified_ground_truth": "tamil_brahmi",
+          "training_exposure": "0% (Site completely unseen in training)"
+        },
+        {
+          "manifest_id": "EXT_TB_010",
+          "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_084_original.jpg",
+          "site": "Tondur",
+          "district": "Villupuram",
+          "monument_type": "Cave rock face",
+          "period": "ca. 3rd Century CE",
+          "dimensions": "2500x787",
+          "verified_ground_truth": "tamil_brahmi",
+          "training_exposure": "0% (Site completely unseen in training)"
+        },
+        {
+          "manifest_id": "EXT_TB_011",
+          "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_044_original.jpg",
+          "site": "Marukaltalai",
+          "district": "Tirunelveli",
+          "monument_type": "Cave drip ledge",
+          "period": "ca. 2nd Century BCE",
+          "dimensions": "2501x650",
+          "verified_ground_truth": "tamil_brahmi",
+          "training_exposure": "0% (Site completely unseen in training)"
+        },
+        {
+          "manifest_id": "EXT_TB_012",
+          "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_055_original.jpg",
+          "site": "Mudalaikulam",
+          "district": "Madurai",
+          "monument_type": "Cave drip ledge",
+          "period": "ca. 2nd Century BCE",
+          "dimensions": "2498x1101",
+          "verified_ground_truth": "tamil_brahmi",
+          "training_exposure": "0% (Site completely unseen in training)"
+        },
+        {
+          "manifest_id": "EXT_TB_013",
+          "archive_member": "Tamil Brahmi Stone Inscription/Original Images/TBSI_075_original.jpg",
+          "site": "Sittannavasal",
+          "district": "Pudukkottai",
+          "monument_type": "Cavern Jain stone bed",
+          "period": "ca. 1st Century BCE",
+          "dimensions": "2497x1011",
+          "verified_ground_truth": "tamil_brahmi",
+          "training_exposure": "0% (Site completely unseen in training)"
+        }
+      ]
+    }
+  }
+}

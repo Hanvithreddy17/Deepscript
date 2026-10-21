@@ -1,0 +1,57 @@
+{
+  "audit_version": "2.0-final",
+  "audit_date": "2026-10-21",
+  "target_checkpoint": "checkpoints/six_class_vit/best_vit_model.pth",
+  "exclusions": [
+    {
+      "candidate_id": "EXCL_001",
+      "filename": "TBSI_029_original.jpg",
+      "file_path": "dataset/whole_inscriptions/tamil_brahmi/TBSI_029_original.jpg",
+      "archaeological_site": "Kongarpuliyankulam, Madurai",
+      "ground_truth_script": "tamil_brahmi",
+      "file_sha256": "4fa6b2164c925359c47e7d69fa090be4df0f7bc92e850b551ee890ca5aa50450",
+      "exclusion_reason": "TRAINING DATA LEAKAGE CONTAMINATION",
+      "detailed_justification": "Although marked 'split=test' in dataset/metadata.csv on Oct 18, execution of create_stratified_splits(ds_61, random_seed=42) matching the Oct 16 training run proves that TBSI_029_original.jpg was one of the 8 Tamil-Brahmi samples in the 42-sample training set when best_vit_model.pth was trained. Evaluating on this specimen evaluates training data."
+    },
+    {
+      "candidate_id": "EXCL_002",
+      "dataset_name": "Brahmi Dataset (Kaggle)",
+      "author": "Neha Gautam",
+      "url": "https://www.kaggle.com/datasets/gautamneha/brahmi-dataset",
+      "total_samples": 7011,
+      "exclusion_reason": "DOMAIN INCOMPATIBILITY & EPIGRAPHIC POLICY VIOLATION",
+      "detailed_justification": "Comprises isolated printed, digitized, and segmented glyphs (32x32 to 128x128 px) for OCR. Lacks stone substrate, natural erosion, and multi-line inscription context. Mixing isolated characters into whole-inscription classification violates dataset/README.md Section 3 and causes domain collapse."
+    },
+    {
+      "candidate_id": "EXCL_003",
+      "dataset_name": "ThamizhiLetterDataset (Hugging Face)",
+      "author": "Sakthivelan (sakthivelan01092004)",
+      "url": "https://huggingface.co/datasets/sakthivelan01092004/ThamizhiLetterDataset",
+      "total_samples": 742,
+      "exclusion_reason": "DOMAIN INCOMPATIBILITY & EPIGRAPHIC POLICY VIOLATION",
+      "detailed_justification": "Comprises uniform 128x128 px isolated glyph icons mapped to modern Tamil letters. Lacks archaeological context, stone texture, and monumental geometry. Reserved strictly as auxiliary character reference data."
+    },
+    {
+      "candidate_id": "EXCL_004",
+      "site_group": "Training & Validation Archaeological Sites (TBSI & Wikimedia Overlaps)",
+      "sites_excluded_from_test": [
+        "Aiyarmalai",
+        "Alagarmalai",
+        "Arittapatti",
+        "Edakal",
+        "Jambai",
+        "Karungalakkudi",
+        "Kilavalavu",
+        "Kongarpuliyankulam",
+        "Mamandur",
+        "Mangulam",
+        "Mettuppatti",
+        "Nehanurpatti (Nekanurpatti)",
+        "Pugalur",
+        "Thiruparankundram (Tiruparankundram)"
+      ],
+      "exclusion_reason": "SITE-LEVEL SPATIAL AND ENVIRONMENTAL DATA LEAKAGE",
+      "detailed_justification": "Because one or more photographic captures from each of these sites were included in the training or validation sets of best_vit_model.pth, all alternate angles, rubbings, and additional TBSI inscriptions from these sites must be strictly excluded from test evaluation to prevent models from learning site-specific stone color, lighting, or mineral patina."
+    }
+  ]
+}
