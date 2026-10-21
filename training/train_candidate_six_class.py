@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
-DeepScript — Six-Class ViT-B/16 Candidate Training & Comparative Evaluation
-==========================================================================
-Trains a new candidate checkpoint using the audited dataset with group-aware
-site-level splitting, aspect-ratio-preserving tiling, and domain-specific augmentation.
-
-Guarantees:
-1. Zero Data Leakage: Strictly adheres to site-level disjoint splits from metadata.csv.
-2. Aspect-Ratio Preservation: Inscription ribbons are tiled to prevent character squishing.
-3. Architectural Continuity: Retains ViT-B/16 backbone, 256-dim metric projector, and cosine head.
-4. Backup Safety: Never touches checkpoints/six_class_vit or checkpoints/whole_inscription_vit.
-5. Rigorous Evaluation: Evaluates candidate vs existing checkpoint on held-out test split (N=13).
+DeepScript — Six-Class ViT-B/16 Controlled Frozen & Balanced Training
+====================================================================
+Controlled experiment adhering to all audit recommendations:
+1. ViT-B/16 backbone strictly frozen throughout all epochs (no unfreezing).
+2. Only 256-d metric projector and cosine classification head are trained.
+3. Original whole-inscription training images only (no cached tiles in training).
+4. WeightedRandomSampler ensures uniform class representation per batch.
+5. Strict group-aware site-disjoint splits preserved from metadata.csv.
+6. Model selection strictly via validation performance (not training accuracy).
+7. Outputs saved to checkpoints/six_class_frozen_balanced/ (never touching existing checkpoints).
+8. Single post-selection comparative evaluation on held-out test split (N=13).
 """
 
 import sys
@@ -27,7 +27,7 @@ from PIL import Image
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset, DataLoader, WeightedRandomSampler
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
 
@@ -47,10 +47,9 @@ CLASSES = ["brahmi", "grantha", "gupta", "kadamba", "kharosthi", "tamil_brahmi"]
 CLASS_TO_IDX = {c: i for i, c in enumerate(CLASSES)}
 IDX_TO_CLASS = {i: c for i, c in enumerate(CLASSES)}
 
-CHECKPOINT_DIR = PROJECT_ROOT / "checkpoints" / "six_class_candidate"
-TILES_CACHE_DIR = PROJECT_ROOT / "dataset" / "tiles_cache"
+CHECKPOINT_DIR = PROJECT_ROOT / "checkpoints" / "six_class_frozen_balanced"
 METADATA_CSV = PROJECT_ROOT / "dataset" / "metadata.csv"
-RESULTS_DIR = PROJECT_ROOT / "results" / "candidate_evaluation"
+RESULTS_DIR = PROJECT_ROOT / "results" / "frozen_balanced_evaluation"
 
 
 def set_seed(seed: int = 42) -> None:
@@ -82,12 +81,8 @@ class InscriptionDataset(Dataset):
 
 
 def prepare_datasets() -> Tuple[List[Tuple[Path, str, int]], List[Tuple[Path, str, int]], List[Tuple[Path, str, int]]]:
-    """Loads group-aware split from metadata.csv and generates training tiles for wide inscriptions."""
+    """Loads group-aware split from metadata.csv using only original whole images (no training tiles)."""
     df = pd.read_csv(METADATA_CSV)
-    
-    TILES_CACHE_DIR.mkdir(parents=True, exist_ok=True)
-    train_tiles_dir = TILES_CACHE_DIR / "train"
-    train_tiles_dir.mkdir(parents=True, exist_ok=True)
 
     train_samples: List[Tuple[Path, str, int]] = []
     val_samples: List[Tuple[Path, str, int]] = []
@@ -104,34 +99,17 @@ def prepare_datasets() -> Tuple[List[Tuple[Path, str, int]], List[Tuple[Path, st
             continue
 
         if split == "train":
-            # Add parent whole image
+            # Add ONLY original whole image (no tiles added for this experiment)
             train_samples.append((p, script, label))
-
-            # If wide or tall, generate aspect-preserving tiles
-            with Image.open(p) as img:
-                w, h = img.size
-                ar = w / float(max(1, h))
-
-            if ar > 1.8 or ar < 0.55:
-                with Image.open(p) as img:
-                    tiles = extract_aspect_preserving_tiles(img.convert("RGB"), max_tiles=5, overlap=0.25)
-                # If multiple tiles extracted, cache and add each tile
-                if len(tiles) > 1:
-                    base_name = p.stem
-                    for t_idx, tile in enumerate(tiles):
-                        tile_path = train_tiles_dir / f"{base_name}_tile{t_idx}.jpg"
-                        if not tile_path.exists():
-                            tile.save(tile_path, "JPEG", quality=95)
-                        train_samples.append((tile_path, script, label))
         elif split == "val":
             val_samples.append((p, script, label))
         elif split == "test":
             test_samples.append((p, script, label))
 
-    print(f"Prepared Dataset Samples:")
-    print(f"  • Train samples: {len(train_samples)} (includes whole images + unwarped tiles)")
-    print(f"  • Val samples  : {len(val_samples)} (whole images, strictly disjoint sites)")
-    print(f"  • Test samples : {len(test_samples)} (whole images, strictly disjoint sites)")
+    print(f"Prepared Dataset Samples (Original Whole Inscriptions Only):")
+    print(f"  • Train samples: {len(train_samples)}")
+    print(f"  • Val samples  : {len(val_samples)} (strictly disjoint sites)")
+    print(f"  • Test samples : {len(test_samples)} (strictly disjoint sites)")
 
     return train_samples, val_samples, test_samples
 
@@ -146,6 +124,26 @@ def train_candidate():
 
     train_samples, val_samples, test_samples = prepare_datasets()
 
+    # Log per-class sample counts in the training set
+    train_labels = [label for _, _, label in train_samples]
+    class_counts = torch.bincount(torch.tensor(train_labels), minlength=len(CLASSES))
+    print("\n--- Per-Class Training Sample Distribution (Whole Images) ---")
+    for idx, c_name in enumerate(CLASSES):
+        count = class_counts[idx].item()
+        print(f"  • {c_name:15s} (idx {idx}): {count:2d} samples ({count/len(train_labels)*100:.1f}%)")
+
+    # WeightedRandomSampler for class balance
+    assert (class_counts > 0).all(), "Error: Zero count detected for at least one class."
+    class_weights = 1.0 / class_counts.float()
+    sample_weights = class_weights[train_labels]
+    assert torch.isfinite(sample_weights).all() and (sample_weights > 0).all(), "Sample weights must be positive and finite."
+    sampler = WeightedRandomSampler(
+        weights=sample_weights,
+        num_samples=len(sample_weights),
+        replacement=True,
+    )
+    print("\nInitialized WeightedRandomSampler for balanced class sampling per batch.")
+
     train_tf = get_train_transforms(image_size=(224, 224), enable_augmentation=True)
     eval_tf = get_eval_transforms(image_size=(224, 224))
 
@@ -153,7 +151,8 @@ def train_candidate():
     val_ds = InscriptionDataset(val_samples, transform=eval_tf)
     test_ds = InscriptionDataset(test_samples, transform=eval_tf)
 
-    train_loader = DataLoader(train_ds, batch_size=16, shuffle=True, drop_last=False)
+    # Use sampler instead of shuffle=True
+    train_loader = DataLoader(train_ds, batch_size=16, sampler=sampler, drop_last=False)
     val_loader = DataLoader(val_ds, batch_size=8, shuffle=False)
 
     print("\nInitializing ViT-B/16 DeepScript Model (6 Classes, Cosine Similarity Head)...")
@@ -167,139 +166,112 @@ def train_candidate():
     )
     model.to(device)
 
+    # Confirm all backbone parameters are completely frozen
+    trainable_backbone = [n for n, p in model.named_parameters() if "backbone" in n and p.requires_grad]
+    assert len(trainable_backbone) == 0, f"Violation: Backbone parameters are trainable: {trainable_backbone}"
+    head_params = [p for n, p in model.named_parameters() if p.requires_grad]
+    print("\nBackbone Audit Confirmation:")
+    print("  • Backbone trainable parameters: 0 (100% FROZEN)")
+    print(f"  • Trainable Head/Projector parameters: {sum(p.numel() for p in head_params):,}")
+
     criterion = nn.CrossEntropyLoss()
 
-    # Stage 1: Warmup Projector & Head (Backbone Frozen)
-    warmup_epochs = 4
-    print(f"\n--- STAGE 1: HEAD WARMUP ({warmup_epochs} epochs, backbone frozen) ---")
-    optimizer_s1 = AdamW(
-        [p for p in model.parameters() if p.requires_grad],
-        lr=1e-3,
-        weight_decay=1e-4,
-    )
-    scheduler_s1 = CosineAnnealingLR(optimizer_s1, T_max=warmup_epochs, eta_min=1e-5)
+    total_epochs = 10
+    print(f"\n--- TRAINING ({total_epochs} epochs, backbone completely frozen, class-balanced) ---")
+    optimizer = AdamW(head_params, lr=1e-3, weight_decay=1e-4)
+    scheduler = CosineAnnealingLR(optimizer, T_max=total_epochs, eta_min=1e-5)
 
     best_val_acc = 0.0
+    best_val_loss = float("inf")
+    best_epoch = 0
     best_state = None
-
-    for epoch in range(1, warmup_epochs + 1):
-        model.train()
-        train_loss = 0.0
-        correct = 0
-        total = 0
-
-        for imgs, labels in train_loader:
-            imgs, labels = imgs.to(device), labels.to(device)
-            optimizer_s1.zero_grad()
-            logits = model(imgs)
-            loss = criterion(logits, labels)
-            loss.backward()
-            optimizer_s1.step()
-
-            train_loss += loss.item() * len(labels)
-            preds = logits.argmax(dim=-1)
-            correct += (preds == labels).sum().item()
-            total += len(labels)
-
-        scheduler_s1.step()
-        train_loss /= total
-        train_acc = correct / total
-
-        # Validation
-        model.eval()
-        v_loss = 0.0
-        v_correct = 0
-        v_total = 0
-        with torch.no_grad():
-            for imgs, labels in val_loader:
-                imgs, labels = imgs.to(device), labels.to(device)
-                logits = model(imgs)
-                loss = criterion(logits, labels)
-                v_loss += loss.item() * len(labels)
-                v_correct += (logits.argmax(dim=-1) == labels).sum().item()
-                v_total += len(labels)
-
-        v_loss /= v_total
-        v_acc = v_correct / v_total
-        print(f"Epoch {epoch:02d}/{warmup_epochs:02d} | Train Loss: {train_loss:.4f}, Acc: {train_acc*100:.1f}% | Val Loss: {v_loss:.4f}, Acc: {v_acc*100:.1f}%")
-
-        if v_acc >= best_val_acc:
-            best_val_acc = v_acc
-            best_state = {k: v.cpu().clone() for k, v in model.state_dict().items()}
-
-    # Stage 2: Fine-Tuning (Unfreeze Last 2 Blocks)
-    finetune_epochs = 6
-    print(f"\n--- STAGE 2: FINE-TUNING ({finetune_epochs} epochs, last 2 ViT blocks unfrozen) ---")
-    model.unfreeze_last_n_blocks(n=2)
-
-    backbone_params = [p for n, p in model.named_parameters() if "backbone" in n and p.requires_grad]
-    head_params = [p for n, p in model.named_parameters() if "backbone" not in n and p.requires_grad]
-
-    optimizer_s2 = AdamW([
-        {"params": backbone_params, "lr": 2e-5, "weight_decay": 1e-4},
-        {"params": head_params, "lr": 2e-4, "weight_decay": 1e-4},
-    ])
-    scheduler_s2 = CosineAnnealingLR(optimizer_s2, T_max=finetune_epochs, eta_min=1e-6)
-
-    for epoch in range(1, finetune_epochs + 1):
-        model.train()
-        train_loss = 0.0
-        correct = 0
-        total = 0
-
-        for imgs, labels in train_loader:
-            imgs, labels = imgs.to(device), labels.to(device)
-            optimizer_s2.zero_grad()
-            logits = model(imgs)
-            loss = criterion(logits, labels)
-            loss.backward()
-            optimizer_s2.step()
-
-            train_loss += loss.item() * len(labels)
-            preds = logits.argmax(dim=-1)
-            correct += (preds == labels).sum().item()
-            total += len(labels)
-
-        scheduler_s2.step()
-        train_loss /= total
-        train_acc = correct / total
-
-        # Validation
-        model.eval()
-        v_loss = 0.0
-        v_correct = 0
-        v_total = 0
-        with torch.no_grad():
-            for imgs, labels in val_loader:
-                imgs, labels = imgs.to(device), labels.to(device)
-                logits = model(imgs)
-                loss = criterion(logits, labels)
-                v_loss += loss.item() * len(labels)
-                v_correct += (logits.argmax(dim=-1) == labels).sum().item()
-                v_total += len(labels)
-
-        v_loss /= v_total
-        v_acc = v_correct / v_total
-        print(f"Epoch {epoch:02d}/{finetune_epochs:02d} | Train Loss: {train_loss:.4f}, Acc: {train_acc*100:.1f}% | Val Loss: {v_loss:.4f}, Acc: {v_acc*100:.1f}%")
-
-        if v_acc >= best_val_acc:
-            best_val_acc = v_acc
-            best_state = {k: v.cpu().clone() for k, v in model.state_dict().items()}
-
-    # Save Candidate Checkpoint
     checkpoint_file = CHECKPOINT_DIR / "best_vit_model.pth"
-    save_payload = {
-        "model_state_dict": best_state,
-        "classes": CLASSES,
-        "class_to_idx": CLASS_TO_IDX,
-        "backbone_name": "vit_b_16",
-        "embedding_dim": 256,
-        "head_type": "cosine",
-        "best_val_acc": best_val_acc,
-        "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+
+    history: Dict[str, List[Any]] = {
+        "epoch": [],
+        "train_loss": [],
+        "train_acc": [],
+        "val_loss": [],
+        "val_acc": [],
     }
-    torch.save(save_payload, checkpoint_file)
-    print(f"\nSaved Candidate Checkpoint to: {checkpoint_file} (Best Val Acc: {best_val_acc*100:.1f}%)")
+
+    for epoch in range(1, total_epochs + 1):
+        model.train()
+        train_loss = 0.0
+        correct = 0
+        total = 0
+
+        for imgs, labels in train_loader:
+            imgs, labels = imgs.to(device), labels.to(device)
+            optimizer.zero_grad()
+            logits = model(imgs)
+            loss = criterion(logits, labels)
+            loss.backward()
+            optimizer.step()
+
+            train_loss += loss.item() * len(labels)
+            preds = logits.argmax(dim=-1)
+            correct += (preds == labels).sum().item()
+            total += len(labels)
+
+        scheduler.step()
+        train_loss /= total
+        train_acc = correct / total
+
+        # Validation
+        model.eval()
+        v_loss = 0.0
+        v_correct = 0
+        v_total = 0
+        with torch.no_grad():
+            for imgs, labels in val_loader:
+                imgs, labels = imgs.to(device), labels.to(device)
+                logits = model(imgs)
+                loss = criterion(logits, labels)
+                v_loss += loss.item() * len(labels)
+                v_correct += (logits.argmax(dim=-1) == labels).sum().item()
+                v_total += len(labels)
+
+        v_loss /= v_total
+        v_acc = v_correct / v_total
+        print(f"Epoch {epoch:02d}/{total_epochs:02d} | Train Loss: {train_loss:.4f}, Acc: {train_acc*100:.1f}% | Val Loss: {v_loss:.4f}, Acc: {v_acc*100:.1f}%")
+
+        history["epoch"].append(epoch)
+        history["train_loss"].append(round(train_loss, 4))
+        history["train_acc"].append(round(train_acc, 4))
+        history["val_loss"].append(round(v_loss, 4))
+        history["val_acc"].append(round(v_acc, 4))
+
+        # Model selection strictly on validation performance: higher val_acc, breaking ties with lower val_loss
+        is_best = (v_acc > best_val_acc) or (v_acc == best_val_acc and v_loss < best_val_loss)
+        if is_best:
+            best_val_acc = v_acc
+            best_val_loss = v_loss
+            best_epoch = epoch
+            best_state = {k: v.cpu().clone() for k, v in model.state_dict().items()}
+
+            save_payload = {
+                "epoch": best_epoch,
+                "stage": "Controlled Training (Frozen Backbone, Balanced)",
+                "model_state_dict": best_state,
+                "classes": CLASSES,
+                "class_to_idx": CLASS_TO_IDX,
+                "backbone_name": "vit_b_16",
+                "embedding_dim": 256,
+                "head_type": "cosine",
+                "val_loss": round(best_val_loss, 4),
+                "val_acc": round(best_val_acc, 4),
+                "best_val_acc": round(best_val_acc, 4),
+                "best_val_loss": round(best_val_loss, 4),
+                "history": history,
+                "backbone_frozen": True,
+                "balanced_sampler": True,
+                "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+            }
+            torch.save(save_payload, checkpoint_file)
+            print(f"  --> Saved new best checkpoint at Epoch {epoch:02d} to {checkpoint_file} (Val Acc: {best_val_acc*100:.1f}%, Val Loss: {best_val_loss:.4f})")
+
+    print(f"\nTraining completed. Best checkpoint: Epoch {best_epoch:02d} (Val Acc: {best_val_acc*100:.1f}%, Val Loss: {best_val_loss:.4f})")
 
     # Load best weights back into model for evaluation
     model.load_state_dict(best_state)
@@ -324,7 +296,7 @@ def train_candidate():
         existing_model.to(device)
         existing_model.eval()
 
-    # Comparative Evaluation on Held-Out Test Split (N=13)
+    # Comparative Evaluation on Held-Out Test Split (N=13) - ONLY executed once post-selection
     print("\n" + "=" * 70)
     print(" HELD-OUT TEST SPLIT EVALUATION (N=13 Isolated Samples, Zero Site Leakage)")
     print("=" * 70)
@@ -337,7 +309,7 @@ def train_candidate():
         eval_tf=eval_tf,
     )
 
-    report_path = RESULTS_DIR / "candidate_test_evaluation_report.json"
+    report_path = RESULTS_DIR / "frozen_balanced_test_evaluation_report.json"
     with open(report_path, "w", encoding="utf-8") as f:
         json.dump(results_report, f, indent=2)
     print(f"\nDetailed Evaluation Report saved to: {report_path}")
@@ -452,14 +424,14 @@ def run_comparative_evaluation(
     device: torch.device,
     eval_tf: Any,
 ) -> Dict[str, Any]:
-    print("\n--- 1. Evaluating Candidate Model (Whole Images) ---")
+    print("\n--- 1. Evaluating Controlled Frozen/Balanced Model (Whole Images) ---")
     cand_whole = evaluate_model_on_test(candidate_model, test_samples, device, eval_tf, use_tiling=False)
-    print(f"Candidate Whole Images Accuracy: {cand_whole['accuracy']*100:.1f}%")
+    print(f"Controlled Whole Images Accuracy: {cand_whole['accuracy']*100:.1f}%")
     print(f"Tamil-Brahmi -> Ashokan Brahmi Confusion: {cand_whole['confusion_rates']['tamil_brahmi_to_ashokan_brahmi_count']} / {cand_whole['per_class']['tamil_brahmi']['support']}")
 
-    print("\n--- 2. Evaluating Candidate Model (Tile-Aggregated Pipeline) ---")
+    print("\n--- 2. Evaluating Controlled Frozen/Balanced Model (Tile-Aggregated Pipeline) ---")
     cand_tiled = evaluate_model_on_test(candidate_model, test_samples, device, eval_tf, use_tiling=True)
-    print(f"Candidate Tile-Aggregated Accuracy: {cand_tiled['accuracy']*100:.1f}%")
+    print(f"Controlled Tile-Aggregated Accuracy: {cand_tiled['accuracy']*100:.1f}%")
     print(f"Tamil-Brahmi -> Ashokan Brahmi Confusion: {cand_tiled['confusion_rates']['tamil_brahmi_to_ashokan_brahmi_count']} / {cand_tiled['per_class']['tamil_brahmi']['support']}")
 
     exist_whole = None

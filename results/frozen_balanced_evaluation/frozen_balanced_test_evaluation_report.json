@@ -1,0 +1,838 @@
+{
+  "candidate_whole": {
+    "accuracy": 0.2308,
+    "total_samples": 13,
+    "confusion_matrix": [
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        4,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    ],
+    "per_class": {
+      "brahmi": {
+        "support": 2,
+        "tp": 0,
+        "fp": 5,
+        "fn": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "grantha": {
+        "support": 2,
+        "tp": 1,
+        "fp": 2,
+        "fn": 1,
+        "precision": 0.3333,
+        "recall": 0.5,
+        "f1": 0.4
+      },
+      "gupta": {
+        "support": 2,
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6667
+      },
+      "kadamba": {
+        "support": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "kharosthi": {
+        "support": 1,
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "tamil_brahmi": {
+        "support": 5,
+        "tp": 1,
+        "fp": 2,
+        "fn": 4,
+        "precision": 0.3333,
+        "recall": 0.2,
+        "f1": 0.25
+      }
+    },
+    "confusion_rates": {
+      "tamil_brahmi_to_ashokan_brahmi_count": 4,
+      "tamil_brahmi_to_ashokan_brahmi_rate": 0.8,
+      "ashokan_brahmi_to_tamil_brahmi_count": 1,
+      "ashokan_brahmi_to_tamil_brahmi_rate": 0.5
+    },
+    "sample_predictions": [
+      {
+        "file": "Devanampiyena Piyadasi in the Lumbini Edict of Ashoka.jpg",
+        "true_class": "brahmi",
+        "predicted_class": "tamil_brahmi",
+        "correct": false,
+        "top_cosine": 0.4234
+      },
+      {
+        "file": "Paderia Pillar.png",
+        "true_class": "brahmi",
+        "predicted_class": "grantha",
+        "correct": false,
+        "top_cosine": 0.47
+      },
+      {
+        "file": "Vijaynagar Venkathiraya Inscription, 1605 AD, Vellore District.jpg",
+        "true_class": "grantha",
+        "predicted_class": "grantha",
+        "correct": true,
+        "top_cosine": 0.4248
+      },
+      {
+        "file": "Vijaynagar Virupaksha Inscription, 1481 AD, Thiruvanamalai District.jpg",
+        "true_class": "grantha",
+        "predicted_class": "kadamba",
+        "correct": false,
+        "top_cosine": 0.3107
+      },
+      {
+        "file": "Nalanda clay seal of Vishnugupta.jpg",
+        "true_class": "gupta",
+        "predicted_class": "gupta",
+        "correct": true,
+        "top_cosine": 0.4542
+      },
+      {
+        "file": "Sanchi, inscription of Chandragupta II.jpg",
+        "true_class": "gupta",
+        "predicted_class": "brahmi",
+        "correct": false,
+        "top_cosine": 0.4334
+      },
+      {
+        "file": "Kadamba inscription from Kerala.jpg",
+        "true_class": "kadamba",
+        "predicted_class": "grantha",
+        "correct": false,
+        "top_cosine": 0.5322
+      },
+      {
+        "file": "Reliquary casket with Kharoshti characters, Bimran Stupa, housed at the British Museum London.jpg",
+        "true_class": "kharosthi",
+        "predicted_class": "tamil_brahmi",
+        "correct": false,
+        "top_cosine": 0.456
+      },
+      {
+        "file": "TBSI_029_original.jpg",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "tamil_brahmi",
+        "correct": true,
+        "top_cosine": 0.5106
+      },
+      {
+        "file": "Sittanavasal_Rock_Bed_Inscription.jpg",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "brahmi",
+        "correct": false,
+        "top_cosine": 0.1461
+      },
+      {
+        "file": "Stone_bed_with_inscription_in_sittanavasal.JPG",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "brahmi",
+        "correct": false,
+        "top_cosine": 0.2813
+      },
+      {
+        "file": "Chithannavasal_cave_inscription_1.JPG",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "brahmi",
+        "correct": false,
+        "top_cosine": 0.37
+      },
+      {
+        "file": "Chithannavasal_cave_inscription_2.JPG",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "brahmi",
+        "correct": false,
+        "top_cosine": 0.3903
+      }
+    ]
+  },
+  "candidate_tiled": {
+    "accuracy": 0.2308,
+    "total_samples": 13,
+    "confusion_matrix": [
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        4,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    ],
+    "per_class": {
+      "brahmi": {
+        "support": 2,
+        "tp": 0,
+        "fp": 5,
+        "fn": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "grantha": {
+        "support": 2,
+        "tp": 1,
+        "fp": 2,
+        "fn": 1,
+        "precision": 0.3333,
+        "recall": 0.5,
+        "f1": 0.4
+      },
+      "gupta": {
+        "support": 2,
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6667
+      },
+      "kadamba": {
+        "support": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "kharosthi": {
+        "support": 1,
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0
+      },
+      "tamil_brahmi": {
+        "support": 5,
+        "tp": 1,
+        "fp": 2,
+        "fn": 4,
+        "precision": 0.3333,
+        "recall": 0.2,
+        "f1": 0.25
+      }
+    },
+    "confusion_rates": {
+      "tamil_brahmi_to_ashokan_brahmi_count": 4,
+      "tamil_brahmi_to_ashokan_brahmi_rate": 0.8,
+      "ashokan_brahmi_to_tamil_brahmi_count": 1,
+      "ashokan_brahmi_to_tamil_brahmi_rate": 0.5
+    },
+    "sample_predictions": [
+      {
+        "file": "Devanampiyena Piyadasi in the Lumbini Edict of Ashoka.jpg",
+        "true_class": "brahmi",
+        "predicted_class": "tamil_brahmi",
+        "correct": false,
+        "top_cosine": 0.2953
+      },
+      {
+        "file": "Paderia Pillar.png",
+        "true_class": "brahmi",
+        "predicted_class": "grantha",
+        "correct": false,
+        "top_cosine": 0.47
+      },
+      {
+        "file": "Vijaynagar Venkathiraya Inscription, 1605 AD, Vellore District.jpg",
+        "true_class": "grantha",
+        "predicted_class": "grantha",
+        "correct": true,
+        "top_cosine": 0.4248
+      },
+      {
+        "file": "Vijaynagar Virupaksha Inscription, 1481 AD, Thiruvanamalai District.jpg",
+        "true_class": "grantha",
+        "predicted_class": "kadamba",
+        "correct": false,
+        "top_cosine": 0.3107
+      },
+      {
+        "file": "Nalanda clay seal of Vishnugupta.jpg",
+        "true_class": "gupta",
+        "predicted_class": "gupta",
+        "correct": true,
+        "top_cosine": 0.4542
+      },
+      {
+        "file": "Sanchi, inscription of Chandragupta II.jpg",
+        "true_class": "gupta",
+        "predicted_class": "brahmi",
+        "correct": false,
+        "top_cosine": 0.4334
+      },
+      {
+        "file": "Kadamba inscription from Kerala.jpg",
+        "true_class": "kadamba",
+        "predicted_class": "grantha",
+        "correct": false,
+        "top_cosine": 0.5322
+      },
+      {
+        "file": "Reliquary casket with Kharoshti characters, Bimran Stupa, housed at the British Museum London.jpg",
+        "true_class": "kharosthi",
+        "predicted_class": "tamil_brahmi",
+        "correct": false,
+        "top_cosine": 0.456
+      },
+      {
+        "file": "TBSI_029_original.jpg",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "tamil_brahmi",
+        "correct": true,
+        "top_cosine": 0.5063
+      },
+      {
+        "file": "Sittanavasal_Rock_Bed_Inscription.jpg",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "brahmi",
+        "correct": false,
+        "top_cosine": 0.1461
+      },
+      {
+        "file": "Stone_bed_with_inscription_in_sittanavasal.JPG",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "brahmi",
+        "correct": false,
+        "top_cosine": 0.2813
+      },
+      {
+        "file": "Chithannavasal_cave_inscription_1.JPG",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "brahmi",
+        "correct": false,
+        "top_cosine": 0.37
+      },
+      {
+        "file": "Chithannavasal_cave_inscription_2.JPG",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "brahmi",
+        "correct": false,
+        "top_cosine": 0.3903
+      }
+    ]
+  },
+  "existing_whole": {
+    "accuracy": 0.7692,
+    "total_samples": 13,
+    "confusion_matrix": [
+      [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        2,
+        2
+      ]
+    ],
+    "per_class": {
+      "brahmi": {
+        "support": 2,
+        "tp": 2,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.6667,
+        "recall": 1.0,
+        "f1": 0.8
+      },
+      "grantha": {
+        "support": 2,
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "gupta": {
+        "support": 2,
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "kadamba": {
+        "support": 1,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "kharosthi": {
+        "support": 1,
+        "tp": 1,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.3333,
+        "recall": 1.0,
+        "f1": 0.5
+      },
+      "tamil_brahmi": {
+        "support": 5,
+        "tp": 2,
+        "fp": 0,
+        "fn": 3,
+        "precision": 1.0,
+        "recall": 0.4,
+        "f1": 0.5714
+      }
+    },
+    "confusion_rates": {
+      "tamil_brahmi_to_ashokan_brahmi_count": 1,
+      "tamil_brahmi_to_ashokan_brahmi_rate": 0.2,
+      "ashokan_brahmi_to_tamil_brahmi_count": 0,
+      "ashokan_brahmi_to_tamil_brahmi_rate": 0.0
+    },
+    "sample_predictions": [
+      {
+        "file": "Devanampiyena Piyadasi in the Lumbini Edict of Ashoka.jpg",
+        "true_class": "brahmi",
+        "predicted_class": "brahmi",
+        "correct": true,
+        "top_cosine": 0.6618
+      },
+      {
+        "file": "Paderia Pillar.png",
+        "true_class": "brahmi",
+        "predicted_class": "brahmi",
+        "correct": true,
+        "top_cosine": 0.5868
+      },
+      {
+        "file": "Vijaynagar Venkathiraya Inscription, 1605 AD, Vellore District.jpg",
+        "true_class": "grantha",
+        "predicted_class": "grantha",
+        "correct": true,
+        "top_cosine": 0.6472
+      },
+      {
+        "file": "Vijaynagar Virupaksha Inscription, 1481 AD, Thiruvanamalai District.jpg",
+        "true_class": "grantha",
+        "predicted_class": "grantha",
+        "correct": true,
+        "top_cosine": 0.4712
+      },
+      {
+        "file": "Nalanda clay seal of Vishnugupta.jpg",
+        "true_class": "gupta",
+        "predicted_class": "gupta",
+        "correct": true,
+        "top_cosine": 0.3023
+      },
+      {
+        "file": "Sanchi, inscription of Chandragupta II.jpg",
+        "true_class": "gupta",
+        "predicted_class": "gupta",
+        "correct": true,
+        "top_cosine": 0.5906
+      },
+      {
+        "file": "Kadamba inscription from Kerala.jpg",
+        "true_class": "kadamba",
+        "predicted_class": "kadamba",
+        "correct": true,
+        "top_cosine": 0.5392
+      },
+      {
+        "file": "Reliquary casket with Kharoshti characters, Bimran Stupa, housed at the British Museum London.jpg",
+        "true_class": "kharosthi",
+        "predicted_class": "kharosthi",
+        "correct": true,
+        "top_cosine": 0.6351
+      },
+      {
+        "file": "TBSI_029_original.jpg",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "tamil_brahmi",
+        "correct": true,
+        "top_cosine": 0.5568
+      },
+      {
+        "file": "Sittanavasal_Rock_Bed_Inscription.jpg",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "brahmi",
+        "correct": false,
+        "top_cosine": 0.2555
+      },
+      {
+        "file": "Stone_bed_with_inscription_in_sittanavasal.JPG",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "kharosthi",
+        "correct": false,
+        "top_cosine": 0.1971
+      },
+      {
+        "file": "Chithannavasal_cave_inscription_1.JPG",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "kharosthi",
+        "correct": false,
+        "top_cosine": 0.4003
+      },
+      {
+        "file": "Chithannavasal_cave_inscription_2.JPG",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "tamil_brahmi",
+        "correct": true,
+        "top_cosine": 0.1959
+      }
+    ]
+  },
+  "existing_tiled": {
+    "accuracy": 0.7692,
+    "total_samples": 13,
+    "confusion_matrix": [
+      [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        2,
+        2
+      ]
+    ],
+    "per_class": {
+      "brahmi": {
+        "support": 2,
+        "tp": 2,
+        "fp": 1,
+        "fn": 0,
+        "precision": 0.6667,
+        "recall": 1.0,
+        "f1": 0.8
+      },
+      "grantha": {
+        "support": 2,
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "gupta": {
+        "support": 2,
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "kadamba": {
+        "support": 1,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "kharosthi": {
+        "support": 1,
+        "tp": 1,
+        "fp": 2,
+        "fn": 0,
+        "precision": 0.3333,
+        "recall": 1.0,
+        "f1": 0.5
+      },
+      "tamil_brahmi": {
+        "support": 5,
+        "tp": 2,
+        "fp": 0,
+        "fn": 3,
+        "precision": 1.0,
+        "recall": 0.4,
+        "f1": 0.5714
+      }
+    },
+    "confusion_rates": {
+      "tamil_brahmi_to_ashokan_brahmi_count": 1,
+      "tamil_brahmi_to_ashokan_brahmi_rate": 0.2,
+      "ashokan_brahmi_to_tamil_brahmi_count": 0,
+      "ashokan_brahmi_to_tamil_brahmi_rate": 0.0
+    },
+    "sample_predictions": [
+      {
+        "file": "Devanampiyena Piyadasi in the Lumbini Edict of Ashoka.jpg",
+        "true_class": "brahmi",
+        "predicted_class": "brahmi",
+        "correct": true,
+        "top_cosine": 0.4159
+      },
+      {
+        "file": "Paderia Pillar.png",
+        "true_class": "brahmi",
+        "predicted_class": "brahmi",
+        "correct": true,
+        "top_cosine": 0.5868
+      },
+      {
+        "file": "Vijaynagar Venkathiraya Inscription, 1605 AD, Vellore District.jpg",
+        "true_class": "grantha",
+        "predicted_class": "grantha",
+        "correct": true,
+        "top_cosine": 0.6472
+      },
+      {
+        "file": "Vijaynagar Virupaksha Inscription, 1481 AD, Thiruvanamalai District.jpg",
+        "true_class": "grantha",
+        "predicted_class": "grantha",
+        "correct": true,
+        "top_cosine": 0.4712
+      },
+      {
+        "file": "Nalanda clay seal of Vishnugupta.jpg",
+        "true_class": "gupta",
+        "predicted_class": "gupta",
+        "correct": true,
+        "top_cosine": 0.3023
+      },
+      {
+        "file": "Sanchi, inscription of Chandragupta II.jpg",
+        "true_class": "gupta",
+        "predicted_class": "gupta",
+        "correct": true,
+        "top_cosine": 0.5906
+      },
+      {
+        "file": "Kadamba inscription from Kerala.jpg",
+        "true_class": "kadamba",
+        "predicted_class": "kadamba",
+        "correct": true,
+        "top_cosine": 0.5392
+      },
+      {
+        "file": "Reliquary casket with Kharoshti characters, Bimran Stupa, housed at the British Museum London.jpg",
+        "true_class": "kharosthi",
+        "predicted_class": "kharosthi",
+        "correct": true,
+        "top_cosine": 0.6351
+      },
+      {
+        "file": "TBSI_029_original.jpg",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "tamil_brahmi",
+        "correct": true,
+        "top_cosine": 0.5918
+      },
+      {
+        "file": "Sittanavasal_Rock_Bed_Inscription.jpg",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "brahmi",
+        "correct": false,
+        "top_cosine": 0.2555
+      },
+      {
+        "file": "Stone_bed_with_inscription_in_sittanavasal.JPG",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "kharosthi",
+        "correct": false,
+        "top_cosine": 0.1971
+      },
+      {
+        "file": "Chithannavasal_cave_inscription_1.JPG",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "kharosthi",
+        "correct": false,
+        "top_cosine": 0.4003
+      },
+      {
+        "file": "Chithannavasal_cave_inscription_2.JPG",
+        "true_class": "tamil_brahmi",
+        "predicted_class": "tamil_brahmi",
+        "correct": true,
+        "top_cosine": 0.1959
+      }
+    ]
+  }
+}
