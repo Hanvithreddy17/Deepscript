@@ -7,8 +7,9 @@
  */
 
 import { ANCIENT_SCRIPTS } from '../data/scriptsData';
+import { getCleanBasename } from '../utils/formatters';
 
-const PREDICT_URL = '/predict?top_k=5';
+const PREDICT_URL = '/predict?top_k=6';
 const HEALTH_URL = '/health';
 const HF_CONFIG_URL = '/api/hf-config';
 
@@ -134,9 +135,10 @@ export async function predictScript(imagePayload, metadata = {}) {
     throw new Error('No valid image payload provided for classification.');
   }
 
+  const cleanName = getCleanBasename(metadata.name);
   const filename = metadata.expectedScript 
     ? `${metadata.expectedScript.toLowerCase().replace(/[^a-z0-9]/g, '_')}_specimen.png`
-    : (metadata.name ? metadata.name.replace(/\.svg$/i, '.png') : 'inscription_specimen.png');
+    : (cleanName ? cleanName.replace(/\.svg$/i, '.png') : 'inscription_specimen.png');
 
   const formData = new FormData();
   formData.append('file', blob, filename);

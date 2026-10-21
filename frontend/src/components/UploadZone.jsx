@@ -11,6 +11,7 @@ import {
   FileCheck2
 } from 'lucide-react';
 import { SamplePicker } from './SamplePicker';
+import { getCleanBasename } from '../utils/formatters';
 
 export function UploadZone({
   selectedImage,
@@ -184,7 +185,7 @@ export function UploadZone({
                 Active Specimen View
               </span>
               <span className="text-[11px] font-mono text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
-                {selectedImage.name || 'Sample Specimen'}
+                {getCleanBasename(selectedImage.name) || 'Sample Specimen'}
               </span>
             </div>
 
@@ -210,7 +211,9 @@ export function UploadZone({
             <div className="absolute bottom-3 left-3 bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 text-xs text-slate-200 font-medium flex items-center gap-2 shadow-md">
               <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
               <span className="truncate max-w-[220px]">
-                {selectedImage.expectedScript || selectedImage.name || 'Historical Specimen'}
+                {selectedImage.source === 'upload'
+                  ? getCleanBasename(selectedImage.name)
+                  : (selectedImage.expectedScript || getCleanBasename(selectedImage.name) || 'Historical Specimen')}
               </span>
               {selectedImage.size && (
                 <span className="text-slate-400 font-mono text-[10px] pl-1 border-l border-white/20">
