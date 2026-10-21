@@ -1,0 +1,94 @@
+{
+  "audit_date": "2026-10-21",
+  "project_target": "DeepScript: Six-Class Whole-Inscription Epigraphic Script Classifier",
+  "model_classes": [
+    "brahmi",
+    "tamil_brahmi",
+    "grantha",
+    "gupta",
+    "kadamba",
+    "kharosthi"
+  ],
+  "objective": "Whole-inscription script identification on authentic stone monument captures",
+  "external_datasets_audited": {
+    "mendeley_tbsi": {
+      "name": "Tamil Brahmi Stone Inscription Dataset (TBSI v2)",
+      "url": "https://data.mendeley.com/datasets/2spz2js9jp/1",
+      "doi": "10.17632/2spz2js9jp.1",
+      "license": "CC BY 4.0",
+      "attribution": "Sukumar M, Tamil Nadu Department of Archaeology (TNDA)",
+      "download_status": "Downloaded archive present in Downloads (127 MB, 378 files); 12 verified whole inscriptions imported to dataset/whole_inscriptions/tamil_brahmi; full metadata in dataset/tbsi_audit",
+      "total_inscriptions": 93,
+      "total_files_in_repository": 510,
+      "image_breakdown": {
+        "original_jpg": 93,
+        "annotated_jpg": 93,
+        "grayscale_png": 93,
+        "binary_png": 93,
+        "corrected_gt_masks_v2_png": 93
+      },
+      "image_dimensions": {
+        "width_range": [1049, 2502],
+        "height_range": [284, 3220],
+        "standard_width": 2500,
+        "mean_height": 1052
+      },
+      "image_type": "Real stone monument photographs (cavern walls, drip-ledges, rock beds, hero stones)",
+      "epigraphic_labels": "All 93 labeled Tamil-Brahmi; validated by TNDA and I. Mahadevan (Early Tamil Epigraphy)",
+      "suitability_for_whole_inscription_vit": "Conditional / Highly Curated",
+      "recommendation": "Use 12 already curated images for balanced training/val; reserve unselected intact sites (e.g. Vikkiramangalam, Varichiyur, Kongarpuliyankulam, Sittanavasal) for site-disjoint external stone testing. Do NOT bulk-merge all 93 images due to severe class imbalance (93 vs ~10) and extreme 8:1 aspect ratio line-strip squashing.",
+      "leakage_risk": "High if using TBSI default split_inscription_level.csv (distributes images from same cave across train/val/test). Must group strictly by site."
+    },
+    "kaggle_brahmi": {
+      "name": "Brahmi Dataset",
+      "author": "Neha Gautam",
+      "url": "https://www.kaggle.com/datasets/gautamneha/brahmi-dataset",
+      "license": "Open Access / Academic Research (Citation required: Micro-Electronics and Telecommunication Engineering / Springer)",
+      "download_status": "Not downloaded on local filesystem",
+      "total_samples": 7011,
+      "split_breakdown": {
+        "train": 6475,
+        "test": 536
+      },
+      "classes": 170,
+      "class_types": "Vowels, Consonants, Compound / Conjunct characters",
+      "image_dimensions": "Isolated glyph / character crops (32x32 to 128x128 px)",
+      "image_type": "Isolated character / word printed & digitized crops (OCR benchmark)",
+      "suitability_for_whole_inscription_vit": "Completely Unsuitable / Incompatible",
+      "recommendation": "EXCLUDE from whole-inscription classifier. Mixing isolated printed glyphs into full monumental stone classification causes severe domain shift and violates Deepscript core architecture policy (dataset/README.md Section 3).",
+      "auxiliary_role": "Could only be used in auxiliary character reference prototypes (character_reference/brahmi) for downstream isolated character OCR, never in whole inscription training."
+    },
+    "huggingface_thamizhi": {
+      "name": "ThamizhiLetterDataset",
+      "author": "Sakthivelan (sakthivelan01092004)",
+      "url": "https://huggingface.co/datasets/sakthivelan01092004/ThamizhiLetterDataset",
+      "license": "MIT",
+      "attribution": "Sakthivelan (sakthivelan01092004)",
+      "download_status": "Not downloaded on local filesystem",
+      "total_samples": 742,
+      "split_breakdown": {
+        "train": 742
+      },
+      "classes": 248,
+      "class_types": "Modern Tamil letter mappings (Uyir, Mei, Uyirmei, Aytam)",
+      "image_dimensions": "Uniform 128x128 pixels across all samples",
+      "image_type": "Isolated digital / synthetic character glyph icons",
+      "suitability_for_whole_inscription_vit": "Completely Unsuitable / Incompatible",
+      "recommendation": "EXCLUDE from whole-inscription classifier. Lacks archaeological context, stone texture, weathering, and multi-character inscription flow.",
+      "auxiliary_role": "Secondary glyph reference for isolated letter decoding only."
+    }
+  },
+  "site_leakage_audit": {
+    "total_unique_sites_in_deepscript_tamil_brahmi": 15,
+    "sites_with_cross_dataset_overlap_between_mendeley_and_wikimedia": [
+      "Arittapatti",
+      "Jambai",
+      "Mangulam",
+      "Nehanurpatti (Nekanurpatti in TBSI)",
+      "Pugalur",
+      "Sittanavasal (Sittannavasal in TBSI)",
+      "Thiruparankundram (Tiruparankundram in TBSI)"
+    ],
+    "disjoint_split_policy_status": "Enforced in DeepScript: All captures of the same monument/cavern site must be quarantined into the same split."
+  }
+}
