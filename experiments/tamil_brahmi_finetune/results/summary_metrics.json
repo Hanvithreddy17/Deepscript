@@ -1,0 +1,82 @@
+{
+  "evaluation_timestamp": "2026-10-21 22:25:00",
+  "total_specimens": 25,
+  "overall_accuracy": {
+    "baseline": 80.0,
+    "finetuned": 88.0,
+    "delta_percent": 8.0
+  },
+  "tamil_brahmi_capture_sensitivity": {
+    "sample_size": 17,
+    "baseline": 70.59,
+    "finetuned": 88.24,
+    "delta_percent": 17.65
+  },
+  "tamil_brahmi_monument_sensitivity": {
+    "monument_count": 13,
+    "baseline": 84.62,
+    "finetuned": 100.0,
+    "delta_percent": 15.38
+  },
+  "non_tamil_script_metrics": {
+    "sample_size": 8,
+    "baseline": 100.0,
+    "finetuned": 87.5,
+    "regressions_count": 1,
+    "regression_details": [
+      "Devanampiyena Piyadasi in the Lumbini Edict of Ashoka"
+    ]
+  },
+  "known_failure_cases_analysis": {
+    "total_failure_cases": 5,
+    "fixed_count": 3,
+    "details": {
+      "SET_A_01": {
+        "baseline_pred": "brahmi",
+        "finetuned_pred": "tamil_brahmi",
+        "delta_cos": 0.1448,
+        "outcome": "IMPROVED (FIXED)"
+      },
+      "SET_A_02": {
+        "baseline_pred": "kharosthi",
+        "finetuned_pred": "kharosthi",
+        "delta_cos": 0.161,
+        "outcome": "UNCHANGED (FAIL)"
+      },
+      "SET_A_03": {
+        "baseline_pred": "kharosthi",
+        "finetuned_pred": "kharosthi",
+        "delta_cos": 0.0991,
+        "outcome": "UNCHANGED (FAIL)"
+      },
+      "SET_B_01": {
+        "baseline_pred": "brahmi",
+        "finetuned_pred": "tamil_brahmi",
+        "delta_cos": 0.2484,
+        "outcome": "IMPROVED (FIXED)"
+      },
+      "SET_B_08": {
+        "baseline_pred": "brahmi",
+        "finetuned_pred": "tamil_brahmi",
+        "delta_cos": 0.2366,
+        "outcome": "IMPROVED (FIXED)"
+      }
+    }
+  },
+  "positive_controls_analysis": {
+    "total_controls": 2,
+    "passed_count": 2,
+    "details": {
+      "SET_A_04": {
+        "baseline_pred": "tamil_brahmi",
+        "finetuned_pred": "tamil_brahmi",
+        "outcome": "MAINTAINED (PASS)"
+      },
+      "SET_B_02": {
+        "baseline_pred": "tamil_brahmi",
+        "finetuned_pred": "tamil_brahmi",
+        "outcome": "MAINTAINED (PASS)"
+      }
+    }
+  }
+}
