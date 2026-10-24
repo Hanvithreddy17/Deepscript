@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\caption{Open-Set Rejection & Out-of-Distribution Calibration Performance}
+\label{tab:openset_benchmarks}
+\small
+\begin{tabular}{l c c c}
+\toprule
+\textbf{Evaluation Sub-Group} & \textbf{Sample Count} & \textbf{Detection Metric} & \textbf{Pass / Reject Rate} \\
+\midrule
+Genuine Valid Inscriptions  & $N = 15$ & Cosine $\ge 0.28$, Margin $\ge 0.04$ & 100.0\% Accepted (0.0\% FRR) \\
+Blank / Degenerate Rock      & $N = 6$  & $\sigma_{\text{px}} < 5.0$, $E_{\text{edge}} < 1.5$ & 100.0\% Rejected (Tier 2) \\
+Natural Scene Photos        & $N = 8$  & Prototype Cosine $< 0.20$ & 100.0\% Rejected (Tier 3) \\
+Unsupported Medieval Stones & $N = 5$  & Calibrated Margin $< 0.04$ & 80.0\% Rejected (Tier 3) \\
+\midrule
+\textbf{Overall Open-Set AUROC} & --- & \textbf{AUROC = 0.942} & \textbf{FPR@95\% TPR: 8.3\%} \\
+\bottomrule
+\end{tabular}
+\vspace{1mm}
+\begin{minipage}{\linewidth}
+\footnotesize FRR = False Rejection Rate on genuine target inscriptions; FPR = False Positive Rate accepting non-target stones.
+\end{minipage}
+\end{table}

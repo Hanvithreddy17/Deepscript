@@ -6,19 +6,46 @@ import {
   Sparkles, 
   BookOpen, 
   CheckCircle2, 
-  BarChart3, 
   Copy, 
   Check, 
-  ShieldCheck,
-  Compass,
-  ArrowRightLeft,
-  AlertTriangle,
-  SearchX,
-  Info,
-  ShieldAlert,
-  FileText
+  Compass, 
+  ArrowRightLeft, 
+  AlertTriangle, 
+  SearchX, 
+  Info, 
+  ShieldAlert 
 } from 'lucide-react';
 import { getCleanBasename } from '../utils/formatters';
+
+const SCRIPT_NAME_MAP = {
+  brahmi: 'Ashokan Brahmi',
+  ashokan_brahmi: 'Ashokan Brahmi',
+  tamil_brahmi: 'Tamil-Brahmi',
+  grantha: 'Grantha Script',
+  gupta: 'Gupta Script',
+  kadamba: 'Kadamba Script',
+  kharosthi: 'Kharosthi',
+};
+
+/**
+ * Dynamically resolves the canonical human-readable script name from backend prediction payload.
+ */
+export function getCanonicalScriptName(result) {
+  if (!result) return 'Unknown Script';
+
+  const rawKey = (result.raw_class || result.script || '').toLowerCase().replace(/[\s-]+/g, '_').trim();
+  if (SCRIPT_NAME_MAP[rawKey]) {
+    return SCRIPT_NAME_MAP[rawKey];
+  }
+
+  return (
+    result.details?.scriptFamily ||
+    result.details?.name ||
+    result.script_family ||
+    result.script ||
+    'Unknown Script'
+  );
+}
 
 export function PredictionResult({
   result,
@@ -30,75 +57,13 @@ export function PredictionResult({
 
   if (!result) return null;
 
-  const { script, confidence, candidates = [], sourceLabel, executionTimeMs, details, model } = result;
-  const scriptFamily = details?.scriptFamily || details?.name || script || 'Ashokan Brahmi';
+  const { script, candidates = [], sourceLabel, executionTimeMs, details } = result;
+  const predictedScriptDisplay = getCanonicalScriptName(result);
+  const scriptFamily = predictedScriptDisplay;
 
-  // 1. Calibrated confidence (bounded by prototype cosine similarity)
-  const calibratedConfidence = confidence ?? 0;
-  const calibratedConfidencePct = Math.round(calibratedConfidence * 100);
-
-  // 2. Softmax probability (from morphologyMetrics or candidates[0])
-  const softmaxProbability = 
-    details?.morphologyMetrics?.top1_probability ?? 
-    candidates?.[0]?.probability ?? 
-    calibratedConfidence;
-  const softmaxProbabilityPct = (softmaxProbability * 100).toFixed(1);
-
-  // 3. Raw metric cosine & authoritative margin
-  const cosineSimilarity = typeof details?.morphologyMetrics?.max_cosine_similarity === 'number'
-    ? details.morphologyMetrics.max_cosine_similarity
-    : (typeof candidates?.[0]?.cosine_similarity === 'number' ? candidates[0].cosine_similarity : null);
-
-  const top1Candidate = candidates?.[0] ?? null;
-  const top2Candidate = candidates?.[1] ?? null;
-
-  const top1Cos = typeof top1Candidate?.cosine_similarity === 'number' ? top1Candidate.cosine_similarity : null;
-  const top2Cos = typeof top2Candidate?.cosine_similarity === 'number' ? top2Candidate.cosine_similarity : null;
-
-  const top1Name = top1Candidate?.script_family || top1Candidate?.script || scriptFamily || 'Top-1';
-  const top2Name = top2Candidate?.script_family || top2Candidate?.script || 'Runner-up';
-
-  // Authoritative margin from backend (calculated from full class list sorted_cos[0] - sorted_cos[1])
-  const backendMargin = typeof details?.morphologyMetrics?.classification_margin === 'number'
-    ? details.morphologyMetrics.classification_margin
-    : null;
-
-  // Fallback calculation: difference between top two cosine similarities from candidate list
-  let fallbackMargin = null;
-  if (top1Cos !== null && top2Cos !== null) {
-    fallbackMargin = Number((top1Cos - top2Cos).toFixed(4));
-  }
-
-  const authoritativeMargin = backendMargin !== null ? backendMargin : fallbackMargin;
-
-  // 4. Normalized specimen basename (e.g. "faculty_tamil_brahmi.png")
+  // Normalized specimen basename (e.g. "faculty_tamil_brahmi.png")
   const rawFilename = result.image_details?.original_filename || result.filename || specimenName || '';
   const specimenBasename = getCleanBasename(rawFilename);
-
-  const getConfidenceBadge = (pct) => {
-    if (pct >= 85) {
-      return {
-        label: 'High Confidence',
-        bg: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-        barColor: 'bg-emerald-500'
-      };
-    } else if (pct >= 60) {
-      return {
-        label: 'Moderate Match',
-        bg: 'bg-amber-50 text-amber-800 border-amber-200',
-        barColor: 'bg-amber-500'
-      };
-    } else {
-      return {
-        label: 'Exploratory Candidate',
-        bg: 'bg-slate-100 text-slate-700 border-slate-200',
-        barColor: 'bg-slate-400'
-      };
-    }
-  };
-
-  // Match indicator badge is strictly driven by calibrated confidence
-  const badgeInfo = getConfidenceBadge(calibratedConfidencePct);
 
   const handleCopyJson = () => {
     navigator.clipboard.writeText(JSON.stringify(result, null, 2));
@@ -137,9 +102,14 @@ export function PredictionResult({
             </div>
           )}
 
-          <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Invalid input image
-          </h2>
+          <div className="py-2">
+            <span className="text-xs font-bold uppercase tracking-widest text-rose-700 block mb-1">
+              Validation Result
+            </span>
+            <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Invalid input image
+            </h1>
+          </div>
           <p className="text-xs text-rose-700 mt-2 leading-relaxed bg-rose-50/70 border border-rose-200/80 rounded-xl p-3">
             {result.rejectionReason || details?.historicalContext || 'The uploaded file could not be decoded as a valid, non-empty image.'}
           </p>
@@ -219,9 +189,14 @@ export function PredictionResult({
             </div>
           )}
 
-          <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Unsupported Script Inscription
-          </h2>
+          <div className="py-2">
+            <span className="text-xs font-bold uppercase tracking-widest text-purple-700 block mb-1">
+              Predicted Script
+            </span>
+            <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Unsupported Script Inscription
+            </h1>
+          </div>
           <p className="text-xs text-purple-900 mt-2 leading-relaxed bg-purple-50/70 border border-purple-200/80 rounded-xl p-3">
             {result.rejectionReason || details?.historicalContext || 'The inscription features do not match the canonical metric prototypes for the 6 supported ancient scripts.'}
           </p>
@@ -236,7 +211,7 @@ export function PredictionResult({
           </div>
         </div>
 
-        {/* Diagnostic Breakdown */}
+        {/* Diagnostic Assessment */}
         <div className="space-y-3">
           <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5">
             <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
@@ -251,23 +226,14 @@ export function PredictionResult({
           {candidates && candidates.length > 0 && (
             <div className="space-y-2 pt-1">
               <h5 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                Nearest Candidate Alignment (Abstained)
+                Nearest Candidate Scripts
               </h5>
-              <div className="space-y-1.5">
-                {candidates.map((cand, idx) => {
-                  const candProb = cand.probability !== undefined ? (cand.probability * 100).toFixed(1) : '0.0';
-                  const candCos = cand.cosine_similarity !== undefined ? cand.cosine_similarity.toFixed(4) : 'N/A';
-                  return (
-                    <div key={cand.script || idx} className="p-2 rounded-lg bg-slate-50 border border-slate-200/80 flex items-center justify-between text-xs">
-                      <span className="font-medium text-slate-700">{cand.script_family || cand.script}</span>
-                      <div className="flex items-center gap-3 font-mono text-[11px] text-slate-500">
-                        <span>Prob: {candProb}%</span>
-                        <span className="text-slate-400">|</span>
-                        <span>Cos: {candCos}</span>
-                      </div>
-                    </div>
-                  );
-                })}
+              <div className="flex flex-wrap gap-1.5">
+                {candidates.map((cand, idx) => (
+                  <span key={cand.script || idx} className="px-2.5 py-1 rounded-md bg-slate-100 border border-slate-200 text-xs font-medium text-slate-700">
+                    {cand.script_family || cand.script}
+                  </span>
+                ))}
               </div>
             </div>
           )}
@@ -306,7 +272,7 @@ export function PredictionResult({
 
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border bg-slate-100 text-slate-700 border-slate-200">
-                <ShieldAlert className="w-3.5 h-3.5 text-slate-500" />
+                <AlertTriangle className="w-3.5 h-3.5 text-slate-500" />
                 <span>Uncertain Match</span>
               </span>
               {executionTimeMs !== undefined && (
@@ -326,9 +292,14 @@ export function PredictionResult({
             </div>
           )}
 
-          <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Script not detected
-          </h2>
+          <div className="py-2">
+            <span className="text-xs font-bold uppercase tracking-widest text-amber-700 block mb-1">
+              Predicted Script
+            </span>
+            <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              Script not detected
+            </h1>
+          </div>
           <p className="text-xs text-amber-900 mt-2 leading-relaxed bg-amber-50/70 border border-amber-200/80 rounded-xl p-3">
             {result.rejectionReason || details?.historicalContext || 'The system could not confidently establish that the image contains a supported ancient Indian script inscription.'}
           </p>
@@ -343,7 +314,7 @@ export function PredictionResult({
           </div>
         </div>
 
-        {/* Diagnostic Breakdown */}
+        {/* Diagnostic Assessment */}
         <div className="space-y-3">
           <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5">
             <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
@@ -358,23 +329,14 @@ export function PredictionResult({
           {candidates && candidates.length > 0 && (
             <div className="space-y-2 pt-1">
               <h5 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                Exploratory Class Alignment (Abstained)
+                Candidate Classes Evaluated
               </h5>
-              <div className="space-y-1.5">
-                {candidates.map((cand, idx) => {
-                  const candProb = cand.probability !== undefined ? (cand.probability * 100).toFixed(1) : '0.0';
-                  const candCos = cand.cosine_similarity !== undefined ? cand.cosine_similarity.toFixed(4) : 'N/A';
-                  return (
-                    <div key={cand.script || idx} className="p-2 rounded-lg bg-slate-50 border border-slate-200/80 flex items-center justify-between text-xs">
-                      <span className="font-medium text-slate-700">{cand.script_family || cand.script}</span>
-                      <div className="flex items-center gap-3 font-mono text-[11px] text-slate-500">
-                        <span>Prob: {candProb}%</span>
-                        <span className="text-slate-400">|</span>
-                        <span>Cos: {candCos}</span>
-                      </div>
-                    </div>
-                  );
-                })}
+              <div className="flex flex-wrap gap-1.5">
+                {candidates.map((cand, idx) => (
+                  <span key={cand.script || idx} className="px-2.5 py-1 rounded-md bg-slate-100 border border-slate-200 text-xs font-medium text-slate-700">
+                    {cand.script_family || cand.script}
+                  </span>
+                ))}
               </div>
             </div>
           )}
@@ -395,7 +357,7 @@ export function PredictionResult({
     );
   }
 
-  // 4. Standard Accepted Prediction State
+  // 4. Standard Accepted Prediction State — Prominently Displaying Only the Predicted Script
   return (
     <div className="w-full clean-card p-5 sm:p-6 space-y-5 bg-white shadow-soft animate-in fade-in duration-200">
       
@@ -405,9 +367,9 @@ export function PredictionResult({
         {/* Top Meta Bar */}
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-indigo-50 border border-indigo-200 text-indigo-900 text-xs font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-              Classifier Output
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 border border-amber-200/90 text-amber-950 text-xs font-bold uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+              Script Classification Result
             </span>
             <span className="hidden sm:inline-flex items-center text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
               {sourceLabel || 'DeepScript ViT-B/16 (6-Class Model)'}
@@ -415,10 +377,9 @@ export function PredictionResult({
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Match Indicator Badge strictly based on calibrated confidence */}
-            <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${badgeInfo.bg}`}>
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>{calibratedConfidencePct}% {badgeInfo.label}</span>
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border bg-emerald-50 text-emerald-800 border-emerald-200">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Identified</span>
             </span>
             {executionTimeMs !== undefined && (
               <span className="text-[11px] font-mono text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
@@ -443,70 +404,14 @@ export function PredictionResult({
           </div>
         )}
 
-        {/* Script Class Heading */}
-        <div>
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 block">
-            Predicted Script Class
+        {/* Clean, Prominent Predicted Script Display */}
+        <div className="pt-2 pb-1">
+          <span className="text-xs font-bold uppercase tracking-widest text-amber-800/90 block mb-1">
+            Predicted Script
           </span>
-          <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-0.5">
-            {scriptFamily}
-          </h2>
-        </div>
-
-        {/* Metrics Grid: Separate Softmax Probability vs Calibrated Confidence */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-xs">
-          <div className="p-2.5 rounded-xl bg-amber-50/70 border border-amber-200/80">
-            <span className="text-[10px] font-bold text-amber-900 uppercase tracking-wider block">
-              Calibrated Confidence
-            </span>
-            <span className="text-base font-extrabold font-mono text-amber-950 block mt-0.5">
-              {calibratedConfidencePct}%
-            </span>
-            <span className="text-[10px] text-amber-800/80 block mt-0.5">
-              Cosine alignment bound
-            </span>
-          </div>
-
-          <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
-            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">
-              Softmax Probability
-            </span>
-            <span className="text-base font-extrabold font-mono text-slate-900 block mt-0.5">
-              {softmaxProbabilityPct}%
-            </span>
-            <span className="text-[10px] text-slate-500 block mt-0.5">
-              Posterior distribution
-            </span>
-          </div>
-
-          <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
-            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">
-              Cosine Similarity
-            </span>
-            <span className="text-base font-extrabold font-mono text-slate-900 block mt-0.5">
-              {cosineSimilarity !== null ? `${Number(cosineSimilarity) > 0 ? '+' : ''}${Number(cosineSimilarity).toFixed(4)}` : 'N/A'}
-            </span>
-            <span className="text-[10px] text-slate-500 block mt-0.5">
-              Prototype vector align
-            </span>
-          </div>
-
-          <div 
-            className="p-2.5 rounded-xl bg-slate-50 border border-slate-200"
-            title={top2Candidate && top1Cos !== null && top2Cos !== null ? `Top-1 (${top1Name}: ${top1Cos >= 0 ? '+' : ''}${top1Cos.toFixed(4)}) minus Top-2 (${top2Name}: ${top2Cos >= 0 ? '+' : ''}${top2Cos.toFixed(4)})` : 'Cosine separation between top two candidate classes'}
-          >
-            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider block">
-              Cosine Margin (Top-1 vs Top-2)
-            </span>
-            <span className="text-base font-extrabold font-mono text-slate-900 block mt-0.5">
-              {authoritativeMargin !== null
-                ? `${authoritativeMargin >= 0 ? '+' : ''}${Number(authoritativeMargin).toFixed(4)}`
-                : 'Unavailable'}
-            </span>
-            <span className="text-[10px] text-slate-500 block mt-0.5 truncate">
-              {top2Candidate ? `${top1Name.split(' ')[0]} vs ${top2Name.split(' ')[0]} Δ` : 'Cosine separation over runner-up'}
-            </span>
-          </div>
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-950 tracking-tight">
+            {predictedScriptDisplay}
+          </h1>
         </div>
 
       </div>
@@ -542,7 +447,7 @@ export function PredictionResult({
           {details?.period && (
             <span className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-xs text-slate-700 font-medium flex items-center gap-1" title="Historical era associated with this script family">
               <Clock className="w-3 h-3 text-slate-400" />
-              <span>Historical Era (Script Family): {details.period}</span>
+              <span>Historical Era: {details.period}</span>
             </span>
           )}
 
@@ -581,19 +486,6 @@ export function PredictionResult({
         >
           <Compass className="w-3.5 h-3.5" />
           <span>Historical Context & Sites</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveTab('candidates')}
-          className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 ${
-            activeTab === 'candidates'
-              ? 'bg-slate-900 text-white shadow-2xs'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-          }`}
-        >
-          <BarChart3 className="w-3.5 h-3.5" />
-          <span>Comparative Candidates ({candidates.length})</span>
         </button>
       </div>
 
@@ -680,69 +572,6 @@ export function PredictionResult({
                 </div>
               </div>
             )}
-          </div>
-        )}
-
-        {/* Tab 3: Comparative Candidates */}
-        {activeTab === 'candidates' && (
-          <div className="space-y-2.5 animate-in fade-in duration-150">
-            <div>
-              <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                Comparative Script Family Candidate Distribution
-              </h4>
-              <p className="text-[11px] text-slate-500 mt-0.5">
-                Softmax probability reflects the model's scaled posterior distribution. Calibrated confidence is bounded by metric cosine alignment with each script prototype.
-              </p>
-            </div>
-            
-            <div className="space-y-2 pt-1">
-              {candidates.map((cand, idx) => {
-                const candProb = cand.probability !== undefined ? (cand.probability * 100).toFixed(1) : '0.0';
-                const candCos = cand.cosine_similarity !== undefined ? cand.cosine_similarity.toFixed(4) : null;
-                const candConf = cand.confidence !== undefined ? Math.round(cand.confidence * 100) : Math.round(Number(candProb));
-                const barWidth = Math.max(2, Math.min(100, Math.round(Number(candProb))));
-
-                return (
-                  <div key={cand.script || idx} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5">
-                    <div className="flex justify-between items-center text-xs">
-                      <div>
-                        <span className={`font-semibold ${idx === 0 ? 'text-amber-950 font-bold' : 'text-slate-700'}`}>
-                          {cand.script_family || cand.script}
-                        </span>
-                        {cand.period && (
-                          <span className="text-[10px] text-slate-400 pl-1.5 hidden sm:inline">
-                            • {cand.period}
-                          </span>
-                        )}
-                      </div>
-                      
-                      <div className="flex items-center gap-2.5 font-mono text-[11px]">
-                        <span className="text-slate-600" title="Softmax Probability">
-                          Prob: <strong className="text-slate-900">{candProb}%</strong>
-                        </span>
-                        {candCos !== null && (
-                          <span className="text-slate-500 hidden sm:inline" title="Prototype Cosine Alignment">
-                            Cos: <strong>{candCos}</strong>
-                          </span>
-                        )}
-                        <span className="text-amber-700" title="Calibrated Confidence">
-                          Conf: <strong>{candConf}%</strong>
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <div className="w-full h-1.5 rounded-full bg-slate-200 overflow-hidden">
-                      <div
-                        className={`h-full rounded-full transition-all duration-500 ${
-                          idx === 0 ? 'bg-amber-500' : 'bg-slate-400'
-                        }`}
-                        style={{ width: `${barWidth}%` }}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
           </div>
         )}
       </div>

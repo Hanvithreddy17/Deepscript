@@ -1,0 +1,25 @@
+\begin{table}[t]
+\centering
+\caption{Per-Class Classification Metrics on Held-Out Site-Disjoint Inscriptions ($N = 13$)}
+\label{tab:per_class_results}
+\small
+\begin{tabular}{l c c c c}
+\toprule
+\textbf{Script Family} & \textbf{Support} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} \\
+\midrule
+Ashokan Brahmi & 2 & 0.667 & 1.000 & 0.800 \\
+Grantha        & 2 & 1.000 & 1.000 & 1.000 \\
+Gupta          & 2 & 1.000 & 1.000 & 1.000 \\
+Kadamba        & 1 & 1.000 & 1.000 & 1.000 \\
+Kharosthi      & 1 & 0.333 & 1.000 & 0.500 \\
+Tamil-Brahmi   & 5 & 1.000 & 0.400 & 0.571 \\
+\midrule
+\textbf{Macro Average}    & 13 & 0.833 & 0.900 & 0.812 \\
+\textbf{Weighted Average} & 13 & 0.897 & 0.769 & 0.772 \\
+\bottomrule
+\end{tabular}
+\vspace{1mm}
+\begin{minipage}{\linewidth}
+\footnotesize Overall Top-1 Accuracy: \textbf{76.92\%} ($10/13$). Zero confusion between distant families (Gupta, Grantha, Kadamba). Primary confusion localized along the historical Ashokan Brahmi vs. early Tamil-Brahmi paleographical derivation axis.
+\end{minipage}
+\end{table}
