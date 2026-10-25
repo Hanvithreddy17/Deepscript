@@ -84,7 +84,6 @@ experiments/**/crops/
 experiments/**/*contact_sheet*.png
 experiments/**/*.pth
 experiments/**/*.pt
-experimentsfaculty_failurefaculty_tamil_brahmi.png.png
 experiments/faculty_failure/*preview*.png
 experiments/faculty_failure/*grid*.png
 experiments/faculty_failure/*visualization*.png
@@ -116,6 +115,7 @@ dataset/raw_intake/
 !experiments/*.csv
 !dataset/metadata.csv
 !dataset/*.csv
+!dataset/**/*.csv
 
 # Node & Frontend
 node_modules/
@@ -127,24 +127,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Temporary Scratch & Debug Scripts
-analyze_groups.py
-analyze_gt.py
-audit_dataset.py
-check_corruptions.py
-check_png_txt.py
-cv_test.py
-fast_audit.py
-fast_gt.py
-full_audit.py
-inspect_groups_visual.py
-read_matlab.py
-test_calibration.py
-test_calibration_all.py
-test_live_predict.py
-test_stone_image.py
-test_taper.py
+# Temporary Scratch & Debug Outputs
 scratch/
 results/inscription_test/
+
 
 
